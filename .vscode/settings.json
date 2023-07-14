@@ -1,0 +1,7 @@
+{
+    "objectscript.conn": {
+        "server": "default~cache",
+        "ns": "DHC-APP",
+        "active": true
+    }
+}
