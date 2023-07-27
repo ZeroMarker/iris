@@ -1,7 +1,7 @@
 {
     "objectscript.conn": {
         "server": "default~cache",
-        "ns": "USER",
+        "ns": "DHC-APP",
         "active": true,
         "username": "_system",
         "password": "SYS"
