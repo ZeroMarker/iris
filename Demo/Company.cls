@@ -23,23 +23,6 @@ Method PrintCompany() As %Status
     return $$$OK
 }
 
-/*
-USER > set company = ##class(Demo.Company).%New()
-USER > set company.Name = “InterSystems”
-USER > set company.YearsActive = 40
-USER > set company.Industry = “Technology”
-USER > do company.PrintCompany()
-USER > write ##class(Demo.Company).QuarterlyProfits(34, 5)
-USER > do $system.OBJ.Dump(company)
-USER > zwrite company
-USER > set status = company.%Save()
-USER > write company.%Id()
-USER > kill company
-USER > set company = ##class(Demo.Company).%OpenId(1)
-USER > do ##class(Demo.Company).%DeleteId(1)
-USER > do ##class(Demo.Company).%DeleteExtent() // delete all
-
-*/
 Storage Default
 {
 <Data name="CompanyDefaultData">

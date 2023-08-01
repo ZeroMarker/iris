@@ -1,5 +1,6 @@
 Class Demo.OOP
 {
+
 ClassMethod ObjectAddData(StCode As %String, StName As %String, StSexDR As %String, StDob As %String) As %String
 {
     q:StCode="" "学号不能为空"
@@ -16,18 +17,22 @@ ClassMethod ObjectAddData(StCode As %String, StName As %String, StSexDR As %Stri
         s oref.StName = StName
         d oref.StSexDRSetObjectId(StSexDR)  // 指向性字段，使用SetObjectId()
         s oref.StDob = StDob
+        Tstart
         d oref.%Save()
         if ($$$ISOK(sc))    // (sc)=1
         {
+            Tcommit
             s StRowId = oref.%Id()
             s result = "新增成功"_StRowId
         }
         else
         {
+            Trollback
             s result = "新增失败"_$system.OBJ.DisplayError(sc)
         }
     }
     d oref.%Close()
     q result
-}    
+}
+
 }

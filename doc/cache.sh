@@ -1,3 +1,18 @@
+USER > set company = ##class(Demo.Company).%New()
+USER > set company.Name = “InterSystems”
+USER > set company.YearsActive = 40
+USER > set company.Industry = “Technology”
+USER > do company.PrintCompany()
+USER > write ##class(Demo.Company).QuarterlyProfits(34, 5)
+USER > do $system.OBJ.Dump(company)
+USER > zwrite company
+USER > set status = company.%Save()
+USER > write company.%Id()
+USER > kill company
+USER > set company = ##class(Demo.Company).%OpenId(1)
+USER > do ##class(Demo.Company).%DeleteId(1)
+USER > do ##class(Demo.Company).%DeleteExtent() // delete all
+
 DHC-APP > zw ^User.DHCStudentSFCD(1)
 ^User.DHCStudentSFCD(1)=$lb("","1","张",,66475,1)
 
@@ -35,3 +50,7 @@ obj=<OBJECT REFERENCE>[1@User.DHCStudentSFC]
 +-----------------------------------------------------
 DHC-APP > s obj.StName="刘"  
 DHC-APP > d obj.%Save()
+
+set sqlquery = "SELECT * FROM ICO.inventory ORDER BY vendor_id"
+set rs = ##class(%SQL.Statement).%ExecDirect(,sqlquery)
+while rs.%Next() { Write !, rs.%Get("vendor_id") }

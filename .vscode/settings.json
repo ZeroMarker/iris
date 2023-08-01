@@ -5,5 +5,34 @@
         "active": true,
         "username": "_system",
         "password": "SYS"
-    }
+    },
+    "sqltools.connections": [
+        {
+            "namespace": "DHC-APP",
+            "connectionMethod": "Server and Port",
+            "showSystem": false,
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 57772,
+            "https": false,
+            "askForPassword": false,
+            "driver": "InterSystems IRIS",
+            "name": "CACHE",
+            "username": "_SYSTEM",
+            "password": "SYS"
+        },
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "MySQL",
+            "database": "ems",
+            "username": "root"
+        }
+    ]
 }
