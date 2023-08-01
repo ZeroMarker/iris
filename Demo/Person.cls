@@ -19,6 +19,7 @@ ClassMethod Sum(A As %Integer = 0, B As %Integer = 0) As %Integer
     Set result = A + B
     Return result
 }
+
 ClassMethod GetSum() As %String
 {
     s Id = 0
@@ -33,6 +34,46 @@ ClassMethod GetSum() As %String
         write ?10,a,?20,b   // 10th column, 20th column
     }
 }
+
+/// SQLQuery
+Query ByName(name As %String = "") As %SQLQuery(COMPILEMODE = "IMMEDIATE", CONTAINID = 1, ROWSPEC = "ID:%Integer,Name:%String,DOB:%Date,SSN:%String", SELECTMODE = "RUNTIME") [ SqlName = SP_Sample_By_Name, SqlProc ]
+{
+SELECT ID, Name, DOB, SSN
+FROM Sample.Person
+WHERE (Name %STARTSWITH :name)
+ORDER BY Name
+}
+
+/// Others:d ##class(%ResultSet).RunQuery("Demo.Person","GetList")
+/// Query GetList() As %Query(ROWSPEC = "StRowId:%String,StCode,%String,StName:%String,StSexDR,%String,StDob:%String")
+Query GetList() As websys.Query(ROWSPEC = "StRowID:%String,StCode,%String,StName:%String,StSexDR,%String,StDob:%String")
+{
+}
+
+ClassMethod GetListExecute(ByRef qHandle As %Binary) As %Status
+{
+    s repid = $i(^CacheTemp)
+    s ind = 1
+
+    s StRowID = 0
+    for
+    {
+        s StRowID = $O(^DHCSTUDENTSFA(StRowID))
+        q:StRowID'=""
+        s StCode = $p($g(^DHCSTUDENTSFA,StRowID),"^",1)
+        s StName = $p($g(^DHCSTUDENTSFA,StRowID),"^",2)
+        s StSexDR = $p($g(^DHCSTUDENTSFA,StRowID),"^",3)
+        s:StSexDR'="" StSexDR = $p($g(^CT("SEX",StSexDR)),"^",2)
+        s StDob = $p($g(^DHCSTUDENTSFA,StRowID),"^",4)
+        s:StDob'="" StDob = $zd(StDob, 3)
+        s Data = $lb(StRowID,StCode,StName,StSexDR,StDob)
+        s ^CacheTemp(repid,ind)=Data
+        s ind = ind + 1        
+    }
+    s qHandle = $lb(0,repid,0)
+    q $$$OK
+}
+
 // instance method, print
 
 Method Print() As %Status
@@ -81,6 +122,7 @@ ClassMethod InsertData(StCode As %String, StName As %String, StSexDR As %String,
     }
     q result
 }
+
 ClassMethod AddMRCICDByPLIST()
 {
 
@@ -92,13 +134,11 @@ ClassMethod AddMRCICDByPLIST()
     )
 }
 
-Query GetList() As %Query(ROWSPEC = "")
-{
-}
 Method GetName()
 {
-    q $this.Name    
+    q $this.Name
 }
+
 /// Function:无索引的数据遍历
 /// CreateDate:2023-07-26
 /// Creator:chenhongliang

@@ -1,0 +1,29 @@
+{
+    "items": [
+        {
+            "vendor_id": "ETRADER",
+            "vendor_product_code": "ETHIOPA32",
+            "quantity_kg": 200
+        },
+        {
+            "vendor_id": "BRZ221",
+            "vendor_product_code": "BRAZILPREM",
+            "quantity_kg": 100
+        },
+        {
+            "vendor_id": "GMLPROD",
+            "vendor_product_code": "GUATEMALAALT30",
+            "quantity_kg": 100
+        },
+        {
+            "vendor_id": "DKE",
+            "vendor_product_code": "SUMATRA2",
+            "quantity_kg": 100
+        },
+        {
+            "vendor_id": "DKE",
+            "vendor_product_code": "SUMATRA3",
+            "quantity_kg": 300
+        }
+    ]
+}
