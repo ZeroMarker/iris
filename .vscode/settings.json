@@ -1,10 +1,10 @@
 {
     "objectscript.conn": {
-        "server": "default~cache",
-        "ns": "DHC-APP",
+        "server": "iris",
+        "ns": "USER",
         "active": true,
-        "username": "_system",
-        "password": "SYS"
+        "username": "_SYSTEM",
+        "password": "sys"
     },
     "sqltools.connections": [
         {

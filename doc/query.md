@@ -1,3 +1,0 @@
-%Query
-websys.Query
-%SQLQuery
