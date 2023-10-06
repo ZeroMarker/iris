@@ -13,13 +13,6 @@ Property Phone As %String;
 
 Property Age As %Integer;
 
-/// sum of two integer
-ClassMethod Sum(A As %Integer = 0, B As %Integer = 0) As %Integer
-{
-    Set result = A + B
-    Return result
-}
-
 ClassMethod GetSum() As %String
 {
     s Id = 0
@@ -35,15 +28,40 @@ ClassMethod GetSum() As %String
     }
 }
 
-/// SQLQuery
-Query ByName(name As %String = "") As %SQLQuery(COMPILEMODE = "IMMEDIATE", CONTAINID = 1, ROWSPEC = "ID:%Integer,Name:%String,DOB:%Date,SSN:%String", SELECTMODE = "RUNTIME") [ SqlName = SP_Sample_By_Name, SqlProc ]
+// Query ByName(name As %String = "") As %SQLQuery(COMPILEMODE = "IMMEDIATE", CONTAINID = 1, ROWSPEC = "ID:%Integer,Name:%String,DOB:%Date,SSN:%String", SELECTMODE = "RUNTIME") [ SqlName = SP_Sample_By_Name, SqlProc ]
+
+// {
+
+//     SELECT ID, Name, DOB, SSN
+
+//     FROM Demo.Person
+
+//     WHERE (Name %STARTSWITH :name)
+
+//     ORDER BY Name
+
+// }
+
+ClassMethod DQuery()
 {
-SELECT ID, Name, DOB, SSN
-FROM Sample.Person
-WHERE (Name %STARTSWITH :name)
-ORDER BY Name
+    SET myquery = "SELECT top 40 * FROM SQLUser.PA_PatMas"
+    SET tStatement = ##class(%SQL.Statement).%New()
+    SET tStatus = tStatement.%Prepare(myquery)
+    SET rset = tStatement.%Execute()
+    DO rset.%Display()
+    WRITE !,"End of data"
 }
 
+ClassMethod InQuery()
+{
+    &sql(SELECT COUNT(*) INTO :myvar FROM SQLUser.PA_PatMas)
+    IF SQLCODE<0 {WRITE "SQLCODE error ",SQLCODE," ",%msg  QUIT}
+    ELSEIF SQLCODE=100 {WRITE "Query returns no results"  QUIT}
+    WRITE myvar
+}
+
+/// SQLQuery
+/// Query
 /// Others:d ##class(%ResultSet).RunQuery("Demo.Person","GetList")
 /// Query GetList() As %Query(ROWSPEC = "StRowId:%String,StCode,%String,StName:%String,StSexDR,%String,StDob:%String")
 Query GetList() As websys.Query(ROWSPEC = "StRowID:%String,StCode,%String,StName:%String,StSexDR,%String,StDob:%String")
@@ -186,6 +204,40 @@ ClassMethod GetDataList(StRowID As %String) As %String
             w !
         }
     }
+}
+
+ClassMethod ObjectAddData(StCode As %String, StName As %String, StSexDR As %String, StDob As %String) As %String
+{
+    q:StCode="" "学号不能为空"
+    q:StName="" "姓名不能为空"
+    q:$Data(^DHCSTUDENTSFA("Code",StCode)) "学号已存在"
+    if (StDob'="")
+    {
+        s StDob = ##class(websys.Conversions).DateHtmlToLogical(StDob)
+    }
+    s oref=##class(User.DHCStudentSFA).%New()
+    if (oref)
+    {
+        s oref.StCode = StCode
+        s oref.StName = StName
+        d oref.StSexDRSetObjectId(StSexDR)  // 指向性字段，使用SetObjectId()
+        s oref.StDob = StDob
+        Tstart
+        d oref.%Save()
+        if ($$$ISOK(sc))    // (sc)=1
+        {
+            Tcommit
+            s StRowId = oref.%Id()
+            s result = "新增成功"_StRowId
+        }
+        else
+        {
+            Trollback
+            s result = "新增失败"_$system.OBJ.DisplayError(sc)
+        }
+    }
+    d oref.%Close()
+    q result
 }
 
 ClassMethod GetAddressByCode(Code As %String) As %String

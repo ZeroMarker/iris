@@ -34,6 +34,18 @@ ClassMethod PrintHello()
     write "Hello",!
 }
 
+ClassMethod GetSexDescByAdmRowId(RowId As %String) As %String
+{
+    q:RowId="" "RowId不能为空"
+    s AdmStr = $g(^PAADM(RowId))
+    s PatMasDR = $p(AdmStr,"^",1)
+    s PatMasStr = $g(^PAPER(PatMasDR,"ALL"))
+    s SexDR = $p(PatMasStr,"^",7)
+    s SexStr = $g(^CT("SEX",SexDR))
+    s SexDesc = $p(SexStr,"^",2)
+    q "就诊RowId为"_RowId_"的病人性别为："_SexDesc
+}
+
 /// ^User.DHCStudentUNID
 Storage Default
 {
@@ -55,6 +67,9 @@ Storage Default
 </Value>
 <Value name="6">
 <Value>StActive</Value>
+</Value>
+<Value name="7">
+<Value>StSS</Value>
 </Value>
 </Data>
 <DataLocation>^Demo.StudentD</DataLocation>

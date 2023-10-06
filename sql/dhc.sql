@@ -1,0 +1,146 @@
+SELECT * FROM SQLUser.CT_Sex 
+
+Select * from SQLUser.DHC_Student_SFA 
+
+SELECT TARAC_TARTAC_DR->TARTAC_Desc,* FROM SQLUser.DHC_TarAcctCate 
+
+Select * FROM SQLUser.CT_Address 
+
+SELECT * FROM SQLUser.DHC_Student_SFA
+insert INTO SQLUser.DHC_Student_SFA values ('2', '陈',  '1', '2023-02-02')
+
+select * from SQLUser.PA_PatMas 
+
+select * from SQLUser.DHC_PA_PatMas
+
+SELECT * from SQLUser.CT_Hospital
+
+select * from SQLUser.ARC_BillGrp 
+
+SELECT * FROM SQLUser.ARC_ItmMast 
+SELECT * FROM ARC_ItmMast
+
+select AA_Arcim_DR -> ARCIM_Desc AS apply_count, count(*) FROM SQLUser.DHC_Doc_AntibioticApply group by AA_Arcim_DR
+
+select AA_Arcim_DR -> ARCIM_Desc,* FROM SQLUser.DHC_Doc_AntibioticApply group by AA_Arcim_DR
+
+select * from SQLUser.DHC_CardRef 
+
+SELECT *
+FROM SQLUser.OE_OrdItem
+WHERE 
+select PAPMI_ConcessionCardNo ,* from SQLUser.PA_PatMas 
+SELECT  AA_OEORI_DR->OEORI_InsertDate
+FROM SQLUser.DHC_Doc_AntibioticApply 
+SELECT*
+SELECT  AA_OEORI_DR-->OEORI_OEORD_ParRef->OEORD_Adm_DR->PAADM_PAPMI_DR->PAPMI_No AS PA 
+FROM SQLUser.DHC_Doc_AntibioticApply
+WHERE AA_OEORI_DR like "%||%"
+
+SELECT OEORI_RowId FROM SQLUser.OE_OrdItem 
+WHERE OEORI_RowId like "266%"
+
+SELECT OEORI_RowId FROM SQLUser.OE_OrdItem 
+WHERE OEORI_RowId IN (SELECT  AA_OEORI_DR->OEORI_RowId 
+FROM SQLUser.DHC_Doc_AntibioticApply)
+SELECT * FROM SQLUser.OE_Order
+
+SElECT * FROM SQLUser.CT_CareProv
+SELECT * FROM SQLUser.CT_Loc
+
+
+SELECT PAADM_PAPMI_DR -> PAPMI_Name,PAADM_AdmDocCodeDR->CTPCP_Desc,PAADM_DepCode_DR->CTLOC_Desc,* FROM SQLUser.PA_Adm 
+WHERE PAADM_ADMNo = "0000000001"
+
+SELECT  AA_OEORI_DR->OEORI_InsertDate AS PA 
+FROM SQLUser.DHC_Doc_AntibioticApply 
+
+SELECT * FROM SQLUser.DHC_DocCureAppCureItem 
+
+SELECT * FROM SQLUser.DHC_DocCureRecode
+Arrive_DR DCR_ChildSub
+
+SELECT * FROM SQLUser.DHC_DocCureApp
+DCA_RowId
+
+SELECT DCA_Adm_DR->PAADM_PAPMI_DR->PAPMI_Name,* FROM SQLUser.DHC_DocCureApp
+
+/*
+SELECT PAPMI_No, PAPMI_Name, PAPMI_DOB, PAPMI_Sex_DR->CTSEX_Desc, PAPMI_DVAnumber FROM PA_PatMas 
+WHERE PAPMI_Name LIKE "陈洪亮%"
+
+SELECT * FROM CT_Sex
+
+SELECT * FROM PA_PatMas
+WHERE PAPMI_Name LIKE "陈洪亮%"
+*/
+/*
+SELECT * FROM PA_Adm
+WHERE PAADM_PAPMI_DR = 676
+
+
+SELECT * FROM OE_Order
+WHERE OEORD_Adm_DR = 1774
+
+SELECT TOP 40 * FROM OE_OrdItem
+WHERE OEORI_OEORD_ParRef = 1636
+*/
+/*
+SELECT TOP 20 * FROM DHC_InvPrt
+WHERE PRT_Acount = 1243.29
+*/
+
+SELECT * FROM OE_OrdItem
+WHERE OEORI_OEORD_ParRef IN
+(
+	SELECT OEORD_RowId1 FROM OE_Order
+	WHERE OEORD_Adm_DR IN
+	(
+		SELECT PAADM_RowID FROM PA_Adm
+		WHERE PAADM_PAPMI_DR = 676
+	)
+)
+
+
+SELECT TOP 20 * FROM DHC_InvPrt
+WHERE PRT_inv = "0001000202"
+
+SELECT * FROM dhc_patbilldetails
+WHERE PBD_PBO_ParRef IN
+(
+	SELECT PBO_RowId FROM dhc_patbillorder
+	WHERE PBO_PB_ParRef IN
+	(
+		SELECT PB_Rowid FROM dhc_patientbill
+		WHERE PB_Adm_DR IN
+		(
+			SELECT PAADM_Rowid FROM PA_adm
+			WHERE PAADM_PAPMI_DR = 846 & PAADM_Type = "I"
+		)
+	)
+)
+
+SELECT TOP 20 * FROM PHC_DrgMast
+WHERE PHCD_Code = 4567897654
+
+SELECT TOP 20 * FROM ARC_ItmMast
+WHERE ARCIM_Code = 4567897654
+
+SELECT TOP 20 * FROM INC_Itm 
+WHERE INCI_Code = 4567897654
+
+
+
+SELECT TOP 20 * FROM DHC_InIsTrf 
+WHERE INIT_No = "TRXYK1282023090802"
+
+SELECT TOP 20 * FROM DHC_InIsTrfItm
+
+WHERE INITI_INIT_ParRef = 146
+
+SELECT TOP 200 * FROM DHC_INTRANS
+WHERE INTR_INCI_DR IN
+(
+	SELECT INCI_RowId FROM INC_Itm 
+	WHERE INCI_Code = 4567897654
+)

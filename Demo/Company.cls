@@ -15,6 +15,29 @@ ClassMethod QuarterlyProfits(Earning As %Integer, Expenses As %Integer) As %Inte
     return profit
 }
 
+ClassMethod FindCompanyByName(companyName As %String) As %List
+{
+    set query = "SELECT ID, Name, YearActived, Industry FROM Demo.Company WHERE Name = :companyName"
+    
+    set statement = ##class(%SQL.Statement).%New()
+    set status = statement.%Prepare(query)
+    
+    if $$$ISERR(status) {
+        // Handle error
+        return $$$NULLOREF
+    }
+    
+    set result = statement.%Execute(companyName)
+    set companies = ##class(%ListOfObjects).%New()
+    
+    while (result.%Next()) {
+        // set company = ##class(Demo.Company).%OpenId(result.ID)
+        //companies.InsertObject(company)
+    }
+    
+    return companies
+}
+
 /// Description
 Method PrintCompany() As %Status
 {
@@ -44,7 +67,7 @@ Storage Default
 <IdLocation>^Demo.CompanyD</IdLocation>
 <IndexLocation>^Demo.CompanyI</IndexLocation>
 <StreamLocation>^Demo.CompanyS</StreamLocation>
-<Type>%Library.CacheStorage</Type>
+<Type>%Storage.Persistent</Type>
 }
 
 }

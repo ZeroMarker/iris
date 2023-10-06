@@ -1,0 +1,11 @@
+%OpenId()
+%DeleteId()
+%Id()
+%New()
+%Save()
+%Close()
+%BuildIndices()
+.SexDRSetObjectId()
+
+$System.OBJ.DisplayError(sc)
+$System.Status.GetErrorText(sc)
