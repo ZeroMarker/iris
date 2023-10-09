@@ -1,8 +1,0 @@
-ROUTINE Demo.First
-hello() public {
-    set sum =  1 + 2
-    write "Hello World"
-}
-
-///d hello^Demo.First
-///w $$hello^Demo.First
