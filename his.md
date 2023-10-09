@@ -44,7 +44,7 @@ Do myregobj.XMLExportToString(.myXMLStr)
 
 oeorder.oplistcustom.new.csp
 
-scripts/dhcdoc/UDHCOEOrder.List.Custom.new.js
+scripts/dhcdoc/UDHCOEOrder.List.Custom.New.js
 field, title, text
 
 oeorder.oplistcustom.show.csp
