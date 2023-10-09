@@ -222,3 +222,8 @@ s StopGroupOrder=1
 
 ## 关联医嘱主医嘱不显示深绿色
 
+## 病理申请推送
+SELECT * 
+FROM Ens_InterfaceMethod
+WHERE method_Desc [ "病理"
+ORDER BY method_Code
