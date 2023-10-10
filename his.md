@@ -221,9 +221,48 @@ s StopGroupOrder=..%GetConfig("StopGroupOrder",AdmHospDr)
 s StopGroupOrder=1
 
 ## 关联医嘱主医嘱不显示深绿色
+UDHCOEOrder.List.Custom.New.js
+function OrderMasterChangeHandler
 
 ## 病理申请推送
 SELECT * 
 FROM Ens_InterfaceMethod
 WHERE method_Desc [ "病理"
 ORDER BY method_Code
+
+## 门诊诊断证明书打印
+xml模板参数图片地址
+```js
+// DHCPrtComm.js
+function DHCP_GetXMLConfig(encName,PFlag){
+	////
+	/////InvPrintEncrypt
+	try{		
+		PrtAryData.length=0
+		var obj=document.getElementById(encName);
+		if (obj){
+			var encmeth=obj.value;
+			var PrtConfig=cspRunServerMethod(encmeth,"DHCP_RecConStr",PFlag);
+		}else{
+			var PrtConfig=tkMakeServerCall("web.DHCXMLIO", "ReadXML","DHCP_RecConStr",PFlag);
+		}
+		for (var i= 0; i<PrtAryData.length;i++){
+			PrtAryData[i]=DHCP_TextEncoder(PrtAryData[i]) ;
+		}
+	}catch(e){
+		alert(e.message);
+		return;
+	}
+```
+## 首日回车换行
+UDHCOEOrder.List.Custom.New.js
+function FrequencyLookUpSelect
+
+var rowid = GetEventRow(e);
+var RowNext = GetNextRowId(rowid);
+if (RowNext==rowid){
+	Add_Order_row();
+	RowNext=parseInt(RowNext)+1;
+}
+SetFocusCell(RowNext, "OrderName");
+return websys_cancel();
