@@ -79,6 +79,10 @@ judge number
 // check class property
 ##class(web.DHCBL.UDHCCommFunLibary).GetClassPropertyList("web.DHCEntity.PCA.PATMAS")
 
+// debug watch variable
+s remark=$tr(remark," ","")
+s ^Temp("u78k4",2) = remark
+
 
 <Request><PatientCard></PatientCard><PAPMINo>0000000001</PAPMINo><PatName>志明</PatName><PAPERMarital>未婚</PAPERMarital><NationDesc>汉族</NationDesc><IDNo>320721198708275413</IDNo><Address>山东省泰安市岱岳区泰山大街山一大二附院</Address><ProvinceInfo>现住省份</ProvinceInfo><CityDesc>现住地市</CityDesc><CityArea>现住县区</CityArea><ProvinceHome>籍贯省份</ProvinceHome><CityHome>籍贯地市</CityHome><RegisterPlace>户口地址</RegisterPlace><ProvinceHouse>户口省份</ProvinceHouse><CityHouse>户口地市</CityHouse><AreaHouse>户口县区</AreaHouse><AddressBrith>出生地址</AddressBrith><ProvinceBrith>出生省份</ProvinceBrith><CityBrith>出生地市</CityBrith><AreaBrith>出生县区</AreaBrith><ContactName>小明</ContactName><ContactAddress>山东省</ContactAddress><Relation>174</Relation><ContactTelNo>15233332222</ContactTelNo><ContactIDType>居民身份证</ContactIDType><ContactIDNo>320721198708275413</ContactIDNo></Request>
 
