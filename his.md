@@ -223,5 +223,10 @@ function FrequencyLookUpSelect
 [Code](./doc/code/orderJump.md)
 
 ## 阿帕奇评分死亡转科出院医嘱
+oeorder.oplistcustom.new.csp
+UDHCOEOrder.List.Custom.New.js
 
 ## 手麻接受科室医嘱库存
+##class(web.DHCOEOrdItem).SaveOrderItems(EpisodeID, oeoriStr, userId, locId, careprovId)
+;是否在插入医嘱之前调用审查方法,如果在插入医嘱之前未调用CheckBeforeSave,需传入此参数(例如以此方法作为接口调用)
+s IsCheckOrdItemStr=$p(ExpStr,"^",4)
