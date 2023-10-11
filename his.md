@@ -230,3 +230,13 @@ UDHCOEOrder.List.Custom.New.js
 ##class(web.DHCOEOrdItem).SaveOrderItems(EpisodeID, oeoriStr, userId, locId, careprovId)
 ;是否在插入医嘱之前调用审查方法,如果在插入医嘱之前未调用CheckBeforeSave,需传入此参数(例如以此方法作为接口调用)
 s IsCheckOrdItemStr=$p(ExpStr,"^",4)
+
+## 诊间预约提前取号
+OPAdm/Reg.hui.js
+ClassName : "web.DHCRBAppointment",
+MethodName : "GetAppInfo",
+...//Quit:ASDate<+$h  不允许提前取号 刘亚提
+...Quit:ASDate'=+$h
+...Q:(AdvanceAppAdm'=1)&&(ASDate'=..%SysDate())
+...Q:((RBAppRowIDStr'="")&&(("^"_RBAppRowIDStr_"^")[("^"_RBAppRowID_"^")))
+...do OutAppInfo(ASRowId)
