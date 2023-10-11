@@ -224,6 +224,8 @@ s StopGroupOrder=1
 UDHCOEOrder.List.Custom.New.js
 function OrderMasterChangeHandler
 
+[Code](./doc/code/bindOrder.md)
+
 ## 病理申请推送
 SELECT * 
 FROM Ens_InterfaceMethod
