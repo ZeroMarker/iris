@@ -1,9 +1,6 @@
 ## 修改建卡
 cardreg.hui.csp
-
 cardreg.show.hui.csp
-
-show.csp add web element
 
 web.DHCEntity.PCA.PATMAS.cls    add property to middle store class
 
@@ -13,11 +10,9 @@ function GetPatDetailByPAPMINo() {
 }
 
 web.DHCBL.CARDIF.ICardRefInfo.cls
-
 web.DHCBL.CARD.UCardPatRegBuilder.cls
 
 web.DHCBL.CARD.UCardPaPatMasInfo.cls
-Set sc = patmas.%Save()
 
 User.PAPatMas.cls
 
@@ -30,22 +25,13 @@ function GetPatDetailByPAPMINo()
 ClassName: "web.DHCBL.CARD.UCardPaPatMasInfo",
 MethodName: "GetPatInfoByPANo",
 
-Set myregobj=##class(web.DHCEntity.PCA.CardPatInfoReg).%New()
-.Set PAPMIName8=$PIECE($GET(^PAPER(PapmiRowid,"ALL")),"^",24)
-//联系人性别
-Set myregobj.PAPMIName8=$GET(PAPMIName8)
-Set myregobj=..ChangeNullValue(myregobj)
-Do myregobj.XMLExportToString(.myXMLStr)
-
-
-.csp -> .show.csp -> .js -> .cls -> cls.
+.csp -> .show.csp -> .js -> .cls -> cls
 
 ## 医嘱录入搜索提示添加集采字段
 
 oeorder.oplistcustom.new.csp
 
 scripts/dhcdoc/UDHCOEOrder.List.Custom.New.js
-field, title, text
 
 oeorder.oplistcustom.show.csp
 
@@ -54,10 +40,6 @@ Query LookUpItem(args)	// 位置决定字段值的位置
 LookUpItemExecute(){
 	s data = $lb()	// 位置决定字段值的位置
 }
-
-web.DHCDocOrderCommon.cls
-
-<!--opdoc.outpatientlist.csp HISUI门诊病人列表--> 
 
 ## 挂号
 
@@ -125,7 +107,6 @@ if(retval){
 	}               
 }
 ```
-## 阿帕奇评分死亡转科出院医嘱
 
 ## 就诊号到达时间
 DHCQueue
@@ -234,63 +215,13 @@ ORDER BY method_Code
 
 ## 门诊诊断证明书打印
 xml模板参数图片地址
-```js
-// DHCPrtComm.js
-function DHCP_GetXMLConfig(encName,PFlag){
-	////
-	/////InvPrintEncrypt
-	try{		
-		PrtAryData.length=0
-		var obj=document.getElementById(encName);
-		if (obj){
-			var encmeth=obj.value;
-			var PrtConfig=cspRunServerMethod(encmeth,"DHCP_RecConStr",PFlag);
-		}else{
-			var PrtConfig=tkMakeServerCall("web.DHCXMLIO", "ReadXML","DHCP_RecConStr",PFlag);
-		}
-		for (var i= 0; i<PrtAryData.length;i++){
-			PrtAryData[i]=DHCP_TextEncoder(PrtAryData[i]) ;
-		}
-	}catch(e){
-		alert(e.message);
-		return;
-	}
-```
+
 ## 首日回车换行
 UDHCOEOrder.List.Custom.New.js
 function FrequencyLookUpSelect
 
-```js
-var rowid = GetEventRow(e);
-OrderFirstDayTimeskeypresshandlerJump(rowid)
-function OrderFirstDayTimeskeypresshandlerJump(rowid) {
-	var RowNext = GetNextRowId(rowid);
-	if (RowNext==rowid){
-		Add_Order_row();
-		RowNext=parseInt(RowNext)+1;
-	}
-	if ($("#"+RowNext+"_OrderName").val() == "" && !$("#"+RowNext+"_OrderName").hasClass("disabled")) {
-		SetFocusCell(RowNext, "OrderName");
-	}
-	else{
-		if ($("#"+RowNext+"_OrderInstr").val() == "" && !$("#"+RowNext+"_OrderInstr").hasClass("disabled")) {
-			SetFocusCell(RowNext, "OrderInstr");
-		}
-		else {
-			if ($("#"+RowNext+"_OrderFreq").val() == "" && !$("#"+RowNext+"_OrderFreq").hasClass("disabled")) {
-				SetFocusCell(RowNext, "OrderFreq");
-			}
-			else {
-				// 输入框不可编辑类为disable
-				if (!$("#"+RowNext+"_OrderFirstDayTimes").hasClass("disable")) {
-					SetFocusCell(RowNext, "OrderFirstDayTimes");
-				}
-				else {
-					OrderFirstDayTimeskeypresshandlerJump(RowNext);
-				}
-			}
-		}
-	}
-	return websys_cancel();
-}
-```
+[Code](./doc/code/orderJump.md)
+
+## 阿帕奇评分死亡转科出院医嘱
+
+## 手麻接受科室医嘱库存
