@@ -265,3 +265,17 @@ BillTypeID: 1
 InsurFlag: N
 
 s:(AdmType="I")!((AdmType="E")&((stay="STAY")!(stay="SALVAGE"))) rtn=##class(web.DHCENS.EnsHISService).DHCHisInterface("S00000042",Oeori)
+
+d ##class(web.DHCENS.STBLL.MANAGE.MergeInstance).SendMergeInfo(KeyName,perStream)
+
+^Config.ENS.EnsSubApiSysConfigD(1)=$lb("","PIS","DHSZHYYZY","Default","MES0048","发送病理申请单")
+
+EnsSubApiSysConfig
+
+/// Creator：ZhangXinying
+/// CreatDate：2021—11-06
+/// Description：HIS-API共库调用接口
+/// Table：Ens_InterfaceMethod、Ens_ApiSysConfig Ens_SubApiSysConfig
+/// Input：Input:方法代码,InputStream:入参字符流
+/// Return：0:成功;-1:失败  
+/// w ##class(web.DHCENS.STBLL.MANAGE.MergeInstance).SendMergeInfo()

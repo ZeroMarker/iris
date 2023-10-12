@@ -19,3 +19,5 @@ PASS（Prescription Automatic Screening System）合理用药监测系统
 Pharmacy Information System
 
 心电图(Electrocardiogram,ECG或者EKG)
+
+病理信息系统(Pathology Information System, P.I.S)
