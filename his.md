@@ -207,12 +207,6 @@ function OrderMasterChangeHandler
 
 [Code](./doc/code/bindOrder.md)
 
-## 病理申请推送
-SELECT * 
-FROM Ens_InterfaceMethod
-WHERE method_Desc [ "病理"
-ORDER BY method_Code
-
 ## 门诊诊断证明书打印
 xml模板参数图片地址
 
@@ -240,3 +234,34 @@ MethodName : "GetAppInfo",
 ...Q:(AdvanceAppAdm'=1)&&(ASDate'=..%SysDate())
 ...Q:((RBAppRowIDStr'="")&&(("^"_RBAppRowIDStr_"^")[("^"_RBAppRowID_"^")))
 ...do OutAppInfo(ASRowId)
+
+## 病理申请推送地址
+
+SELECT * 
+FROM Ens_InterfaceMethod
+WHERE method_Desc [ "病理"
+ORDER BY method_Code
+
+ClassName: web.DHCDocAPPBL
+MethodName: InsertNewBLInformation
+dataType: text
+EpisodeID: 383
+DocID: 18881
+LocID: 1
+Type: MOLN
+OEOrdStr: 3116||1^45^
+JsonStr: [{"ID":"TesItemDesc","Val":"脱氧核糖核酸（DNA）测序","Class":"text","Desc":"脱氧核糖核酸（DNA）测序"},{"ID":"recLoc","Val":"45","Class":"combobox","Desc":"病理科"},{"ID":"ApplyLoc","Val":"1","Class":"combobox","Desc":"呼吸内科门诊"},{"ID":"ApplyDocUser","Val":"18881","Class":"combobox","Desc":"YS01 医生01"},{"ID":"PreMedRecord","Val":"","Class":"text","Desc":""},{"ID":"Position","Val":"咽喉","Class":"text","Desc":"咽喉"},{"ID":"OtherInfo","Val":"{\"mPisTestItem\":\"[]\",\"PisReqSpec\":\"1\\u0001咽喉\\u0001\\u00011\\u0001\\u00011\\u0001\",\"mSpceType\":\"[]\",\"mSentOrder\":\"[\\\"127^\\\"]\"}","Class":"Data"},{"ID":"PrintInfo","Val":"{\"PisTestItem\":\"\",\"PisCutBasType\":\"\",\"SentOrder\":\"\"}","Class":"Data"}]
+PisID: 
+BillTypeID: 1
+ChronicDiagCode: 
+EmConsultItm: 
+
+ClassName: web.DHCDocAPPBL
+MethodName: InsSendFlag
+dataType: text
+PisID: 11
+UserID: 18881
+BillTypeID: 1
+InsurFlag: N
+
+s:(AdmType="I")!((AdmType="E")&((stay="STAY")!(stay="SALVAGE"))) rtn=##class(web.DHCENS.EnsHISService).DHCHisInterface("S00000042",Oeori)
