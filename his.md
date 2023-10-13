@@ -279,3 +279,8 @@ EnsSubApiSysConfig
 /// Input：Input:方法代码,InputStream:入参字符流
 /// Return：0:成功;-1:失败  
 /// w ##class(web.DHCENS.STBLL.MANAGE.MergeInstance).SendMergeInfo()
+
+demo
+医院信息平台
+服务列表
+
