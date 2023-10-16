@@ -1,9 +1,6 @@
 ## 修改建卡
 cardreg.hui.csp
-
 cardreg.show.hui.csp
-
-show.csp add web element
 
 web.DHCEntity.PCA.PATMAS.cls    add property to middle store class
 
@@ -13,11 +10,9 @@ function GetPatDetailByPAPMINo() {
 }
 
 web.DHCBL.CARDIF.ICardRefInfo.cls
-
 web.DHCBL.CARD.UCardPatRegBuilder.cls
 
 web.DHCBL.CARD.UCardPaPatMasInfo.cls
-Set sc = patmas.%Save()
 
 User.PAPatMas.cls
 
@@ -30,22 +25,13 @@ function GetPatDetailByPAPMINo()
 ClassName: "web.DHCBL.CARD.UCardPaPatMasInfo",
 MethodName: "GetPatInfoByPANo",
 
-Set myregobj=##class(web.DHCEntity.PCA.CardPatInfoReg).%New()
-.Set PAPMIName8=$PIECE($GET(^PAPER(PapmiRowid,"ALL")),"^",24)
-//联系人性别
-Set myregobj.PAPMIName8=$GET(PAPMIName8)
-Set myregobj=..ChangeNullValue(myregobj)
-Do myregobj.XMLExportToString(.myXMLStr)
-
-
-.csp -> .show.csp -> .js -> .cls -> cls.
+.csp -> .show.csp -> .js -> .cls -> cls
 
 ## 医嘱录入搜索提示添加集采字段
 
 oeorder.oplistcustom.new.csp
 
 scripts/dhcdoc/UDHCOEOrder.List.Custom.New.js
-field, title, text
 
 oeorder.oplistcustom.show.csp
 
@@ -54,10 +40,6 @@ Query LookUpItem(args)	// 位置决定字段值的位置
 LookUpItemExecute(){
 	s data = $lb()	// 位置决定字段值的位置
 }
-
-web.DHCDocOrderCommon.cls
-
-<!--opdoc.outpatientlist.csp HISUI门诊病人列表--> 
 
 ## 挂号
 
@@ -85,6 +67,7 @@ BRegExpClickHandle(PatientNo);
 ## 挂号科室搜索前缀匹配排序
 web.DHCOPAdmReg.cls
 [Code](./doc/code/opDeptList.md##挂号科室搜索前缀匹配排序)
+demo: 科室排序定义排序
 
 ## 病历浏览没有治疗记录
 
@@ -125,7 +108,6 @@ if(retval){
 	}               
 }
 ```
-## 阿帕奇评分死亡转科出院医嘱
 
 ## 就诊号到达时间
 DHCQueue
@@ -224,45 +206,82 @@ s StopGroupOrder=1
 UDHCOEOrder.List.Custom.New.js
 function OrderMasterChangeHandler
 
-## 病理申请推送
+[Code](./doc/code/bindOrder.md)
+
+## 门诊诊断证明书打印
+xml模板参数图片地址
+
+## 首日回车换行
+UDHCOEOrder.List.Custom.New.js
+function FrequencyLookUpSelect
+
+[Code](./doc/code/orderJump.md)
+
+## 阿帕奇评分死亡转科出院医嘱
+oeorder.oplistcustom.new.csp
+UDHCOEOrder.List.Custom.New.js
+
+## 手麻接受科室医嘱库存
+##class(web.DHCOEOrdItem).SaveOrderItems(EpisodeID, oeoriStr, userId, locId, careprovId)
+;是否在插入医嘱之前调用审查方法,如果在插入医嘱之前未调用CheckBeforeSave,需传入此参数(例如以此方法作为接口调用)
+s IsCheckOrdItemStr=$p(ExpStr,"^",4)
+
+## 诊间预约提前取号
+OPAdm/Reg.hui.js
+ClassName : "web.DHCRBAppointment",
+MethodName : "GetAppInfo",
+...//Quit:ASDate<+$h  不允许提前取号 刘亚提
+...Quit:ASDate'=+$h
+...Q:(AdvanceAppAdm'=1)&&(ASDate'=..%SysDate())
+...Q:((RBAppRowIDStr'="")&&(("^"_RBAppRowIDStr_"^")[("^"_RBAppRowID_"^")))
+...do OutAppInfo(ASRowId)
+
+## 病理申请推送地址
+
 SELECT * 
 FROM Ens_InterfaceMethod
 WHERE method_Desc [ "病理"
 ORDER BY method_Code
 
-## 门诊诊断证明书打印
-xml模板参数图片地址
-```js
-// DHCPrtComm.js
-function DHCP_GetXMLConfig(encName,PFlag){
-	////
-	/////InvPrintEncrypt
-	try{		
-		PrtAryData.length=0
-		var obj=document.getElementById(encName);
-		if (obj){
-			var encmeth=obj.value;
-			var PrtConfig=cspRunServerMethod(encmeth,"DHCP_RecConStr",PFlag);
-		}else{
-			var PrtConfig=tkMakeServerCall("web.DHCXMLIO", "ReadXML","DHCP_RecConStr",PFlag);
-		}
-		for (var i= 0; i<PrtAryData.length;i++){
-			PrtAryData[i]=DHCP_TextEncoder(PrtAryData[i]) ;
-		}
-	}catch(e){
-		alert(e.message);
-		return;
-	}
-```
-## 首日回车换行
-UDHCOEOrder.List.Custom.New.js
-function FrequencyLookUpSelect
+ClassName: web.DHCDocAPPBL
+MethodName: InsertNewBLInformation
+dataType: text
+EpisodeID: 383
+DocID: 18881
+LocID: 1
+Type: MOLN
+OEOrdStr: 3116||1^45^
+JsonStr: [{"ID":"TesItemDesc","Val":"脱氧核糖核酸（DNA）测序","Class":"text","Desc":"脱氧核糖核酸（DNA）测序"},{"ID":"recLoc","Val":"45","Class":"combobox","Desc":"病理科"},{"ID":"ApplyLoc","Val":"1","Class":"combobox","Desc":"呼吸内科门诊"},{"ID":"ApplyDocUser","Val":"18881","Class":"combobox","Desc":"YS01 医生01"},{"ID":"PreMedRecord","Val":"","Class":"text","Desc":""},{"ID":"Position","Val":"咽喉","Class":"text","Desc":"咽喉"},{"ID":"OtherInfo","Val":"{\"mPisTestItem\":\"[]\",\"PisReqSpec\":\"1\\u0001咽喉\\u0001\\u00011\\u0001\\u00011\\u0001\",\"mSpceType\":\"[]\",\"mSentOrder\":\"[\\\"127^\\\"]\"}","Class":"Data"},{"ID":"PrintInfo","Val":"{\"PisTestItem\":\"\",\"PisCutBasType\":\"\",\"SentOrder\":\"\"}","Class":"Data"}]
+PisID: 
+BillTypeID: 1
+ChronicDiagCode: 
+EmConsultItm: 
 
-var rowid = GetEventRow(e);
-var RowNext = GetNextRowId(rowid);
-if (RowNext==rowid){
-	Add_Order_row();
-	RowNext=parseInt(RowNext)+1;
-}
-SetFocusCell(RowNext, "OrderName");
-return websys_cancel();
+ClassName: web.DHCDocAPPBL
+MethodName: InsSendFlag
+dataType: text
+PisID: 11
+UserID: 18881
+BillTypeID: 1
+InsurFlag: N
+
+s:(AdmType="I")!((AdmType="E")&((stay="STAY")!(stay="SALVAGE"))) rtn=##class(web.DHCENS.EnsHISService).DHCHisInterface("S00000042",Oeori)
+
+d ##class(web.DHCENS.STBLL.MANAGE.MergeInstance).SendMergeInfo(KeyName,perStream)
+
+^Config.ENS.EnsSubApiSysConfigD(1)=$lb("","PIS","DHSZHYYZY","Default","MES0048","发送病理申请单")
+
+EnsSubApiSysConfig
+
+/// Creator：ZhangXinying
+/// CreatDate：2021—11-06
+/// Description：HIS-API共库调用接口
+/// Table：Ens_InterfaceMethod、Ens_ApiSysConfig Ens_SubApiSysConfig
+/// Input：Input:方法代码,InputStream:入参字符流
+/// Return：0:成功;-1:失败  
+/// w ##class(web.DHCENS.STBLL.MANAGE.MergeInstance).SendMergeInfo()
+
+demo
+医院信息平台
+服务列表
+
