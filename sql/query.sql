@@ -40,7 +40,9 @@ select * from SQLUser.ARC_BillGrp
 SELECT * FROM SQLUser.ARC_ItmMast 
 SELECT * FROM ARC_ItmMast
 
-select AA_Arcim_DR -> ARCIM_Desc AS apply_count, count(*) FROM SQLUser.DHC_Doc_AntibioticApply group by AA_Arcim_DR
+select AA_Arcim_DR -> ARCIM_Desc AS apply_count, count(*) 
+FROM SQLUser.DHC_Doc_AntibioticApply 
+group by AA_Arcim_DR
 
 select AA_Arcim_DR -> ARCIM_Desc,* FROM SQLUser.DHC_Doc_AntibioticApply group by AA_Arcim_DR
 
@@ -53,7 +55,7 @@ select PAPMI_ConcessionCardNo ,* from SQLUser.PA_PatMas
 SELECT  AA_OEORI_DR->OEORI_InsertDate
 FROM SQLUser.DHC_Doc_AntibioticApply 
 SELECT*
-SELECT  AA_OEORI_DR-->OEORI_OEORD_ParRef->OEORD_Adm_DR->PAADM_PAPMI_DR->PAPMI_No AS PA 
+SELECT  AA_OEORI_DR->OEORI_OEORD_ParRef->OEORD_Adm_DR->PAADM_PAPMI_DR->PAPMI_No AS PA 
 FROM SQLUser.DHC_Doc_AntibioticApply
 WHERE AA_OEORI_DR like "%||%"
 
