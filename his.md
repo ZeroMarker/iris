@@ -67,6 +67,7 @@ BRegExpClickHandle(PatientNo);
 ## 挂号科室搜索前缀匹配排序
 web.DHCOPAdmReg.cls
 [Code](./doc/code/opDeptList.md##挂号科室搜索前缀匹配排序)
+demo: 科室排序定义排序
 
 ## 病历浏览没有治疗记录
 
