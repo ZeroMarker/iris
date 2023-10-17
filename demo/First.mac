@@ -1,4 +1,4 @@
-ROUTINE Demo.First
+ROUTINE demo.First
 hello() public {
     set sum =  1 + 2
     write "Hello World"
