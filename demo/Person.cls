@@ -1,4 +1,4 @@
-Class Demo.Person Extends (%Persistent, %Library.Populate)
+Class demo.Person Extends (%Persistent, %Library.Populate)
 {
 
 // a person's name
