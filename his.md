@@ -47,7 +47,7 @@ opadm.reg.hui.csp
 
 reg.show.hui.csp
 
-reg.hui.js
+Reg.hui.js
 
 web.DHCOPAdmReg.cls
 
