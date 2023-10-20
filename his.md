@@ -250,6 +250,18 @@ demo
 服务列表
 
 ## 门诊传染病报卡
+dhcdoc.DHCDocDiagnoEntry.V8.js
+function CheckBeforeInsertMRDiag(callBackFun)
+if ((MRCIDRowId!="")&&(MRCIDRowId!=null)){
+	if (!CheckDiagIsEnabled(MRCIDRowId)) return false;
+	var SeriousDisease=cspRunServerMethod(ServerObj.GetSeriousDiseaseByICDMethod,MRCIDRowId);
+	if (SeriousDisease=="Y"){
+		if (SeriousDiseaseICDStr=="") SeriousDiseaseICDStr=DiagnosICDDesc;
+		else  SeriousDiseaseICDStr=SeriousDiseaseICDStr+","+DiagnosICDDesc;
+	}
+}
+select *
+from MRC_ICDDx
 
 ## 将医嘱停止时间后的所有未执行记录变为"停止执行"状态
 w ##class(appcom.OEOrdExec).DiscontinueExec("531546||1",590)
@@ -260,3 +272,33 @@ if (StopAllExecFlag'=1)&&
 }
 if XDate=ExeDate,XTime>ExeTime,StopAllExecFlag'=1 Continue	;CurrDate换XDate
 
+## 回诊 复诊
+web.DHCAlloc
+PatAgain
+
+## 显示挂号职称
+OPAdm/ScheduleAdjust.hui.js
+//InitSingleCombo(id,valueField,textField,ClassName,Query,exp,multipleField)
+//InitSingleCombo('DocSessionNew','ID','Desc','RBCSessionTypeQuery',false,"web.DHCBL.BaseReg.BaseDataQuery");
+InitSingleCombo('DocSessionNew','ID','Desc','web.DHCBL.BaseReg.BaseDataQuery','RBCSessionTypeQuery',"&Arg1="+HospitalDr+"&ArgCnt=1");
+// d ##class(%ResultSet).RunQuery("web.DHCBL.BaseReg.BaseDataQuery","RBCSessionTypeQuery",2)
+
+分诊优先患者不能取消报到
+Alloc.NurseTriage.hui.js
+function InitAllocListTabDataGrid()
+if (row["Prior"]=="优先"){
+	ChangeMenuDisable("CancleQueCheckin",true);
+}
+
+## 获取患者信息后光标跳转
+Reg.hui.js
+if (SrcObj.id=="CardNo"){
+				CardNoKeydownHandler(e);
+				$('#DeptList').focus();
+				return false;
+			}else if(SrcObj.id=="PatientNo"){
+				PatientNoKeydownHandler(e);
+				$('#DeptList').focus();
+				return false;
+			}
+CardNoKeyDownCallBack
