@@ -93,4 +93,34 @@ if x > 1, y > 2 {
 // 保存运行时入参
 set ^TMP("FindDailyDtl")=$lb(wardId, admStr, stDate, stTime, endDate, endTime, otherQryStr, langId)
 
+// 回调
+function fun(callBackFun) {
+    new Promise(function(resolve,rejected){
+	    if ((IsExistDISDiag==1)&&(IsExistMainDISDiag==0)){
+		    $.messager.confirm('提示', "此次所开出院诊断列表中没有【主诊断】,请确认是否继续保存?", function(r){
+			    if (r) {
+					resolve();
+				}
+			});
+			return;
+		}
+		resolve();
+	}).then(function(){
+		return new Promise(function(resolve,rejected){
+			if ((IsExistAdmitDiag==1)&&(IsExistMainAdmitDiag==0)){
+				///山一大二附院反馈不需要此控制
+			    /*$.messager.confirm('提示', "此次所开入院诊断列表中没有【主诊断】,请确认是否继续保存?", function(r){
+				    if (r) {
+						resolve();
+					}
+				});
+				return;
+				*/
+			}
+			resolve();
+		})
+	}).then(function(){
+		callBackFun();
+	})
+}
 <Request><PatientCard></PatientCard><PAPMINo>0000000001</PAPMINo><PatName>志明</PatName><PAPERMarital>未婚</PAPERMarital><NationDesc>汉族</NationDesc><IDNo>320721198708275413</IDNo><Address>山东省泰安市岱岳区泰山大街山一大二附院</Address><ProvinceInfo>现住省份</ProvinceInfo><CityDesc>现住地市</CityDesc><CityArea>现住县区</CityArea><ProvinceHome>籍贯省份</ProvinceHome><CityHome>籍贯地市</CityHome><RegisterPlace>户口地址</RegisterPlace><ProvinceHouse>户口省份</ProvinceHouse><CityHouse>户口地市</CityHouse><AreaHouse>户口县区</AreaHouse><AddressBrith>出生地址</AddressBrith><ProvinceBrith>出生省份</ProvinceBrith><CityBrith>出生地市</CityBrith><AreaBrith>出生县区</AreaBrith><ContactName>小明</ContactName><ContactAddress>山东省</ContactAddress><Relation>174</Relation><ContactTelNo>15233332222</ContactTelNo><ContactIDType>居民身份证</ContactIDType><ContactIDNo>320721198708275413</ContactIDNo></Request>
