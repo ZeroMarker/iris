@@ -50,11 +50,13 @@ select * from SQLUser.DHC_CardRef
 
 SELECT *
 FROM SQLUser.OE_OrdItem
-WHERE 
-select PAPMI_ConcessionCardNo ,* from SQLUser.PA_PatMas 
+WHERE
+
+select PAPMI_ConcessionCardNo ,* from SQLUser.PA_PatMas
+
 SELECT  AA_OEORI_DR->OEORI_InsertDate
 FROM SQLUser.DHC_Doc_AntibioticApply 
-SELECT*
+
 SELECT  AA_OEORI_DR->OEORI_OEORD_ParRef->OEORD_Adm_DR->PAADM_PAPMI_DR->PAPMI_No AS PA 
 FROM SQLUser.DHC_Doc_AntibioticApply
 WHERE AA_OEORI_DR like "%||%"

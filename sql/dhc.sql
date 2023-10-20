@@ -1,13 +1,8 @@
 SELECT * FROM SQLUser.CT_Sex 
 
-Select * from SQLUser.DHC_Student_SFA 
-
 SELECT TARAC_TARTAC_DR->TARTAC_Desc,* FROM SQLUser.DHC_TarAcctCate 
 
 Select * FROM SQLUser.CT_Address 
-
-SELECT * FROM SQLUser.DHC_Student_SFA
-insert INTO SQLUser.DHC_Student_SFA values ('2', '陈',  '1', '2023-02-02')
 
 select * from SQLUser.PA_PatMas 
 
@@ -33,7 +28,7 @@ select PAPMI_ConcessionCardNo ,* from SQLUser.PA_PatMas
 SELECT  AA_OEORI_DR->OEORI_InsertDate
 FROM SQLUser.DHC_Doc_AntibioticApply 
 SELECT*
-SELECT  AA_OEORI_DR-->OEORI_OEORD_ParRef->OEORD_Adm_DR->PAADM_PAPMI_DR->PAPMI_No AS PA 
+SELECT  AA_OEORI_DR->OEORI_OEORD_ParRef->OEORD_Adm_DR->PAADM_PAPMI_DR->PAPMI_No AS PA 
 FROM SQLUser.DHC_Doc_AntibioticApply
 WHERE AA_OEORI_DR like "%||%"
 
