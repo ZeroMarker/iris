@@ -240,9 +240,33 @@ MethodName : "GetAppInfo",
 
 SELECT * 
 FROM Ens_InterfaceMethod
+-- WHERE method_Code [ "MES0048"
 WHERE method_Desc [ "病理"
-ORDER BY method_Code
 
+
+SELECT * 
+FROM Ens_InterfaceV8
+WHERE method_Code [ "S00000042"
+
+SELECT * 
+FROM Ens_SubApiSysConfig
+WHERE method_Code [ "S00000042"
+^Config.ENS.EnsApiSysConfigD
+
+SELECT * 
+FROM Ens_ApiSysConfig
+WHERE method_Code [ "S00000042"
+
+SELECT * FROM OE_OrdItem
+WHERE OEORI_OEORD_ParRef IN
+(
+	SELECT OEORD_RowId1 FROM OE_Order
+	WHERE OEORD_Adm_DR IN
+	(
+		SELECT PAADM_RowID FROM PA_Adm
+		WHERE PAADM_PAPMI_DR = 95
+	)
+)
 [Code](./doc/code/pisApply.md)
 
 demo
