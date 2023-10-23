@@ -326,3 +326,11 @@ if (SrcObj.id=="CardNo"){
 				return false;
 			}
 CardNoKeyDownCallBack
+
+## 医嘱氧气吸入数量显示
+;长嘱剂量为空数量去除"共"
+if (##class(appcom.OEOrdItem).ISLongOrderPrior(PriorityDR))&&(doseUnitDr="") {
+	s TOrderDesc = $replace(TOrderDesc, "共：", "")	
+	s TOrderName = TOrderName_space_SumQty
+	s SumQty = ""
+}
