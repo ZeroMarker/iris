@@ -343,6 +343,19 @@ w ##class(web.DHCENS.BLL.Message.Method.public).SendMessageInfo("MES0072","44$#$
 s soap=##class(web.DHCENS.BLL.Message.Soap.PUB0009Soap).%New()
 		b ; 101
 		;s stream=soap.HIPService(MessageCode,streams)
+INSERT INTO SQLUser.DHC_CTPayModeExp (PME_AppRefundPM_DR, PME_ClassName, PME_HardCom_DR, PME_IFMode, PME_IOType, PME_MethodName, PME_PayMode_DR, PME_RefundFlag)
+VALUES
+(NULL, NULL, NULL, 'SP', 'OP', NULL, '3', NULL),
+('Y', 'DHCBILL.MisPos.Adapter.YLSWMisPosSYDEFY', 1, 'DLL', 'OP', NULL, '48', NULL),
+('Y', 'DHCBILL.MisPos.Adapter.YLSWMisPosSYDEFY', 1, 'DLL', 'OP', NULL, '49', NULL),
+('Y', NULL, 1, 'YDGZ', 'OP', NULL, '50', NULL),
+('Y', NULL, 1, 'DZPZ', 'OP', NULL, '53', NULL),
+('Y', NULL, 1, 'YDGZ', 'OP', NULL, '54', NULL),
+('Y', NULL, 1, 'SP', 'OP', NULL, '65', NULL),
+('Y', NULL, 1, 'SP', 'OP', NULL, '66', NULL),
+('Y', NULL, 1, 'WS', 'OP', NULL, '58', NULL),
+('Y', NULL, 1, 'SPYLSW', 'OP', NULL, '47', NULL),
+('Y', '', 1, 'SPYLSW', 'OP', NULL, '46', NULL);
 
 ## 挂号调用支付接口
 /// Creator: zhenghao
