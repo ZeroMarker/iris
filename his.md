@@ -343,6 +343,25 @@ w ##class(web.DHCENS.BLL.Message.Method.public).SendMessageInfo("MES0072","44$#$
 s soap=##class(web.DHCENS.BLL.Message.Soap.PUB0009Soap).%New()
 		b ; 101
 		;s stream=soap.HIPService(MessageCode,streams)
+
+
+## 挂号调用支付接口
+/// Creator: zhenghao
+/// CreatDate: 2018-03-07
+/// Descripiton: 根据支付方式ID取配置表
+/// Input: PayMode:支付方式ID
+/// Return: 支付方式扩展表字段(调用标志、调用方法、调用方式、退费标志)
+/// Debug: w ##class(DHCBILL.Common.DHCBILLCommon).GetCallModeByPayMode(4)
+ClassMethod GetCallModeByPayMode(PayMode As %String) As %String
+
+SELECT *
+FROM
+CT_PayMode
+
+SELECT *
+FROM
+DHC_CTPayModeExp
+
 INSERT INTO SQLUser.DHC_CTPayModeExp (PME_AppRefundPM_DR, PME_ClassName, PME_HardCom_DR, PME_IFMode, PME_IOType, PME_MethodName, PME_PayMode_DR, PME_RefundFlag)
 VALUES
 (NULL, NULL, NULL, 'SP', 'OP', NULL, '3', NULL),
@@ -357,11 +376,30 @@ VALUES
 ('Y', NULL, 1, 'SPYLSW', 'OP', NULL, '47', NULL),
 ('Y', '', 1, 'SPYLSW', 'OP', NULL, '46', NULL);
 
-## 挂号调用支付接口
-/// Creator: zhenghao
-/// CreatDate: 2018-03-07
-/// Descripiton: 根据支付方式ID取配置表
-/// Input: PayMode:支付方式ID
-/// Return: 支付方式扩展表字段(调用标志、调用方法、调用方式、退费标志)
-/// Debug: w ##class(DHCBILL.Common.DHCBILLCommon).GetCallModeByPayMode(4)
-ClassMethod GetCallModeByPayMode(PayMode As %String) As %String
+MisPosePublic.js
+DHCBillPayService.js
+DHCBillMisPosPay.js
+
+## 病理申请单Not Found
+
+dhcapp.docpopwin.csp
+i mListDataDoc'="" D
+.D ##Class(web.DHCAPPPisInterface).GetExaItemListDoc(mListDataDoc, .itemTmpArr)
+
+.s Type=##Class(web.DHCAPPExaReportQuery).GetTraType(arcimid)
+	.i Type="P" D
+	..s LinkUrl=..GetLinkUrl(arcimid
+	
+s PisType=..GetPisType(arcimid) 	             /// 取病理类型
+	Q:PisType="" "-1"
+
+n (arcimid)
+Q:arcimid="" ""
+b ;xz--001
+s TraID=$o(^DHCAPARCCA(0,"Arc",arcimid,""))
+Q:TraID="" ""
+s PisType=$p(^DHCAPARCCA(TraID),"^",1)
+Q PisType
+
+SELECT *
+FROM DHC_AppCatLinkArcItm
