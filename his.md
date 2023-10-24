@@ -328,9 +328,27 @@ if (SrcObj.id=="CardNo"){
 CardNoKeyDownCallBack
 
 ## 医嘱氧气吸入数量显示
+[Code](./doc/code/sumQty.md)
+w ##Class(web.DHCDocInPatPortalCommon).OrderInfo("240||86")
+w (^OEORD(240,"I",86,2))
 ;长嘱剂量为空数量去除"共"
 if (##class(appcom.OEOrdItem).ISLongOrderPrior(PriorityDR))&&(doseUnitDr="") {
 	s TOrderDesc = $replace(TOrderDesc, "共：", "")	
 	s TOrderName = TOrderName_space_SumQty
 	s SumQty = ""
 }
+
+## 挂号速度慢
+w ##class(web.DHCENS.BLL.Message.Method.public).SendMessageInfo("MES0072","44$#$17855606389,17631666188$#$1")
+s soap=##class(web.DHCENS.BLL.Message.Soap.PUB0009Soap).%New()
+		b ; 101
+		;s stream=soap.HIPService(MessageCode,streams)
+
+## 挂号调用支付接口
+/// Creator: zhenghao
+/// CreatDate: 2018-03-07
+/// Descripiton: 根据支付方式ID取配置表
+/// Input: PayMode:支付方式ID
+/// Return: 支付方式扩展表字段(调用标志、调用方法、调用方式、退费标志)
+/// Debug: w ##class(DHCBILL.Common.DHCBILLCommon).GetCallModeByPayMode(4)
+ClassMethod GetCallModeByPayMode(PayMode As %String) As %String
