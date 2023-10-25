@@ -316,21 +316,26 @@ if (row["Prior"]=="优先"){
 
 ## 获取患者信息后光标跳转
 Reg.hui.js
+```js
 if (SrcObj.id=="CardNo"){
-				CardNoKeydownHandler(e);
-				$('#DeptList').focus();
-				return false;
-			}else if(SrcObj.id=="PatientNo"){
-				PatientNoKeydownHandler(e);
-				$('#DeptList').focus();
-				return false;
-			}
+	CardNoKeydownHandler(e);
+	$('#DeptList').focus();
+	return false;
+}else if(SrcObj.id=="PatientNo"){
+	PatientNoKeydownHandler(e);
+	$('#DeptList').focus();
+	return false;
+}
+```
 CardNoKeyDownCallBack
 
 ## 医嘱氧气吸入数量显示
 [Code](./doc/code/sumQty.md)
+
 w ##Class(web.DHCDocInPatPortalCommon).OrderInfo("240||86")
+
 w (^OEORD(240,"I",86,2))
+
 ;长嘱剂量为空数量去除"共"
 if (##class(appcom.OEOrdItem).ISLongOrderPrior(PriorityDR))&&(doseUnitDr="") {
 	s TOrderDesc = $replace(TOrderDesc, "共：", "")	
