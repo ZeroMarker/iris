@@ -408,3 +408,36 @@ Q PisType
 
 SELECT *
 FROM DHC_AppCatLinkArcItm
+
+## 费用明细默认分页行数
+
+安全组 安全组设置 列编辑器
+
+## 医生预停医嘱护士补录关联医嘱同步预停时间
+
+//子医嘱预停信息为空
+//子医嘱同步显示主医嘱预停信息
+if (+oeorioeoridr>0){
+	if TStopDate="" {
+		s oeorioeoriParref=+oeorioeoridr
+		s oeorioeoriId=$p(oeorioeoridr,"||",2)
+		s TStopDate = $p(^OEORD(oeorioeoriParref,"I",oeorioeoriId,3),"^",34)		;XDate
+		s:$d(^OEORD(oeorioeoriParref,"I",oeorioeoriId,2)) TStopTime = $p(^OEORD(oeorioeoriParref,"I",oeorioeoriId,2),"^",15)		;XTime
+		s TExEndDate = $p(^OEORD(oeorioeoriParref,"I",oeorioeoriId,9),"^",9)		;OEORI_EndDate	
+		s TExEndTime = $p(^OEORD(oeorioeoriParref,"I",oeorioeoriId,9),"^",10) 	;OEORI_EndTime
+		s TStopDate = $s(TStopDate="":TExEndDate, 1:TStopDate)			;没停止日期时,取预停日期	
+		s TStopTime = $s(TStopTime="":TExEndTime, 1:TStopTime)
+
+		s:TStopDate'="" TStopDate=..%ZD(TStopDate) //$zd(TStopDate,3)
+		s:TStopTime'="" TStopTime=..%ZT(TStopTime,2) 
+		s itemStatDr = $p(str1,"^",13) 		;OEORI_ItemStat_DR ;OEC_OrderStatus
+		s:+itemStatDr>0 TItemStatCode = $p(^OEC("OSTAT",itemStatDr),"^",1)
+
+		s userUpdateDr=$p($g(^OEORD(oeorioeoriParref,"I",oeorioeoriId,8)),"^",12)
+		s:(+userUpdateDr>0)&&(TExEndDate'="") TStopDoctor = $p($g(^SSU("SSUSR",userUpdateDr)),"^",2)	;预停医生
+		s StopDoctorDR = $p(^OEORD(oeorioeoriParref,"I",oeorioeoriId,3),"^",29)
+		s:+StopDoctorDR>0 TStopDoctor = $p(^CTPCP(StopDoctorDR,1),"^",2)	;重新覆盖停医嘱医生
+		s TStDateHide=TStDate,TStTimeHide=TStTime
+		s TStopNurse = ##class(web.DHCDocMainOrderInterface).GetXOrderNurseName(oeorioeoriParref,oeorioeoriId)	
+	}
+}
