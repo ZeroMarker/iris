@@ -132,3 +132,7 @@ s y = +x
 "1I3020" => 1
 "I23333" => 0
 
+runClassMethod("web.DHCADVCOMMONPART","GetRecordId",{'LinkRecordId':recordId,'FormCode':"DrugHeaNurEvaluate"},
+function(data){ 
+			HeadNurEvaRecId=data
+},"text",false)

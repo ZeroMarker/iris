@@ -543,4 +543,4 @@ i packQty="" s packQty=1
 s Prior=$p($g(^OEORD(OrderRowid,"I",OrdSub,1)),"^",8)  //add by zhangtong 门诊自备药即刻不上未缴费导诊单
 continue:Prior=6
 
-## 三天内有
+## 挂号一次三天优惠，做强制控制，三天内有非0元费用挂号，强制挂0元号；
