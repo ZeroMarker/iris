@@ -220,7 +220,60 @@ function FrequencyLookUpSelect
 ## 阿帕奇评分死亡转科出院医嘱
 oeorder.oplistcustom.new.csp
 UDHCOEOrder.List.Custom.New.js
+重症医学科二病区
+儿童重症监护病区
+急诊重症监护病区
+心脏重症监护病区
+神经重症监护病区
+重症医学科一病区
 
+SELECT *
+FROM
+PAC_Ward
+WHERE
+WARD_RowID IN
+(17, 7, 9, 37, 12, 33)
+
+;阿帕奇评分
+if EpisodeID'="" {
+	s ApacheFlag = ##class(web.DHCICUQualityControlStatistic).isHasApache(EpisodeID)
+ 	s obj=##class(User.PAAdm).%OpenId(EpisodeID)
+ 	s CurrentWard = obj.PAADMCurrentWardDR
+ 	d obj.%Close()
+}
+function ShowIconProfile(callBackFun){
+	var URL=$.cm({
+			ClassName:"web.DHCDocOrderEntry",
+			MethodName:"GetIconProfileURL",
+			dataType:"text",
+			EpisdeID:GlobalObj.EpisodeID
+			
+		},false);
+		
+     // $.messager.confirm("确认对话框", "该患者存在院感预警未处理，需先完成感染筛查后方可录入出院或转科等医嘱。具体可咨询本科室兼职医师", function (r) {
+					//if (r) {
+						websys_showModal({
+							url:URL,
+							title:"院感",
+							width:800,height:560,
+							closable:true,
+							CallBackFunc:function(result){
+								websys_showModal("close");
+								if (typeof result=="undefined"){
+									result="Exit";
+								}
+								callBackFun(true);
+							}
+						})
+					//}else{
+						//callBackFun(true);
+					//}
+				//});		
+		
+
+	
+	
+	}
 ## 手麻接受科室医嘱库存
 ##class(web.DHCOEOrdItem).SaveOrderItems(EpisodeID, oeoriStr, userId, locId, careprovId)
 ;是否在插入医嘱之前调用审查方法,如果在插入医嘱之前未调用CheckBeforeSave,需传入此参数(例如以此方法作为接口调用)
@@ -467,3 +520,27 @@ ClassMethod JsonBaseItemList(Title, Name, Type As %String = "", HospID As %Strin
 	d Stream.Write("]")
 	Q Stream.Read()
 }
+
+## 导诊单合管打印
+
+/// Creator: ZhYW
+/// CreatDate: 2020-02-03
+/// Description: 获取导诊单打印数据
+/// Input: PrtRowid:DHC_INVPRT.PRT_Rowid
+/// Output: 
+/// Return: 
+/// Debug: w ##class(BILL.OP.BL.Direct.Interface).GetPrintJsonStr("631616","21202^239^389")
+
+/// add by xz   山一大二附院
+/// 门诊医生要打未交费的导诊单  格式与计费组打出来的一致  复写计费组打印导诊单代码 
+/// w ##class(DHCDoc.Interface.Inside.ServicePrint).GetDocPrintJson("448","18881^28^1")
+
+//.set ^||TMP($j,"LabSort",labNo,labPrtBarPosition)=tmpInfo
+..set ^||TMP($j,"LabSort",labNo,labPrtBarPosition,labNoDesc)=tmpInfo
+
+i packQty="" s packQty=1
+
+s Prior=$p($g(^OEORD(OrderRowid,"I",OrdSub,1)),"^",8)  //add by zhangtong 门诊自备药即刻不上未缴费导诊单
+continue:Prior=6
+
+## 三天内有
