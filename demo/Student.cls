@@ -15,7 +15,7 @@ Property StName As %String [ SqlColumnNumber = 3, SqlFieldName = St_Name ];
 
 // 性别
 
-Property StSexDR As User.CTSex [ SqlColumnNumber = 4, SqlFieldName = St_Sex_DR ];
+Property StSexDR As %String [ SqlColumnNumber = 4, SqlFieldName = St_Sex_DR ];
 
 // 生日
 
@@ -46,7 +46,10 @@ ClassMethod GetSexDescByAdmRowId(RowId As %String) As %String
     q "就诊RowId为"_RowId_"的病人性别为："_SexDesc
 }
 
-/// ^User.DHCStudentUNID
+Property StActive As %String(DISPLAYLIST = ",Yes,No", VALUELIST = ",Y,N");
+
+Index StActiveIndex On StActive;
+
 Storage Default
 {
 <Data name="StudentDefaultData">
@@ -68,22 +71,13 @@ Storage Default
 <Value name="6">
 <Value>StActive</Value>
 </Value>
-<Value name="7">
-<Value>StSS</Value>
-</Value>
 </Data>
-<DataLocation>^Demo.StudentD</DataLocation>
+<DataLocation>^demo.StudentD</DataLocation>
 <DefaultData>StudentDefaultData</DefaultData>
-<Description>
-<![CDATA[^User.DHCStudentUNID]]></Description>
-<IdLocation>^Demo.StudentD</IdLocation>
-<IndexLocation>^Demo.StudentI</IndexLocation>
-<StreamLocation>^Demo.StudentS</StreamLocation>
-<Type>%Library.CacheStorage</Type>
+<IdLocation>^demo.StudentD</IdLocation>
+<IndexLocation>^demo.StudentI</IndexLocation>
+<StreamLocation>^demo.StudentS</StreamLocation>
+<Type>%Storage.Persistent</Type>
 }
-
-Property StActive As %String(DISPLAYLIST = ",Yes,No", VALUELIST = ",Y,N");
-
-Index StActiveIndex On StActive;
 
 }

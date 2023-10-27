@@ -6,11 +6,10 @@ hello() public {
 
 ///d hello^Demo.First
 ///w $$hello^Demo.First
-/*
-do label^routine
-do label^routine()
-w $$label^routine
-w $$label^routine()
 
-$$ALPHAUP
-*/
+/// do label^routine
+/// do label^routine()
+/// w $$label^routine
+/// w $$label^routine()
+
+/// $$ALPHAUP
