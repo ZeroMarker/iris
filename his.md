@@ -220,20 +220,36 @@ function FrequencyLookUpSelect
 ## 阿帕奇评分死亡转科出院医嘱
 oeorder.oplistcustom.new.csp
 UDHCOEOrder.List.Custom.New.js
-重症医学科二病区
-儿童重症监护病区
-急诊重症监护病区
-心脏重症监护病区
-神经重症监护病区
-重症医学科一病区
-
-SELECT *
-FROM
-PAC_Ward
-WHERE
-WARD_RowID IN
-(17, 7, 9, 37, 12, 33)
-
+case "NeedDischgCond":
+	(function(callBackFunExec){
+		new Promise(function(resolve,rejected){
+			//GlobalObj.ApacheFlag, GlobalObj.CurrentWard
+			/*重症医学科二病区
+			儿童重症监护病区
+			急诊重症监护病区
+			心脏重症监护病区
+			神经重症监护病区
+			重症医学科一病区
+			SELECT *
+			FROM PAC_Ward
+			WHERE
+			WARD_RowID IN
+			(17, 7, 9, 37, 12, 33)
+			*/
+			
+			if ([17, 7, 9, 37, 12, 33].includes(CurrentWard) && ApacheFlag == "N") {
+				alert("未填写阿帕奇评分，不能下出院医嘱");
+				return
+			}
+			
+			OpenDeathDate(FunCodeParams,resolve);
+		}).then(function(returnObj){
+			//ReturnObj.SuccessFlag=SuccessFlag;
+			$.extend(ReturnObj, returnObj);
+			callBackFunExec();
+		})
+	})(resolve);
+	break;
 ;阿帕奇评分
 if EpisodeID'="" {
 	s ApacheFlag = ##class(web.DHCICUQualityControlStatistic).isHasApache(EpisodeID)
@@ -278,6 +294,8 @@ function ShowIconProfile(callBackFun){
 ##class(web.DHCOEOrdItem).SaveOrderItems(EpisodeID, oeoriStr, userId, locId, careprovId)
 ;是否在插入医嘱之前调用审查方法,如果在插入医嘱之前未调用CheckBeforeSave,需传入此参数(例如以此方法作为接口调用)
 s IsCheckOrdItemStr=$p(ExpStr,"^",4)
+s retStr=##class(web.DHCOEOrdItem).SaveOrderItems(EpisodeID,oeoriStr,userId,locId,docId,"","^^^Y")
+
 
 ## 诊间预约提前取号
 OPAdm/Reg.hui.js
@@ -543,4 +561,21 @@ i packQty="" s packQty=1
 s Prior=$p($g(^OEORD(OrderRowid,"I",OrdSub,1)),"^",8)  //add by zhangtong 门诊自备药即刻不上未缴费导诊单
 continue:Prior=6
 
-## 挂号一次三天优惠，做强制控制，三天内有非0元费用挂号，强制挂0元号；
+## 挂号一次三天优惠，做强制控制，三天内有非0元费用挂号，强制挂0元号
+
+
+
+## 	回龙观可以维护同医生、同时段、同开始时间、不同门诊的排班，且均可以生成排班记录，需在新增排班时增加提示
+同一医生不同科室出诊
+w ##class(web.DHCRBApptSchedule).CreateResOneDaySchedule("2||1||1",61100,1)
+InsertOneSchedule()
+set ret=##class(web.DHCRBResourceRule).CheckSchedule(ResRowID,ScheduleDate,RoomID, SessStartTime,"")
+
+RoomID = ""
+OPAdm/ScheduleAdjust.hui.js
+DHCRBRes.Session.bak.js
+var InsertData=""+"^"+SessDOW+"^"+SessTimeStart+"^"+SessTimeEnd+"^"+SessSlotLength+"^"+SessLoad+"^"+SessNoSlots+"^"+SessNoApptSlot;
+InsertData=InsertData+"^"+SessNumberOfWeeks+"^"+SessNoOverbookAll+"^"+SessRoom+"^"+SessType+"^"+SessClinicGroup+"^"+SessPatientType+"^"+SessNo+"^"+SessScheduleGenerFlag;
+InsertData=InsertData+"^"+TRFlag+"^"+TRStartTime+"^"+TREndTime+"^"+TRLength+"^"+TRRegNum+"^"+TRRegNumStr+"^"+TRRegInfoStr
+var encmeth=DHCC_GetElementData('InsertMethod');
+	var ret=cspRunServerMethod(encmeth,ResDateRowid,InsertData);
