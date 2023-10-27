@@ -60,40 +60,62 @@ ClassMethod InQuery()
     WRITE myvar
 }
 
+// Query GetList() As websys.Query(ROWSPEC = "StRowID:%String,StCode,%String,StName:%String,StSexDR,%String,StDob:%String")
+
+// {
+
+// }
+
+// ClassMethod GetListExecute(ByRef qHandle As %Binary) As %Status
+
+// {
+
+//     s repid = $i(^CacheTemp)
+
+//     s ind = 1
+
+//     s StRowID = 0
+
+//     for
+
+//     {
+
+//         s StRowID = $O(^DHCSTUDENTSFA(StRowID))
+
+//         q:StRowID'=""
+
+//         s StCode = $p($g(^DHCSTUDENTSFA,StRowID),"^",1)
+
+//         s StName = $p($g(^DHCSTUDENTSFA,StRowID),"^",2)
+
+//         s StSexDR = $p($g(^DHCSTUDENTSFA,StRowID),"^",3)
+
+//         s:StSexDR'="" StSexDR = $p($g(^CT("SEX",StSexDR)),"^",2)
+
+//         s StDob = $p($g(^DHCSTUDENTSFA,StRowID),"^",4)
+
+//         s:StDob'="" StDob = $zd(StDob, 3)
+
+//         s Data = $lb(StRowID,StCode,StName,StSexDR,StDob)
+
+//         s ^CacheTemp(repid,ind)=Data
+
+//         s ind = ind + 1        
+
+//     }
+
+//     s qHandle = $lb(0,repid,0)
+
+//     q $$$OK
+
+// }
+
+// instance method, print
+
 /// SQLQuery
 /// Query
 /// Others:d ##class(%ResultSet).RunQuery("Demo.Person","GetList")
 /// Query GetList() As %Query(ROWSPEC = "StRowId:%String,StCode,%String,StName:%String,StSexDR,%String,StDob:%String")
-Query GetList() As websys.Query(ROWSPEC = "StRowID:%String,StCode,%String,StName:%String,StSexDR,%String,StDob:%String")
-{
-}
-
-ClassMethod GetListExecute(ByRef qHandle As %Binary) As %Status
-{
-    s repid = $i(^CacheTemp)
-    s ind = 1
-
-    s StRowID = 0
-    for
-    {
-        s StRowID = $O(^DHCSTUDENTSFA(StRowID))
-        q:StRowID'=""
-        s StCode = $p($g(^DHCSTUDENTSFA,StRowID),"^",1)
-        s StName = $p($g(^DHCSTUDENTSFA,StRowID),"^",2)
-        s StSexDR = $p($g(^DHCSTUDENTSFA,StRowID),"^",3)
-        s:StSexDR'="" StSexDR = $p($g(^CT("SEX",StSexDR)),"^",2)
-        s StDob = $p($g(^DHCSTUDENTSFA,StRowID),"^",4)
-        s:StDob'="" StDob = $zd(StDob, 3)
-        s Data = $lb(StRowID,StCode,StName,StSexDR,StDob)
-        s ^CacheTemp(repid,ind)=Data
-        s ind = ind + 1        
-    }
-    s qHandle = $lb(0,repid,0)
-    q $$$OK
-}
-
-// instance method, print
-
 Method Print() As %Status
 {
     write !, "This prerson is named ", ..Name, "."
@@ -213,9 +235,9 @@ ClassMethod ObjectAddData(StCode As %String, StName As %String, StSexDR As %Stri
     q:$Data(^DHCSTUDENTSFA("Code",StCode)) "学号已存在"
     if (StDob'="")
     {
-        s StDob = ##class(websys.Conversions).DateHtmlToLogical(StDob)
+        s StDob = $ZD(StDob)
     }
-    s oref=##class(User.DHCStudentSFA).%New()
+    s oref=##class(demo.Student).%New()
     if (oref)
     {
         s oref.StCode = StCode
@@ -236,7 +258,10 @@ ClassMethod ObjectAddData(StCode As %String, StName As %String, StSexDR As %Stri
             s result = "新增失败"_$system.OBJ.DisplayError(sc)
         }
     }
-    d oref.%Close()
+    ;d oref.%Close() 
+    /*
+    This method is deprecated because we now reference count objects automatically so there is no need to call this method. It is a no-op and just returns success %Status code.
+    */
     q result
 }
 
@@ -287,12 +312,12 @@ Storage Default
 <Value>Age</Value>
 </Value>
 </Data>
-<DataLocation>^Demo.PersonD</DataLocation>
+<DataLocation>^demo.PersonD</DataLocation>
 <DefaultData>PersonDefaultData</DefaultData>
-<IdLocation>^Demo.PersonD</IdLocation>
-<IndexLocation>^Demo.PersonI</IndexLocation>
-<StreamLocation>^Demo.PersonS</StreamLocation>
-<Type>%Library.CacheStorage</Type>
+<IdLocation>^demo.PersonD</IdLocation>
+<IndexLocation>^demo.PersonI</IndexLocation>
+<StreamLocation>^demo.PersonS</StreamLocation>
+<Type>%Storage.Persistent</Type>
 }
 
 }

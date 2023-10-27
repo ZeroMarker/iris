@@ -62,11 +62,11 @@ Storage Default
 <Value>Industry</Value>
 </Value>
 </Data>
-<DataLocation>^Demo.CompanyD</DataLocation>
+<DataLocation>^demo.CompanyD</DataLocation>
 <DefaultData>CompanyDefaultData</DefaultData>
-<IdLocation>^Demo.CompanyD</IdLocation>
-<IndexLocation>^Demo.CompanyI</IndexLocation>
-<StreamLocation>^Demo.CompanyS</StreamLocation>
+<IdLocation>^demo.CompanyD</IdLocation>
+<IndexLocation>^demo.CompanyI</IndexLocation>
+<StreamLocation>^demo.CompanyS</StreamLocation>
 <Type>%Storage.Persistent</Type>
 }
 
