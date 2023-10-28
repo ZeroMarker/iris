@@ -587,3 +587,28 @@ var encmeth=DHCC_GetElementData('InsertMethod');
 /// Descript:检查结果查询与病理合并使用:检查项目内容获取
 /// w ##class(web.DHCAPPSeePatPacs).GetLisInspectOrdNew("1","10","547^217^2022-08-14^2023-02-10^21068^^^^")
 ClassMethod GetLisInspectOrdNew(page As %String, rows As %String, Params As %String)
+
+## 住院登记加载县区
+
+[Code](./doc/code/defaultArea.md)
+
+## 挂号弹窗可用开关立即生效
+Reg.hui.js
+// 创建 switchbox
+	if (Title != "") {
+		Title = "<span>" + Title + "</span>"
+		// Title += "<a href=\"#\" style=\"float:right;\" class=\"hisui-linkbutton\" data-options=\"iconImg:'update.png'\">测试按钮</a>"
+		Title += "<div id=\"switch-btn\" class=\"hisui-switchbox hisui-tooltip\""
+		Title += 		"style=\"float:right;margin-left:5px;margin-right:5px;padding:0.5px 0px;\""
+		Title += 		"title=\"可用不显示无号时段\""
+		Title += 		"data-options=\"onText:'全部',offText:'可用',size:'mini',animated:true,"
+		if (PageLogicObj.m_TrShowFlag == 1) {
+			Title += "checked:true,"
+		} else {
+			Title += "checked:false,"
+		}
+		Title += 			"onClass:'primary',offClass:'success',position:'bottom',"
+		Title +=			"onSwitchChange:function(event,obj){ if (obj.value) { PageLogicObj.m_TrShowFlag = 1 } else { PageLogicObj.m_TrShowFlag = 0 } LoadMarkList() }\">"
+		Title += "</div>"
+		Title += "<div style=\"clear:both;\"></div>"
+	}
