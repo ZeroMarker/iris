@@ -573,31 +573,49 @@ s GetRegFeeThreeDayFlagMethod=##Class(websys.Page).Encrypt($lb("web.DHCOPAdmReg.
 			GetRegFeeThreeDayFlagMethod:"#(GetRegFeeThreeDayFlagMethod)#"
 		};
 
-var patientid = $("#PatientNo").val();
-					var dept = $("#DeptList").lookup('getText');
-					var ret=cspRunServerMethod(ServerObj.GetRegFeeThreeDayFlagMethod,patientid,dept);
-					if (ret == "Y") {
-						
-						PageLogicObj.threedayFlag = "Y"
-						//LoadRegConDisList();
-						$("#RegConDisList").combobox('setValue',3);
-						//$("#RegConDisList").combobox('select','三天同科免费');
-						$("#RegConDisList").addClass('disabled');
-						$("#RegConDisList").next().find('input').attr('disabled', 'disabled');
-						$("#RegConDisList").next().find('span').css('display', 'none');
-						LoadMarkList();
-						//LoadRegConDisList();
-					}
-					else {
-						//$("#RegConDisList").combobox('select','三天同科免费');
-						PageLogicObj.threedayFlag = "N"
-						$("#RegConDisList").combobox('setValue','');
-						$("#RegConDisList").removeClass('disable');
-						$("#RegConDisList").next().find('input').removeAttr('disabled');
-						$("#RegConDisList").next().find('span').css('display','');
-						LoadMarkList();	
-					}
+----
 
+LoadDeptList() onSelect
+var patientid = $("#PatientNo").val();
+var dept = $("#DeptList").lookup('getText');
+var ret=cspRunServerMethod(ServerObj.GetRegFeeThreeDayFlagMethod,patientid,dept);
+if (ret == "Y") {
+	
+	PageLogicObj.threedayFlag = "Y"
+	LoadRegConDisList();
+	//$("#RegConDisList").combobox('setValue',3);
+	//$("#RegConDisList").combobox('select','三天同科免费');
+	//$("#RegConDisList").addClass('disabled');
+	//$("#RegConDisList").next().find('input').attr('disabled', 'disabled');
+	//$("#RegConDisList").next().find('span').css('display', 'none');
+	//LoadMarkList();
+}
+else {
+	//$("#RegConDisList").combobox('select','三天同科免费');
+	PageLogicObj.threedayFlag = "N";
+	LoadRegConDisList();
+	$("#RegConDisList").combobox('setValue','');
+	$("#RegConDisList").removeClass('disable');
+	$("#RegConDisList").next().find('input').removeAttr('disabled');
+	$("#RegConDisList").next().find('span').css('display','');
+	LoadMarkList();	
+}
+----
+LoadRegConDisList()
+// 三天优惠
+if (PageLogicObj.threedayFlag != "Y") {
+	var json = JSON.parse(Data);
+	json.pop();
+	Data = JSON.stringify(json);
+}
+if (PageLogicObj.threedayFlag == "Y") {
+	$("#RegConDisList").combobox('setValue',3);
+	//$("#RegConDisList").combobox('select','三天同科免费');
+	$("#RegConDisList").addClass('disabled');
+	$("#RegConDisList").next().find('input').attr('disabled', 'disabled');
+	$("#RegConDisList").next().find('span').css('display', 'none');
+	LoadMarkList();
+}
 // 三日内是否有非零元挂号费
 
 // w ##class(web.DHCOPAdmReg).GetRegFeeThreeDayFlag(1)
