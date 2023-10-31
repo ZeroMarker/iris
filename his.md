@@ -238,9 +238,14 @@ case "NeedDischgCond":
 			*/
 			
 			if ([17, 7, 9, 37, 12, 33].includes(CurrentWard) && ApacheFlag == "N") {
-				alert("未填写阿帕奇评分，不能下出院医嘱");
+				//alert("未填写阿帕奇评分，不能下出院医嘱");
+				$.messager.confirm('确认对话框', "未填写阿帕奇评分，不能下出院医嘱", function(r){
+							ReturnObj.SuccessFlag=true;
+								callBackFunExec();
+						});
 				return
 			}
+
 			
 			OpenDeathDate(FunCodeParams,resolve);
 		}).then(function(returnObj){
@@ -257,39 +262,29 @@ if EpisodeID'="" {
  	s CurrentWard = obj.PAADMCurrentWardDR
  	d obj.%Close()
 }
-function ShowIconProfile(callBackFun){
-	var URL=$.cm({
-			ClassName:"web.DHCDocOrderEntry",
-			MethodName:"GetIconProfileURL",
-			dataType:"text",
-			EpisdeID:GlobalObj.EpisodeID
-			
-		},false);
-		
-     // $.messager.confirm("确认对话框", "该患者存在院感预警未处理，需先完成感染筛查后方可录入出院或转科等医嘱。具体可咨询本科室兼职医师", function (r) {
-					//if (r) {
-						websys_showModal({
-							url:URL,
-							title:"院感",
-							width:800,height:560,
-							closable:true,
-							CallBackFunc:function(result){
-								websys_showModal("close");
-								if (typeof result=="undefined"){
-									result="Exit";
-								}
-								callBackFun(true);
+case "NeedCareOrd":
+				(function(callBackFunExec){
+					var TypeCode=ParamsArr[ParamsArr.length-1];
+					new Promise(function(resolve,rejected){
+						$.messager.confirm('确认对话框', ParamsArr.slice(0, ParamsArr.length-1), function(r){
+							ReturnObj.SuccessFlag=true;
+							if (r) {
+								var url="../csp/nur.hisui.orderNeedCare.csp?EpisodeID="+GlobalObj.EpisodeID+"&defaultTypeCode="+TypeCode;
+								websys_showModal({
+									url:url,
+									title:'需关注医嘱',
+									width:'97%',height:'85%',
+									onClose:function(retval){
+										callBackFunExec();
+									}
+								})
+							}else{
+								callBackFunExec();
 							}
-						})
-					//}else{
-						//callBackFun(true);
-					//}
-				//});		
-		
-
-	
-	
-	}
+						});
+					})
+				})(resolve);
+				break;
 ## 手麻接受科室医嘱库存
 ##class(web.DHCOEOrdItem).SaveOrderItems(EpisodeID, oeoriStr, userId, locId, careprovId)
 ;是否在插入医嘱之前调用审查方法,如果在插入医嘱之前未调用CheckBeforeSave,需传入此参数(例如以此方法作为接口调用)
@@ -564,6 +559,94 @@ continue:Prior=6
 ## 挂号一次三天优惠，做强制控制，三天内有非0元费用挂号，强制挂0元号
 挂号优惠
 三天同科免费
+
+runClassMethod("web.DHCOPAdmReg","GetRegFeeThreeDayFlag",{'PatientId':PatientID},
+	function(data){ 
+		var RegFeeThreeDayFlag = data
+	},"text",false)
+
+
+// 三日内非零挂号记录
+s GetRegFeeThreeDayFlagMethod=##Class(websys.Page).Encrypt($lb("web.DHCOPAdmReg.GetRegFeeThreeDayFlag"))
+//全局请求后台服务对象
+		var ServerObj={
+			GetRegFeeThreeDayFlagMethod:"#(GetRegFeeThreeDayFlagMethod)#"
+		};
+
+var patientid = $("#PatientNo").val();
+					var dept = $("#DeptList").lookup('getText');
+					var ret=cspRunServerMethod(ServerObj.GetRegFeeThreeDayFlagMethod,patientid,dept);
+					if (ret == "Y") {
+						
+						PageLogicObj.threedayFlag = "Y"
+						//LoadRegConDisList();
+						$("#RegConDisList").combobox('setValue',3);
+						//$("#RegConDisList").combobox('select','三天同科免费');
+						$("#RegConDisList").addClass('disabled');
+						$("#RegConDisList").next().find('input').attr('disabled', 'disabled');
+						$("#RegConDisList").next().find('span').css('display', 'none');
+						LoadMarkList();
+						//LoadRegConDisList();
+					}
+					else {
+						//$("#RegConDisList").combobox('select','三天同科免费');
+						PageLogicObj.threedayFlag = "N"
+						$("#RegConDisList").combobox('setValue','');
+						$("#RegConDisList").removeClass('disable');
+						$("#RegConDisList").next().find('input').removeAttr('disabled');
+						$("#RegConDisList").next().find('span').css('display','');
+						LoadMarkList();	
+					}
+
+// 三日内是否有非零元挂号费
+
+// w ##class(web.DHCOPAdmReg).GetRegFeeThreeDayFlag(1)
+
+ClassName: web.DHCOPAdmReg
+QueryName: OPDocList
+Dept: 1^21202^^77^CUR^^239^1^^CUR^^^1^2
+rows: 99999
+三天优惠 ^2^2;
+// 三日内是否有非零元挂号费
+
+// w ##class(web.DHCOPAdmReg).GetRegFeeThreeDayFlag(77, "呼吸内科门诊")
+
+ClassMethod GetRegFeeThreeDayFlag(PatientId, Dept)
+{
+	q:PatientId=""
+	q:Dept=""
+	s PatientId = +PatientId
+	s RegfeeDepDr = ""
+	s RegfeeDepDr = $o(^CTLOC(0,"Desc",Dept,RegfeeDepDr))
+	s flag = "N"
+	s RegfeeDate = ..%SysDate()
+	s RegfeeTime = ..%SysTime()
+	&sql(DECLARE mycursor CURSOR FOR
+		select Regfeetemp1 into Regfeetemp1
+		from SQLUser.DHCRegistrationFee
+		where RegfeeAdmDr in (
+			select PAADM_RowID
+			from SQLUser.PA_Adm
+			where PAADM_PAPMI_DR =:PatientId
+		) 
+		and RegfeeDepDr = :RegfeeDepDr
+		and RegfeeDate + 3 >= :RegfeeDate
+
+	)
+	&sql(OPEN mycursor)
+	
+	for {
+		&sql(FETCH mycursor)
+		;w Regfeetemp1
+		;发票ID
+    	QUIT:SQLCODE'=0
+    	if Regfeetemp1 '= "" {
+	    	s flag = "Y"
+	    }
+	}
+	&sql(CLOSE mycursor)
+	q flag
+}
 
 ## 	回龙观可以维护同医生、同时段、同开始时间、不同门诊的排班，且均可以生成排班记录，需在新增排班时增加提示
 同一医生不同科室出诊
