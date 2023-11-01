@@ -136,3 +136,8 @@ runClassMethod("web.DHCADVCOMMONPART","GetRecordId",{'LinkRecordId':recordId,'Fo
 function(data){ 
 			HeadNurEvaRecId=data
 },"text",false)
+
+for {
+	quit:x=1
+}
+quit aka break
