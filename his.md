@@ -671,6 +671,22 @@ ClassMethod GetRegFeeThreeDayFlag(PatientId, Dept)
 w ##class(web.DHCRBApptSchedule).CreateResOneDaySchedule("2||1||1",61100,1)
 InsertOneSchedule()
 set ret=##class(web.DHCRBResourceRule).CheckSchedule(ResRowID,ScheduleDate,RoomID, SessStartTime,"")
+.s TRRowId=##class(web.DHCRBApptSchedule).GetTimeRangeStrByTime(SessionStartTime)
+/*.s TRRowId=0  f  s TRRowId=$O(^DHCTimeRange(TRRowId)) Q:(TRRowId="")  d
+..s StartTime=$P(^DHCTimeRange(TRRowId),"^",3)
+..s EndTime=$P(^DHCTimeRange(TRRowId),"^",4)
+..s UseStDate=$P(^DHCTimeRange(TRRowId),"^",7)
+..Q:(UseStDate>+$H)&&(UseStDate'="")
+..s UseEndDate=$P(^DHCTimeRange(TRRowId),"^",8)
+..Q:(UseEndDate<+$H)&&(UseEndDate'="")
+..if StartTime=SessionStartTime  d
+...s Sub=(EndTime-StartTime)
+...s TempTimRang(Sub)=TRRowId
+.i $d(TempTimRang) d
+..s TRRowIdSub=$O(TempTimRang(0))
+..s TRRowId=$G(TempTimRang(TRRowIdSub))
+..s TRRowId=##class(web.DHCRBApptSchedule).GetTimeRangeStrByRange(TRRowId)*/
+
 
 RoomID = ""
 OPAdm/ScheduleAdjust.hui.js
@@ -680,6 +696,7 @@ InsertData=InsertData+"^"+SessNumberOfWeeks+"^"+SessNoOverbookAll+"^"+SessRoom+"
 InsertData=InsertData+"^"+TRFlag+"^"+TRStartTime+"^"+TREndTime+"^"+TRLength+"^"+TRRegNum+"^"+TRRegNumStr+"^"+TRRegInfoStr
 var encmeth=DHCC_GetElementData('InsertMethod');
 	var ret=cspRunServerMethod(encmeth,ResDateRowid,InsertData);
+
 
 ## PACS回传报告地址
 
@@ -696,20 +713,20 @@ ClassMethod GetLisInspectOrdNew(page As %String, rows As %String, Params As %Str
 ## 挂号弹窗可用开关立即生效
 Reg.hui.js
 // 创建 switchbox
-	if (Title != "") {
-		Title = "<span>" + Title + "</span>"
-		// Title += "<a href=\"#\" style=\"float:right;\" class=\"hisui-linkbutton\" data-options=\"iconImg:'update.png'\">测试按钮</a>"
-		Title += "<div id=\"switch-btn\" class=\"hisui-switchbox hisui-tooltip\""
-		Title += 		"style=\"float:right;margin-left:5px;margin-right:5px;padding:0.5px 0px;\""
-		Title += 		"title=\"可用不显示无号时段\""
-		Title += 		"data-options=\"onText:'全部',offText:'可用',size:'mini',animated:true,"
-		if (PageLogicObj.m_TrShowFlag == 1) {
-			Title += "checked:true,"
-		} else {
-			Title += "checked:false,"
-		}
-		Title += 			"onClass:'primary',offClass:'success',position:'bottom',"
-		Title +=			"onSwitchChange:function(event,obj){ if (obj.value) { PageLogicObj.m_TrShowFlag = 1 } else { PageLogicObj.m_TrShowFlag = 0 } LoadMarkList() }\">"
-		Title += "</div>"
-		Title += "<div style=\"clear:both;\"></div>"
+if (Title != "") {
+	Title = "<span>" + Title + "</span>"
+	// Title += "<a href=\"#\" style=\"float:right;\" class=\"hisui-linkbutton\" data-options=\"iconImg:'update.png'\">测试按钮</a>"
+	Title += "<div id=\"switch-btn\" class=\"hisui-switchbox hisui-tooltip\""
+	Title += 		"style=\"float:right;margin-left:5px;margin-right:5px;padding:0.5px 0px;\""
+	Title += 		"title=\"可用不显示无号时段\""
+	Title += 		"data-options=\"onText:'全部',offText:'可用',size:'mini',animated:true,"
+	if (PageLogicObj.m_TrShowFlag == 1) {
+		Title += "checked:true,"
+	} else {
+		Title += "checked:false,"
 	}
+	Title += 			"onClass:'primary',offClass:'success',position:'bottom',"
+	Title +=			"onSwitchChange:function(event,obj){ if (obj.value) { PageLogicObj.m_TrShowFlag = 1 } else { PageLogicObj.m_TrShowFlag = 0 } LoadMarkList() }\">"
+	Title += "</div>"
+	Title += "<div style=\"clear:both;\"></div>"
+}
