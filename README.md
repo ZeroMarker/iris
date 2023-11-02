@@ -3,9 +3,9 @@ InterSystems IRIS
 InterSystems Caché Database
 
             
-docker pull intersystems/irishealth-community
+docker pull intersystems/irishealth-community:latest-preview
 
-docker run --rm -p 52773:52773 --init --name my-iris store/intersystems/iris-community:2020.1.0.199.0
+docker run --rm -p 52773:52773 --init --name my-iris intersystems/irishealth-community:latest-preview
 
 Then open Management portal in your host browser on:
 http://localhost:52773/csp/sys/UtilHome.csp
