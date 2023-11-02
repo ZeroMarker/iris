@@ -17,3 +17,21 @@ var str = `$('#${LinkID}').popover('hide'); }\">`;
 		Title += "</div>"
 		Title += "<div style=\"clear:both;\"></div>"
 	}
+
+
+Title +=			"onSwitchChange:(function(param){"
+Title +=			"	return function(event,obj){"
+Title +=			"		if (obj.value) {"
+Title +=			"			PageLogicObj.m_TrShowFlag = 1;"
+Title +=			"		} else {"
+Title +=			"			PageLogicObj.m_TrShowFlag = 0;"
+Title +=			"		}"
+Title +=			"		DestoryPannelPopover();"
+Title +=			"		InitMarkListRowPopover(param);"
+Title +=			"	}"
+Title +=			"})({rowIndex:'"+RowIndex+"',markCardID:'"+markCardID+"',Show:true})"
+Title +=			"\">"
+
+var rowIndex=param.rowIndex;
+	var markCardID=param.markCardID;
+	var Show=param.Show;
