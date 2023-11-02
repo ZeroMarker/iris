@@ -1,4 +1,4 @@
-Class demo.Company Extends (%Persistent, %Populate) [ SqlTableName = DHC_Country ]
+Class demo.Company Extends (%Persistent, %Populate) [ SqlTableName = Company ]
 {
 
 Property Name As %String [ Required ];

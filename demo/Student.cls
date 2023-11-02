@@ -2,7 +2,7 @@
 /// 创建日期：2023-07-25
 /// 创建人：chenhongliang
 /// 字段：St_Rowid, St_Code, St_Name, St_Sex_DR(CT_Sex), St_Dob
-Class demo.Student Extends %Persistent [ SqlRowIdName = St_RowID, SqlTableName = DHC_StudentUNI ]
+Class demo.Student Extends %Persistent [ SqlRowIdName = St_RowID, SqlTableName = Student ]
 {
 
 // 学号
