@@ -1,0 +1,21 @@
+{
+    "intersystems.servers": {
+
+        "iris": {
+            "webServer": {
+                "scheme": "http",
+                "host": "localhost",
+                "port": 52773
+            },
+            "username": "_SYSTEM",
+            "password": "sys"
+        }
+    },
+    "objectscript.conn": {
+        "server": "iris",
+        "ns": "USER",
+        "active": true,
+        "username": "_SYSTEM",
+        "password": "sys"
+    }
+}
