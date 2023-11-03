@@ -569,26 +569,24 @@ runClassMethod("web.DHCOPAdmReg","GetRegFeeThreeDayFlag",{'PatientId':PatientID}
 // 三日内非零挂号记录
 s GetRegFeeThreeDayFlagMethod=##Class(websys.Page).Encrypt($lb("web.DHCOPAdmReg.GetRegFeeThreeDayFlag"))
 //全局请求后台服务对象
-		var ServerObj={
-			GetRegFeeThreeDayFlagMethod:"#(GetRegFeeThreeDayFlagMethod)#"
-		};
+var ServerObj={
+	GetRegFeeThreeDayFlagMethod:"#(GetRegFeeThreeDayFlagMethod)#"
+};
 
-----
+---
 
 LoadDeptList() onSelect
 var patientid = $("#PatientNo").val();
 var dept = $("#DeptList").lookup('getText');
 var ret=cspRunServerMethod(ServerObj.GetRegFeeThreeDayFlagMethod,patientid,dept);
 if (ret == "Y") {
-	
 	PageLogicObj.threedayFlag = "Y"
 	LoadRegConDisList();
-	//$("#RegConDisList").combobox('setValue',3);
-	//$("#RegConDisList").combobox('select','三天同科免费');
-	//$("#RegConDisList").addClass('disabled');
-	//$("#RegConDisList").next().find('input').attr('disabled', 'disabled');
-	//$("#RegConDisList").next().find('span').css('display', 'none');
-	//LoadMarkList();
+}
+else {
+	PageLogicObj.threedayFlag = "N";
+	LoadRegConDisList();
+}
 }
 else {
 	//$("#RegConDisList").combobox('select','三天同科免费');
@@ -600,34 +598,28 @@ else {
 	$("#RegConDisList").next().find('span').css('display','');
 	LoadMarkList();	
 }
-----
+---
 LoadRegConDisList()
 // 三天优惠
-if (PageLogicObj.threedayFlag != "Y") {
-	var json = JSON.parse(Data);
-	json.pop();
-	Data = JSON.stringify(json);
-}
+		if (PageLogicObj.threedayFlag != "Y") {
+			var json = JSON.parse(Data);
+			json = json.filter(item => item.id != 3);
+			Data = JSON.stringify(json);
+			var flag = false;
+		}
+		else {
+			var flag = true;	
+		}
 if (PageLogicObj.threedayFlag == "Y") {
 	$("#RegConDisList").combobox('setValue',3);
-	//$("#RegConDisList").combobox('select','三天同科免费');
-	$("#RegConDisList").addClass('disabled');
-	$("#RegConDisList").next().find('input').attr('disabled', 'disabled');
-	$("#RegConDisList").next().find('span').css('display', 'none');
+	LoadMarkList();
+	}
+	else {
+	$("#RegConDisList").combobox('setValue','');
 	LoadMarkList();
 }
-// 三日内是否有非零元挂号费
 
-// w ##class(web.DHCOPAdmReg).GetRegFeeThreeDayFlag(1)
-
-ClassName: web.DHCOPAdmReg
-QueryName: OPDocList
-Dept: 1^21202^^77^CUR^^239^1^^CUR^^^1^2
-rows: 99999
-三天优惠 ^2^2;
-// 三日内是否有非零元挂号费
-
-// w ##class(web.DHCOPAdmReg).GetRegFeeThreeDayFlag(77, "呼吸内科门诊")
+/// w ##class(web.DHCOPAdmReg).GetRegFeeThreeDayFlag(77, "呼吸内科门诊")
 
 ClassMethod GetRegFeeThreeDayFlag(PatientId, Dept)
 {
@@ -664,6 +656,54 @@ ClassMethod GetRegFeeThreeDayFlag(PatientId, Dept)
 	}
 	&sql(CLOSE mycursor)
 	q flag
+}
+
+---
+OPDoc.RepidRegist.hui.js
+if(SrcObj && SrcObj.id.indexOf("CardNo")>=0){
+	CardNoKeydownHandler(e);
+	var patientid = $("#PatNo").val();
+	var dept = $("#LocList").combobox('getText');
+	var ret=$.cm({
+		ClassName:"web.DHCOPAdmReg",
+		MethodName:"GetRegFeeThreeDayFlag",
+		dataType:"text",
+		PatientId: patientid,
+		Dept: dept
+	},false);
+	if(ret == "Y"){
+		PageLogicObj.threedayFlag = "Y"
+		LoadRegConDisList();
+	}else{
+		PageLogicObj.threedayFlag = "N";
+		LoadRegConDisList();
+	}
+	return false;
+}
+
+// 三天优惠
+if (PageLogicObj.threedayFlag != "Y") {
+	var json = JSON.parse(Data);
+	json = json.filter(item => item.id != 3);
+	Data = JSON.stringify(json);
+	var flag = false;
+}
+else {
+	var flag = true;
+}
+var cbox = $HUI.combobox("#RegConDisList", {
+		valueField: 'id',
+		textField: 'text', 
+		panelHeight:'160',
+		editable: true,
+		disabled: flag,
+		data: JSON.parse(Data),
+});
+if (PageLogicObj.threedayFlag == "Y") {
+	$("#RegConDisList").combobox('setValue',3);
+	}
+	else {
+	$("#RegConDisList").combobox('setValue','');
 }
 
 ## 	回龙观可以维护同医生、同时段、同开始时间、不同门诊的排班，且均可以生成排班记录，需在新增排班时增加提示
