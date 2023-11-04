@@ -18,16 +18,20 @@ User.PAPatMas.cls
 
 web.DHCEntity.PCA.CardPatInfoReg.cls
 建卡信息存储中间类
-
+(.csp -> .show.csp -> .js -> .cls -> cls)
 // 建卡信息回传
 CardReg.hui.js
 function GetPatDetailByPAPMINo()
 ClassName: "web.DHCBL.CARD.UCardPaPatMasInfo",
 MethodName: "GetPatInfoByPANo",
-
-.csp -> .show.csp -> .js -> .cls -> cls
+$o(^PAADM(5),-1)
+4
 
 ## 医嘱录入搜索提示添加集采字段
+
+安全组
+医嘱录入表格列设置
+BDP
 
 oeorder.oplistcustom.new.csp
 
@@ -42,7 +46,6 @@ LookUpItemExecute(){
 }
 
 ## 挂号
-
 opadm.reg.hui.csp
 
 reg.show.hui.csp
