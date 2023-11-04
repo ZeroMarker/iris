@@ -1,3 +1,4 @@
+## nested structure
 if value {
     s a=1
     if value {
@@ -12,6 +13,7 @@ if value d
 .i value d
 ..s a=3
 
+## object encapsulation
 ```objectscript
 Set OutputObj=##Class(DHCExternalService.CardInterface.Entity.FindPatientCardRp).%New()
 if (UserID="") {
@@ -20,12 +22,20 @@ if (UserID="") {
 }
 ```
 
+## variable usage
 use variable
 i var '= "" s var=""
 
+## global example
 ^PAPERi("PAPMI_PatNo",$$ALPHAUP({PAPMI_No}),{PAPMI_RowId})
 $o(^PAPERi("PAPMI_PatNo",$ZCVT(PatientNo,"U"),""))
+^PAADMi("No",$$ALPHAUP({PAADM_ADMNo}),{PAADM_RowID})
+rowid=0
+$o(^PAADMi("No",admNo,rowid))
+$o(^PAADM(5),-1)
+4
 
+## iris terminal
 iris list
 irissession < instancename>
 irisdb
@@ -35,65 +45,73 @@ s:ind="" ind=1
 */
 s qHandle($i(ind))=lb(CTCode,CTDesc)
 
+## list method
 $listbuild()
 $listget()
 
-^PAADMi("No",$$ALPHAUP({PAADM_ADMNo}),{PAADM_RowID})
-rowid=0
-$o(^PAADMi("No",admNo,rowid))
 
-$o(^PAADM(5),-1)
-4
+
+## arithmetic operation
 
 +number=+number
 force arithmetic operation
+// force arithmetic
+s x = "003020"
+s y = +x
+"003020" => 3020
+"1I3020" => 1
+"I23333" => 0
 
+## prefix match
 $Extract(Code,1,$L(Target))=Target
 
 
+## concat \r\n
 _$C(13,10)
 
-
+## quotes escape
 In ObjectScript, if you want to create a string that contains double quotes (") within it, you can use two double quotes together to escape them. Here's an example:
 set myString = "This is a string with double quotes ""inside"" it."
 
-
+## aviod null
 $p($g())
 
+## render data
 loadSex
 valuefield
 textfield
 
-Replacing a Substring Using SET $PIECE
-   SET colorlist="Red,Green,Blue,Yellow,Orange,Black"
-   WRITE colorlist,!
-   SET $PIECE(colorlist,",",1)="Magenta"
-   WRITE colorlist,!
-   SET $PIECE(colorlist,",",*-3)="Cyan"
-   WRITE colorlist,!
+## Replacing a Substring Using SET $PIECE
+SET colorlist="Red,Green,Blue,Yellow,Orange,Black"
+WRITE colorlist,!
+SET $PIECE(colorlist,",",1)="Magenta"
+WRITE colorlist,!
+SET $PIECE(colorlist,",",*-3)="Cyan"
+WRITE colorlist,!
 
+## judge number
 +value = value
 judge number
 
 
-// check class property
+## check class property
 ##class(web.DHCBL.UDHCCommFunLibary).GetClassPropertyList("web.DHCEntity.PCA.PATMAS")
 
-// debug watch variable
+## debug watch variable
 s remark=$tr(remark," ","")
 s ^Temp("u78k4",2) = remark
 
-// , &&
+## bool &&
 if x > 1, y > 2 {
     // Code to execute if both conditions are true
 } else {
     // Code to execute if the conditions are not met
 }
 
-// 保存运行时入参
+## record arguments
 set ^TMP("FindDailyDtl")=$lb(wardId, admStr, stDate, stTime, endDate, endTime, otherQryStr, langId)
 
-// 回调
+## callback function
 function fun(callBackFun) {
     new Promise(function(resolve,rejected){
 	    if ((IsExistDISDiag==1)&&(IsExistMainDISDiag==0)){
@@ -125,19 +143,32 @@ function fun(callBackFun) {
 }
 
 
-// force arithmetic
-s x = "003020"
-s y = +x
-"003020" => 3020
-"1I3020" => 1
-"I23333" => 0
+## run class method
 
 runClassMethod("web.DHCADVCOMMONPART","GetRecordId",{'LinkRecordId':recordId,'FormCode':"DrugHeaNurEvaluate"},
 function(data){ 
 			HeadNurEvaRecId=data
 },"text",false)
 
+## quit aka break
 for {
 	quit:x=1
 }
-quit aka break
+
+## debug
+b ;01
+
+b 0
+
+g next line
+
+q exit
+
+[Studio Debug](./mumps/studio/studio.md##debug)
+### debug
+toggle breakpoint   F9
+go                  Ctrl+F5
+step into
+step over
+step out
+run to cursor
