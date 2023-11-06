@@ -249,3 +249,16 @@ WHERE INTR_INCI_DR IN
 	WHERE INCI_Code = 4567897654
 );
 -- 转移记录
+
+-- @Block
+select Regfeetemp1
+from SQLUser.DHCRegistrationFee
+where RegfeeAdmDr in (
+	select PAADM_RowID
+	from SQLUser.PA_Adm
+	where PAADM_PAPMI_DR = PatientId
+) 
+	and RegfeeDepDr = RegfeeDepDr
+	and RegfeeDate + 3 >= RegfeeDate   
+	and RegfeeArcPrice > 0;
+-- 挂号 发票 价格
