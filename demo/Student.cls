@@ -21,6 +21,10 @@ Property StSexDR As %String [ SqlColumnNumber = 4, SqlFieldName = St_Sex_DR ];
 
 Property StDob As %Date [ SqlColumnNumber = 5, SqlFieldName = St_Dob ];
 
+// 是否有效
+
+Property StActive As %String(DISPLAYLIST = ",Yes,No", VALUELIST = ",Y,N");
+
 // 建立学号索引
 
 Index CodeIdx On StCode [ Unique ];
@@ -33,20 +37,6 @@ ClassMethod PrintHello()
 {
     write "Hello",!
 }
-
-ClassMethod GetSexDescByAdmRowId(RowId As %String) As %String
-{
-    q:RowId="" "RowId不能为空"
-    s AdmStr = $g(^PAADM(RowId))
-    s PatMasDR = $p(AdmStr,"^",1)
-    s PatMasStr = $g(^PAPER(PatMasDR,"ALL"))
-    s SexDR = $p(PatMasStr,"^",7)
-    s SexStr = $g(^CT("SEX",SexDR))
-    s SexDesc = $p(SexStr,"^",2)
-    q "就诊RowId为"_RowId_"的病人性别为："_SexDesc
-}
-
-Property StActive As %String(DISPLAYLIST = ",Yes,No", VALUELIST = ",Y,N");
 
 Index StActiveIndex On StActive;
 
