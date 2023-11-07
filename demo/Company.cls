@@ -17,13 +17,12 @@ ClassMethod QuarterlyProfits(Earning As %Integer, Expenses As %Integer) As %Inte
 
 ClassMethod FindCompanyByName(companyName As %String) As %List
 {
-    set query = "SELECT ID, Name, YearActived, Industry FROM Demo.Company WHERE Name = :companyName"
+    set query = "SELECT ID, Name, YearActived, Industry FROM demo.Company WHERE Name = "_"'"_companyName_"'"
     
     set statement = ##class(%SQL.Statement).%New()
     set status = statement.%Prepare(query)
     
     if $$$ISERR(status) {
-        // Handle error
         return $$$NULLOREF
     }
     
@@ -31,8 +30,8 @@ ClassMethod FindCompanyByName(companyName As %String) As %List
     set companies = ##class(%ListOfObjects).%New()
     
     while (result.%Next()) {
-        // set company = ##class(Demo.Company).%OpenId(result.ID)
-        //companies.InsertObject(company)
+        set company = ##class(demo.Company).%OpenId(result.ID)
+        d companies.InsertObject(company)
     }
     
     return companies
