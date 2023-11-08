@@ -5,7 +5,7 @@ Class demo.Person Extends (%Persistent, %Library.Populate)
 
 Property Name As %String [ Required ];
 
-// phone number
+// phone
 
 Property Phone As %String;
 
@@ -13,8 +13,10 @@ Property Phone As %String;
 
 Property Age As %Integer;
 
-/// PhoneIdx
-Index PhoneIdx On Phone As Exact [Unique];
+// phone index
+
+Index PhoneIdx On Phone As Exact;
+
 ClassMethod GetSum() As %String
 {
     s Id = 0
@@ -31,16 +33,15 @@ ClassMethod GetSum() As %String
 }
 
 Query ByName(name As %String = "") As %SQLQuery(COMPILEMODE = "IMMEDIATE", CONTAINID = 1, ROWSPEC = "ID:%Integer,Name:%String,DOB:%Date,SSN:%String", SELECTMODE = "RUNTIME") [ SqlName = SP_Sample_By_Name, SqlProc ]
-
 {
-    SELECT Name, Phone, Age FROM SQLdemo.Person
+    SELECT ID, Name, Phone, Age FROM demo.Person
     WHERE (Name = :name)
     ORDER BY Name
 }
 
 ClassMethod DQuery()
 {
-    SET myquery = "SELECT top 40 * FROM SQLdemo.Person"
+    SET myquery = "SELECT top 40 * FROM demo.Person"
     SET tStatement = ##class(%SQL.Statement).%New()
     SET tStatus = tStatement.%Prepare(myquery)
     SET rset = tStatement.%Execute()
@@ -50,16 +51,18 @@ ClassMethod DQuery()
 
 ClassMethod InQuery()
 {
-    &sql(SELECT COUNT(*) INTO :myvar FROM SQLdemo.Person)
-    IF SQLCODE<0 {WRITE "SQLCODE error ",SQLCODE," ",%msg  QUIT}
-    ELSEIF SQLCODE=100 {WRITE "Query returns no results"  QUIT}
+    &sql(SELECT COUNT(*) INTO :myvar FROM demo.Person)
+    IF SQLCODE<0 {
+        WRITE "SQLCODE error ",SQLCODE," ",%msg  
+        QUIT
+    }
+    ELSEIF SQLCODE=100 {
+        WRITE "Query returns no results"  
+        QUIT
+    }
     WRITE myvar
 }
 
-/// SQLQuery
-/// Query
-/// Others:d ##class(%ResultSet).RunQuery("Demo.Person","GetList")
-/// Query GetList() As %Query(ROWSPEC = "StRowId:%String,StCode,%String,StName:%String,StSexDR,%String,StDob:%String")
 Method Print() As %Status
 {
     write !, "This prerson is named ", ..Name, "."
@@ -67,17 +70,10 @@ Method Print() As %Status
     write !, ..Name, "'s age is ", ..Age, "."
 }
 
-/// Function:获取rowId为3的病人（PA_Person）的生日（PAPER_Dob） (YYYY-MM-DD)
-/// CreateDate:2023-07-24
-/// Creator:chenhongliang
-/// Table:PA_Person
-/// Input:rowId
-/// Output:PAPER_Dob (YYYY-MM-DD)
 /// Others: d ##class(Demo.Person).GetPatientBirthday(3)
 ClassMethod GetPatientBirthday(RowId As %String) As %String
 {
     quit:RowId="" ""
-    // ^PAPER(2,"ALL")="zfmcs0707^ZFMCS0707^^^^53879^2^^^^^^^^^^^^^^^^^^20"
     set PatientStr = $Get(^["USER"]demo.PersonD(RowId))  // 获取数据串
     set PaperDob = $Piece(PatientStr,"^",6)     // 截取所需字段
     s:PaperDob'="" PaperDob=$ZDATE(PaperDob, 3)
@@ -85,37 +81,24 @@ ClassMethod GetPatientBirthday(RowId As %String) As %String
 }
 
 /// Table:Student
-/// Others:##class(demo.Person).InsertData(1,"name",1,"2023-01-01")
+/// d ##class(demo.Person).InsertData(1,"name",1,"2023-01-01")
 ClassMethod InsertData(StCode As %String, StName As %String, StSexDR As %String, StDob As %String) As %String
 {
     if (StDob'="")
     {
         s StDob = $zdh(StDob,3)
     }
-    &SQL(
-        INSERT INTO SQLdemo.Student
+    &sql(
+        INSERT INTO demo.Student
         Values (:StCode, :StName, :StSexDR, :StDob)
     )
-    if (SQLCODE=0)
-    {
+    if (SQLCODE=0) {
         s result="新增成功"_%ROWID
     }
-    else
-    {
+    else {
         s result="新增失败"_%msg
     }
     q result
-}
-
-ClassMethod AddMRCICDByPLIST()
-{
-
-    K PLIST
-    s PLIST(1)="name"
-    &SQL(
-        INSERT INTO SQLdemo.Student
-        Values :PLIST()
-    )
 }
 
 Method GetName()
@@ -125,36 +108,30 @@ Method GetName()
 
 /// Function:无索引的数据遍历
 /// CreateDate:2023-07-26
-/// Creator:chenhongliang
-/// Table:DHC_StudentSFA
+/// Table:Student
 /// Input: rowid
 /// Outpput:St_List
-/// Others
+/// Others: d ##class(demo.Person).GetDataList(3)
 ClassMethod GetDataList(StRowID As %String) As %String
 {
-    if ($Get(StRowID)'="")
-        {if ($DATA(^["USER"]demo.StudentD(StRowID))=0)
-        {
+    if ($Get(StRowID)'="") {
+        if ($DATA(^["USER"]demo.StudentD(StRowID))=0) {
             w "该学生不存在"
         }
-        else
-        {
+        else {
             s DataStr = $Get(^["USER"]demo.StudentD(StRowID))
             s StCode = $lg(DataStr,1)
             s StName = $lg(DataStr,2)
             s StSexDR = $lg(DataStr,3)
-            #; s StSexDRDesc = ""
             s:StSexDR'="" StSexDRDesc = $LIST($Get(^["User"]demo.Sex(StSexDR)),2)
             s StDob = $lg(DataStr,4)
             s:StDob'="" StDob = $ZDATE(StDob, 3)
             w "学号"_StCode_",姓名"_StName_",性别"_StSexDRDesc_",生日"_StDob
         }
     }
-    else
-    {
+    else {
         s StRowID = 0
-        for
-        {
+        for {
             s StRowID = $O(^["USER"]demo.StudentD(StRowID))
             q:StRowID=""
             w StRowID ,!
@@ -177,27 +154,23 @@ ClassMethod ObjectAddData(StCode As %String, StName As %String, StSexDR As %Stri
     q:StCode="" "学号不能为空"
     q:StName="" "姓名不能为空"
     q:$Data(^["USER"]demo.StudentI("CodeIdx",StCode)) "学号已存在"
-    if (StDob'="")
-    {
+    if (StDob'="") {
         s StDob = $ZD(StDob)
     }
     s oref=##class(demo.Student).%New()
-    if (oref)
-    {
+    if (oref) {
         s oref.StCode = StCode
         s oref.StName = StName
         d oref.StSexDRSetObjectId(StSexDR)  // 指向性字段，使用SetObjectId()
         s oref.StDob = StDob
         Tstart
         d oref.%Save()
-        if ($$$ISOK(sc))    // (sc)=1
-        {
+        if ($$$ISOK(sc)) {
             Tcommit
             s StRowId = oref.%Id()
             s result = "新增成功"_StRowId
         }
-        else
-        {
+        else {
             Trollback
             s result = "新增失败"_$system.OBJ.DisplayError(sc)
         }
