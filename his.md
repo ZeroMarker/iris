@@ -376,7 +376,7 @@ OPAdm/ScheduleAdjust.hui.js
 InitSingleCombo('DocSessionNew','ID','Desc','web.DHCBL.BaseReg.BaseDataQuery','RBCSessionTypeQuery',"&Arg1="+HospitalDr+"&ArgCnt=1");
 // d ##class(%ResultSet).RunQuery("web.DHCBL.BaseReg.BaseDataQuery","RBCSessionTypeQuery",2)
 
-分诊优先患者不能取消报到
+## 分诊优先患者不能取消报到
 Alloc.NurseTriage.hui.js
 function InitAllocListTabDataGrid()
 if (row["Prior"]=="优先"){
@@ -577,7 +577,7 @@ var ServerObj={
 };
 
 ---
-
+```js
 LoadDeptList() onSelect
 var patientid = $("#PatientNo").val();
 var dept = $("#DeptList").lookup('getText');
@@ -601,7 +601,10 @@ else {
 	$("#RegConDisList").next().find('span').css('display','');
 	LoadMarkList();	
 }
+```
+
 ---
+```js
 LoadRegConDisList()
 // 三天优惠
 		if (PageLogicObj.threedayFlag != "Y") {
@@ -621,6 +624,8 @@ if (PageLogicObj.threedayFlag == "Y") {
 	$("#RegConDisList").combobox('setValue','');
 	LoadMarkList();
 }
+
+```
 
 /// w ##class(web.DHCOPAdmReg).GetRegFeeThreeDayFlag(77, "呼吸内科门诊")
 
@@ -662,7 +667,8 @@ ClassMethod GetRegFeeThreeDayFlag(PatientId, Dept)
 }
 
 ---
-OPDoc.RepidRegist.hui.js
+```js
+// OPDoc.RepidRegist.hui.js
 if(SrcObj && SrcObj.id.indexOf("CardNo")>=0){
 	CardNoKeydownHandler(e);
 	var patientid = $("#PatNo").val();
@@ -683,7 +689,9 @@ if(SrcObj && SrcObj.id.indexOf("CardNo")>=0){
 	}
 	return false;
 }
+```
 
+```js
 // 三天优惠
 if (PageLogicObj.threedayFlag != "Y") {
 	var json = JSON.parse(Data);
@@ -708,6 +716,8 @@ if (PageLogicObj.threedayFlag == "Y") {
 	else {
 	$("#RegConDisList").combobox('setValue','');
 }
+```
+
 
 ## 	回龙观可以维护同医生、同时段、同开始时间、不同门诊的排班，且均可以生成排班记录，需在新增排班时增加提示
 同一医生不同科室出诊
@@ -757,3 +767,66 @@ ClassMethod GetLisInspectOrdNew(page As %String, rows As %String, Params As %Str
 Reg.hui.js
 [Code](./doc/code/switchbox.md)
 
+## 勾选无库存医嘱依然提示库存不足
+[Code](./doc/code/checkStock.md)
+
+## 撤销检验医嘱
+web.UDHCStopOrderLook.cls
+[Code](./doc/code/cancelOrder.md)
+
+## 挂号统计增加出诊时段筛选
+润乾报表
+^RBAS({AS_RES_ParRef},0,"DateTR",{AS_Date},{AS_TimeRange_DR},{AS_Childsub})
+
+SELECT TR_RowId into TimeRange
+FROM SQLUser.DHC_TimeRange
+WHERE TR_Desc = :TimeRange
+
+Adm -> Resource
+## 整包装发药不能开长期医嘱
+// 医嘱项
+ClassName:"DHCDoc.DHCDocConfig.IPRecLocSubCatNeedPackQty",
+MethodName:"SaveOrdNeedPackQtyLimit",
+Node:"IPRecLocArcItemNeedPackQty",
+LocId:LocId,
+ARCIMRowid:ARCIMRowid,
+rowid:rowid
+
+// 子类
+ClassName:"web.DHCDocConfig",
+MethodName:"SaveConfig1",
+Node:"IPRecLocSubCatNeedPackQty",
+Node1:LocId,
+NodeValue:CatStr,
+HospId:$HUI.combogrid('#_HospList').getValue()
+
+^DHCDocConfig(Node,LocId,"Item",rowid)=ARCIMRowid
+
+## 检验结果显示其他人检验项目
+一个报告对应不同人的检验项目
+dhcapp.seepatlis.csp
+url:LINK_CSP+"?ClassName=web.DHCAPPSeePatLis&MethodName=JsonQryOrdListNew&Params="+Params
+w ##class(web.DHCAPPSeePatLis).JsonQryOrdListNew(1,60,"","","274^46^2023-10-08^2023-11-07^^0^^^18881^0^^^^Y^^^^")
+Set result1=##class(%Library.ResultSet).%New("web.DHCAPPSeePatLis:QueryOrderList")
+d ##Class(%ResultSet).RunQuery("web.DHCAPPSeePatLis","QueryOrderList","274","46","2023-10-08","2023-11-07","","0","","","18881","0","","","","Y","","")
+
+s OutPutReportDR=##class(web.DHCENS.EnsHISService).DHCHisInterface("QryLISRptIDByLabNo",LabEpisode)
+
+s OrdRowIds=##class(web.DHCENS.EnsHISService).DHCHisInterface("QryLISOrdIDByRpt",oneReportDR)
+
+/// Creator：ZhangXinying
+/// CreatDate：2019—09-06
+/// Description：根据检验号获取报告ID，针对部分报告，逗号分割多个报告ID
+/// Table：Ens_LISSpecimenReport
+/// Input：检验号
+/// Return：报告ID，逗号分割
+/// Debug:w ##class(web.DHCENS.STBLL.Method.PostReportInfo).QryLISRptIDByLabNo("323110600040")
+
+/// Creator：ZhangXinying
+/// CreatDate：2019—09-06
+/// Description：根据报告ID获取医嘱rowid，针对拆报告的，逗号分割多个医嘱rowid
+/// Table：Ens_LISSpecimenReport
+/// Input：报告ID
+/// Return：医嘱ID，逗号分割
+/// Debug:w ##class(web.DHCENS.STBLL.Method.PostReportInfo).QryLISOrdIDByRpt("20231106-7-2")
+set myquery = "SELECT * FROM SqlUser.Ens_LisSpecimenReport where LISSR_ReportID= "_"'"_rptID_"'"

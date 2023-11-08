@@ -2,7 +2,7 @@
     "objectscript.conn": {
         "server": "iris",
         "ns": "USER",
-        "active": true,
+        "active": false,
         "username": "_SYSTEM",
         "password": "sys"
     },

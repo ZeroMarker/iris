@@ -1,7 +1,7 @@
 Class demo.Person Extends (%Persistent, %Library.Populate)
 {
 
-// a person's name
+// name
 
 Property Name As %String [ Required ];
 
@@ -28,19 +28,15 @@ ClassMethod GetSum() As %String
     }
 }
 
-// Query ByName(name As %String = "") As %SQLQuery(COMPILEMODE = "IMMEDIATE", CONTAINID = 1, ROWSPEC = "ID:%Integer,Name:%String,DOB:%Date,SSN:%String", SELECTMODE = "RUNTIME") [ SqlName = SP_Sample_By_Name, SqlProc ]
+Query ByName(name As %String = "") As %SQLQuery(COMPILEMODE = "IMMEDIATE", CONTAINID = 1, ROWSPEC = "ID:%Integer,Name:%String,DOB:%Date,SSN:%String", SELECTMODE = "RUNTIME") [ SqlName = SP_Sample_By_Name, SqlProc ]
 
-// {
+{
 
-//     SELECT ID, Name, DOB, SSN
+    SELECT Name, Phone, Age FROM demo.Person
+    WHERE (Name = :name)
+    ORDER BY Name
 
-//     FROM Demo.Person
-
-//     WHERE (Name %STARTSWITH :name)
-
-//     ORDER BY Name
-
-// }
+}
 
 ClassMethod DQuery()
 {
