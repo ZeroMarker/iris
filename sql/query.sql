@@ -3,14 +3,17 @@ SELECT * FROM SQLUser.CT_Sex;
 --性别
 
 -- @Block
-INSERT INTO SQLUser.Student VALUES ('1', '2023-01-01', '张', '1');
+INSERT INTO SQLUser.Student 
+VALUES ('1', '2023-01-01', '张', '1');
 
 -- @Block
-SELECT TARAC_TARTAC_DR->TARTAC_Desc,* FROM SQLUser.DHC_TarAcctCate;
+SELECT TARAC_TARTAC_DR->TARTAC_Desc,* 
+FROM SQLUser.DHC_TarAcctCate;
 -- 账单费用类别
 
 -- @Block
-SELECT * FROM SQLUser.PA_PatMas;
+SELECT * 
+FROM SQLUser.PA_PatMas;
 --病人信息
 
 -- @Block
@@ -20,17 +23,19 @@ group by AA_Arcim_DR;
 -- 特抗药申请
 
 -- @Block
-Select * FROM SQLUser.CT_Address;
+Select * 
+FROM SQLUser.CT_Address;
 --地址
 
 -- @Block
-SELECT * from SQLUser.CT_Hospital;
+SELECT * 
+from SQLUser.CT_Hospital;
 --医院
 
 -- @Block
-SELECT * FROM SQLUser.ARC_ItmMast 
-SELECT * FROM ARC_ItmMast;
--- 医嘱明细
+SELECT * 
+FROM SQLUser.ARC_ItmMast 
+-- 医嘱项明细
 
 -- @Block
 select * from SQLUser.DHC_CardRef;
@@ -49,7 +54,8 @@ WHERE AA_OEORI_DR like "%||%";
 -- 特抗药申请
 
 -- @Block
-SELECT OEORI_RowId FROM SQLUser.OE_OrdItem 
+SELECT OEORI_RowId 
+FROM SQLUser.OE_OrdItem 
 WHERE OEORI_RowId like "266%";
 
 -- @Block
@@ -62,7 +68,8 @@ WHERE OEORI_RowId IN (
 -- 医嘱 特抗药
 
 -- @Block
-SELECT * FROM SQLUser.PA_Adm 
+SELECT * 
+FROM SQLUser.PA_Adm 
 WHERE PAADM_ADMNo = "0000000001";
 -- 就诊
 
@@ -73,7 +80,8 @@ FROM SQLUser.DHC_Doc_AntibioticApply;
 -- 特抗药
 
 -- @Block
-select * from SQLUser.ARC_BillGrp;
+select * 
+from SQLUser.ARC_BillGrp;
 -- 医嘱账单组
 
 -- @Block
@@ -96,7 +104,8 @@ from SQLUser.PA_PatMas;
 
 
 -- @Block
-SELECT OEORI_RowId FROM SQLUser.OE_OrdItem 
+SELECT OEORI_RowId 
+FROM SQLUser.OE_OrdItem 
 WHERE OEORI_RowId like "266%"
 -- 医嘱明细
 
@@ -110,10 +119,12 @@ WHERE OEORI_RowId IN (
 -- 医嘱明细 特抗药申请
 
 -- @Block
-SElECT * FROM SQLUser.CT_CareProv
+SElECT * 
+FROM SQLUser.CT_CareProv
 
 -- @Block
-SELECT * FROM SQLUser.CT_Loc
+SELECT * 
+FROM SQLUser.CT_Loc
 -- 科室
 
 -- @Block
@@ -175,7 +186,8 @@ WHERE PRT_Acount = 1243.29;
 -- 发票
 
 -- @Block
-SELECT * FROM OE_OrdItem
+SELECT * 
+FROM OE_OrdItem
 WHERE OEORI_OEORD_ParRef IN
 (
 	SELECT OEORD_RowId1 FROM OE_Order
@@ -194,16 +206,20 @@ WHERE PRT_inv = "0001000202";
 -- 发票打印
 
 -- @Block
-SELECT * FROM dhc_patbilldetails
+SELECT * 
+FROM dhc_patbilldetails
 WHERE PBD_PBO_ParRef IN
 (
-	SELECT PBO_RowId FROM dhc_patbillorder
+	SELECT PBO_RowId 
+	FROM dhc_patbillorder
 	WHERE PBO_PB_ParRef IN
 	(
-		SELECT PB_Rowid FROM dhc_patientbill
+		SELECT PB_Rowid 
+		FROM dhc_patientbill
 		WHERE PB_Adm_DR IN
 		(
-			SELECT PAADM_Rowid FROM PA_adm
+			SELECT PAADM_Rowid 
+			FROM PA_adm
 			WHERE PAADM_PAPMI_DR = 846 & PAADM_Type = "I"
 		)
 	)
@@ -242,7 +258,8 @@ WHERE INITI_INIT_ParRef = 146;
 -- 库存转移申请单
 
 -- @Block
-SELECT TOP 200 * FROM DHC_INTRANS
+SELECT TOP 200 * 
+FROM DHC_INTRANS
 WHERE INTR_INCI_DR IN
 (
 	SELECT INCI_RowId FROM INC_Itm 
@@ -256,9 +273,43 @@ from SQLUser.DHCRegistrationFee
 where RegfeeAdmDr in (
 	select PAADM_RowID
 	from SQLUser.PA_Adm
-	where PAADM_PAPMI_DR = PatientId
+	where PAADM_PAPMI_DR = 46
 ) 
 	and RegfeeDepDr = RegfeeDepDr
 	and RegfeeDate + 3 >= RegfeeDate   
 	and RegfeeArcPrice > 0;
 -- 挂号 发票 价格
+
+-- @Block
+select RegfeeTimeRangeDr
+from SQLUser.DHCRegistrationFee
+where RegfeeAdmDr = AdmId;
+-- 挂号 时段
+
+-- @Block
+SELECT TR_RowId
+FROM DHC_TimeRange
+WHERE TR_ValidEndDate IS NULL
+	AND TR_Desc = Desc;
+-- 时段
+
+-- @Block
+SELECT OEORI_LabEpisodeNo,* 
+FROM OE_OrdItem
+WHERE OEORI_OEORD_ParRef IN
+(
+	SELECT OEORD_RowId1 
+	FROM OE_Order
+	WHERE OEORD_Adm_DR IN
+	(
+		SELECT PAADM_RowID 
+		FROM PA_Adm
+		WHERE PAADM_PAPMI_DR = 46
+	)
+);
+-- 就诊 医嘱 检验
+
+-- @Block
+SELECT AS_TimeRange_DR ,* 
+FROM DHC_RBApptSchedule;
+-- 排班 时段

@@ -785,23 +785,29 @@ WHERE TR_Desc = :TimeRange
 Adm -> Resource
 ## 整包装发药不能开长期医嘱
 // 医嘱项
-ClassName:"DHCDoc.DHCDocConfig.IPRecLocSubCatNeedPackQty",
-MethodName:"SaveOrdNeedPackQtyLimit",
-Node:"IPRecLocArcItemNeedPackQty",
-LocId:LocId,
-ARCIMRowid:ARCIMRowid,
-rowid:rowid
+ClassName: DHCDoc.DHCDocConfig.IPRecLocSubCatNeedPackQty
+MethodName: SaveOrdNeedPackQtyLimit
+Node: IPRecLocArcItemNeedPackQty
+LocId: 37 // 西药房
+ARCIMRowid: 3775||1
+rowid: 
+dataType: text
 
 // 子类
 ClassName:"web.DHCDocConfig",
 MethodName:"SaveConfig1",
 Node:"IPRecLocSubCatNeedPackQty",
-Node1:LocId,
-NodeValue:CatStr,
-HospId:$HUI.combogrid('#_HospList').getValue()
+Node1:LocId, 37,
+NodeValue:CatStr, 51^52^53^54,
+HospId: 2
 
+// rowid = count
 ^DHCDocConfig(Node,LocId,"Item",rowid)=ARCIMRowid
 
+s HospCodeNode="HospDr_"_HospId
+s ^DHCDocConfig(HospCodeNode,Node,Node1)=NodeValue
+^DHCDocConfig(HospCodeNode,Node,Node1)=NodeValue
+^DHCDocConfig("HospDr_2", "IPRecLocSubCatNeedPackQty", 37) =
 ## 检验结果显示其他人检验项目
 一个报告对应不同人的检验项目
 dhcapp.seepatlis.csp
@@ -830,3 +836,17 @@ s OrdRowIds=##class(web.DHCENS.EnsHISService).DHCHisInterface("QryLISOrdIDByRpt"
 /// Return：医嘱ID，逗号分割
 /// Debug:w ##class(web.DHCENS.STBLL.Method.PostReportInfo).QryLISOrdIDByRpt("20231106-7-2")
 set myquery = "SELECT * FROM SqlUser.Ens_LisSpecimenReport where LISSR_ReportID= "_"'"_rptID_"'"
+
+瑞美报告问题
+
+## 0元挂号计费出错
+w ##class(web.DHCOPAdmReg).OPRegistBroker("518","3514||14","1","","5||5||0||0||0||0||0","CASH","","19084","239","","","","","","","","","","","","","")
+w ##class(web.DHCOPAdmReg).OPRegist("2","5||1","1","","0||0||0||0||0||0||0","CASH","","7","119","","","","","","","","","","","","","","","","上午","","1^0000060001")
+b //修复挂号医嘱不为空(且不是免费医嘱),但挂号费、诊查费的折扣系数为1,导致未插入任何挂号医嘱,计费错误
+if (InsertOrdFlag=0)&&(Price=0)&&(FreeOrder'="") {
+	s ArcimId=FreeOrder
+	s err=$$insertitem()
+}
+
+挂号设置 免费医嘱
+计费 允许零元医嘱

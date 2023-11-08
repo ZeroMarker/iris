@@ -16,5 +16,10 @@ if ((+DrugRuleFlag=3)&&(cattype="R"))||((+MaterialRuleFlag=1)&&(cattype="M")){
 }else{
     q 0
 }
+
+SELECT ARCIM_AllowOrderWOStockCheck ,*
+FROM ARC_ItmMast
+WHERE ARCIM_RowId = "582||1";
+
 ## 把材料处理成药品了
 
