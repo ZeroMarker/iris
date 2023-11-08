@@ -1,7 +1,3 @@
-/// 功能：创建学生表
-/// 创建日期：2023-07-25
-/// 创建人：chenhongliang
-/// 字段：St_Rowid, St_Code, St_Name, St_Sex_DR(CT_Sex), St_Dob
 Class demo.Student Extends %Persistent [ SqlRowIdName = St_RowID, SqlTableName = Student ]
 {
 
@@ -25,20 +21,22 @@ Property StDob As %Date [ SqlColumnNumber = 5, SqlFieldName = St_Dob ];
 
 Property StActive As %String(DISPLAYLIST = ",Yes,No", VALUELIST = ",Y,N");
 
-// 建立学号索引
+// 学号索引
 
-Index CodeIdx On StCode [ Unique ];
+Index CodeIdx On StCode As Exact;
 
-// 建立姓名索引
+// 姓名索引
 
 Index NameIdx On StName As Exact;
+
+// 有效索引
+
+Index StActiveIndex On StActive;
 
 ClassMethod PrintHello()
 {
     write "Hello",!
 }
-
-Index StActiveIndex On StActive;
 
 Storage Default
 {
