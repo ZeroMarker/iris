@@ -313,3 +313,8 @@ WHERE OEORI_OEORD_ParRef IN
 SELECT AS_TimeRange_DR ,* 
 FROM DHC_RBApptSchedule;
 -- 排班 时段
+
+-- @Block
+SELECT * 
+FROM SqlUser.OEC_Priority;
+-- 医嘱类型 自备药长期
