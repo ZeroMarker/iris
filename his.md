@@ -165,6 +165,15 @@ DHCDoc.DHCDocCure.Record.cls
 doc.patientinfoupdate.hui.csp
 doc.patientinfoupdateforbiobank.hui.csp
 doc.patientinfoupdatebiobank.hui.csp
+s IPAddress=##class(%SYSTEM.Process).ClientIPAddress()    ;获取IP地址
+
+s %session.Data("LOGON.USERID")=UserID
+s %session.Data("LOGON.CTLOCID")=LocID
+s %session.Data("LOGON.GROUPID")=GroupID
+s %session.Data("LOGON.HOSPID")=HospID
+s %session.Data("LOGON.WARDID")=WARDID
+s %session.Data("LOGON.LANGID")=LANGID
+s %session.Data("LOGON.SSUSERLOGINID")=SSUSERLOGINID
 
 ## 草药代煎接受科室
 opdoc.oeorder.cmlistcustom.csp
@@ -784,30 +793,8 @@ WHERE TR_Desc = :TimeRange
 
 Adm -> Resource
 ## 整包装发药不能开长期医嘱
-// 医嘱项
-ClassName: DHCDoc.DHCDocConfig.IPRecLocSubCatNeedPackQty
-MethodName: SaveOrdNeedPackQtyLimit
-Node: IPRecLocArcItemNeedPackQty
-LocId: 37 // 西药房
-ARCIMRowid: 3775||1
-rowid: 
-dataType: text
+[Code](./doc/code/needPackQty.md)
 
-// 子类
-ClassName:"web.DHCDocConfig",
-MethodName:"SaveConfig1",
-Node:"IPRecLocSubCatNeedPackQty",
-Node1:LocId, 37,
-NodeValue:CatStr, 51^52^53^54,
-HospId: 2
-
-// rowid = count
-^DHCDocConfig(Node,LocId,"Item",rowid)=ARCIMRowid
-
-s HospCodeNode="HospDr_"_HospId
-s ^DHCDocConfig(HospCodeNode,Node,Node1)=NodeValue
-^DHCDocConfig(HospCodeNode,Node,Node1)=NodeValue
-^DHCDocConfig("HospDr_2", "IPRecLocSubCatNeedPackQty", 37) =
 ## 检验结果显示其他人检验项目
 一个报告对应不同人的检验项目
 dhcapp.seepatlis.csp
