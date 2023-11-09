@@ -12,7 +12,7 @@ sudo sh get-docker.sh
 ```sh
 docker pull intersystems/irishealth-community:latest-preview
 
-docker run --rm -p 52773:52773 --init --name my-iris intersystems/irishealth-community:latest-preview
+docker run -d --rm -p 52773:52773 --init --name my-iris intersystems/irishealth-community:latest-preview
 ```
 
 ## Then open Management portal in your host browser on:
