@@ -165,6 +165,7 @@ DHCDoc.DHCDocCure.Record.cls
 doc.patientinfoupdate.hui.csp
 doc.patientinfoupdateforbiobank.hui.csp
 doc.patientinfoupdatebiobank.hui.csp
+
 s IPAddress=##class(%SYSTEM.Process).ClientIPAddress()    ;获取IP地址
 
 s %session.Data("LOGON.USERID")=UserID
