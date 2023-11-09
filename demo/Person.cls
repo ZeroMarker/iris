@@ -1,6 +1,9 @@
 Class demo.Person Extends (%Persistent, %Library.Populate)
 {
 
+/// Planet
+Parameter PLANET = "Earth";
+
 // name
 
 Property Name As %String [ Required ];
@@ -116,7 +119,7 @@ ClassMethod GetDataList(StRowID As %String) As %String
 {
     if ($Get(StRowID)'="") {
         if ($DATA(^["USER"]demo.StudentD(StRowID))=0) {
-            w "该学生不存在"
+            q "该学生不存在"
         }
         else {
             s DataStr = $Get(^["USER"]demo.StudentD(StRowID))
@@ -181,9 +184,6 @@ ClassMethod ObjectAddData(StCode As %String, StName As %String, StSexDR As %Stri
     */
     q result
 }
-
-/// Planet
-Parameter PLANET = "Earth";
 
 Storage Default
 {
