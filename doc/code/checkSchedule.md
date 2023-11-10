@@ -76,3 +76,32 @@ ClassMethod CheckSchedule(ResRowID As %String, ScheduleDate As %String, RoomID A
 
 	quit 0
 }
+
+同一医生不同科室出诊
+w ##class(web.DHCRBApptSchedule).CreateResOneDaySchedule("2||1||1",61100,1)
+InsertOneSchedule()
+set ret=##class(web.DHCRBResourceRule).CheckSchedule(ResRowID,ScheduleDate,RoomID, SessStartTime,"")
+.s TRRowId=##class(web.DHCRBApptSchedule).GetTimeRangeStrByTime(SessionStartTime)
+/*.s TRRowId=0  f  s TRRowId=$O(^DHCTimeRange(TRRowId)) Q:(TRRowId="")  d
+..s StartTime=$P(^DHCTimeRange(TRRowId),"^",3)
+..s EndTime=$P(^DHCTimeRange(TRRowId),"^",4)
+..s UseStDate=$P(^DHCTimeRange(TRRowId),"^",7)
+..Q:(UseStDate>+$H)&&(UseStDate'="")
+..s UseEndDate=$P(^DHCTimeRange(TRRowId),"^",8)
+..Q:(UseEndDate<+$H)&&(UseEndDate'="")
+..if StartTime=SessionStartTime  d
+...s Sub=(EndTime-StartTime)
+...s TempTimRang(Sub)=TRRowId
+.i $d(TempTimRang) d
+..s TRRowIdSub=$O(TempTimRang(0))
+..s TRRowId=$G(TempTimRang(TRRowIdSub))
+..s TRRowId=##class(web.DHCRBApptSchedule).GetTimeRangeStrByRange(TRRowId)*/
+
+RoomID = ""
+OPAdm/ScheduleAdjust.hui.js
+DHCRBRes.Session.bak.js
+var InsertData=""+"^"+SessDOW+"^"+SessTimeStart+"^"+SessTimeEnd+"^"+SessSlotLength+"^"+SessLoad+"^"+SessNoSlots+"^"+SessNoApptSlot;
+InsertData=InsertData+"^"+SessNumberOfWeeks+"^"+SessNoOverbookAll+"^"+SessRoom+"^"+SessType+"^"+SessClinicGroup+"^"+SessPatientType+"^"+SessNo+"^"+SessScheduleGenerFlag;
+InsertData=InsertData+"^"+TRFlag+"^"+TRStartTime+"^"+TREndTime+"^"+TRLength+"^"+TRRegNum+"^"+TRRegNumStr+"^"+TRRegInfoStr
+var encmeth=DHCC_GetElementData('InsertMethod');
+var ret=cspRunServerMethod(encmeth,ResDateRowid,InsertData);

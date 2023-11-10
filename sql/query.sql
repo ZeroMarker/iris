@@ -1,4 +1,10 @@
 -- @Block
+SELECT description,*
+From information_schema.columns
+where table_name like "PA_adm";
+-- 表字段
+
+-- @Block
 SELECT * FROM SQLUser.CT_Sex;
 --性别
 
@@ -320,7 +326,8 @@ FROM SqlUser.OEC_Priority;
 -- 医嘱类型 自备药长期
 
 -- @Block
-SELECT description,*
-From information_schema.columns
-where table_name like "DHCRegistrationFee";
--- 表字段
+select PAADM_DepCode_DR -> ctloc_desc ,count(*) As 总数
+From PA_Adm
+group by PAADM_DepCode_DR;
+select * FROM Ct_loc;
+-- 患者 科室 统计
