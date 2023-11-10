@@ -318,3 +318,9 @@ FROM DHC_RBApptSchedule;
 SELECT * 
 FROM SqlUser.OEC_Priority;
 -- 医嘱类型 自备药长期
+
+-- @Block
+SELECT description,*
+From information_schema.columns
+where table_name like "DHCRegistrationFee";
+-- 表字段
