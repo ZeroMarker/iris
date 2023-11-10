@@ -233,77 +233,13 @@ function FrequencyLookUpSelect
 ## 阿帕奇评分死亡转科出院医嘱
 oeorder.oplistcustom.new.csp
 UDHCOEOrder.List.Custom.New.js
-case "NeedDischgCond":
-	(function(callBackFunExec){
-		new Promise(function(resolve,rejected){
-			//GlobalObj.ApacheFlag, GlobalObj.CurrentWard
-			/*重症医学科二病区
-			儿童重症监护病区
-			急诊重症监护病区
-			心脏重症监护病区
-			神经重症监护病区
-			重症医学科一病区
-			SELECT *
-			FROM PAC_Ward
-			WHERE
-			WARD_RowID IN
-			(17, 7, 9, 37, 12, 33)
-			*/
-			
-			if ([17, 7, 9, 37, 12, 33].includes(CurrentWard) && ApacheFlag == "N") {
-				//alert("未填写阿帕奇评分，不能下出院医嘱");
-				$.messager.confirm('确认对话框', "未填写阿帕奇评分，不能下出院医嘱", function(r){
-							ReturnObj.SuccessFlag=true;
-								callBackFunExec();
-						});
-				return
-			}
+[Code](./doc/code/apache.md)
 
-			
-			OpenDeathDate(FunCodeParams,resolve);
-		}).then(function(returnObj){
-			//ReturnObj.SuccessFlag=SuccessFlag;
-			$.extend(ReturnObj, returnObj);
-			callBackFunExec();
-		})
-	})(resolve);
-	break;
-;阿帕奇评分
-if EpisodeID'="" {
-	s ApacheFlag = ##class(web.DHCICUQualityControlStatistic).isHasApache(EpisodeID)
- 	s obj=##class(User.PAAdm).%OpenId(EpisodeID)
- 	s CurrentWard = obj.PAADMCurrentWardDR
- 	d obj.%Close()
-}
-case "NeedCareOrd":
-				(function(callBackFunExec){
-					var TypeCode=ParamsArr[ParamsArr.length-1];
-					new Promise(function(resolve,rejected){
-						$.messager.confirm('确认对话框', ParamsArr.slice(0, ParamsArr.length-1), function(r){
-							ReturnObj.SuccessFlag=true;
-							if (r) {
-								var url="../csp/nur.hisui.orderNeedCare.csp?EpisodeID="+GlobalObj.EpisodeID+"&defaultTypeCode="+TypeCode;
-								websys_showModal({
-									url:url,
-									title:'需关注医嘱',
-									width:'97%',height:'85%',
-									onClose:function(retval){
-										callBackFunExec();
-									}
-								})
-							}else{
-								callBackFunExec();
-							}
-						});
-					})
-				})(resolve);
-				break;
 ## 手麻接受科室医嘱库存
 ##class(web.DHCOEOrdItem).SaveOrderItems(EpisodeID, oeoriStr, userId, locId, careprovId)
 ;是否在插入医嘱之前调用审查方法,如果在插入医嘱之前未调用CheckBeforeSave,需传入此参数(例如以此方法作为接口调用)
 s IsCheckOrdItemStr=$p(ExpStr,"^",4)
 s retStr=##class(web.DHCOEOrdItem).SaveOrderItems(EpisodeID,oeoriStr,userId,locId,docId,"","^^^Y")
-
 
 ## 诊间预约提前取号
 OPAdm/Reg.hui.js
@@ -317,40 +253,13 @@ MethodName : "GetAppInfo",
 
 ## 病理申请推送地址
 
-SELECT * 
-FROM Ens_InterfaceMethod
--- WHERE method_Code [ "MES0048"
-WHERE method_Desc [ "病理"
-
-
-SELECT * 
-FROM Ens_InterfaceV8
-WHERE method_Code [ "S00000042"
-
-SELECT * 
-FROM Ens_SubApiSysConfig
-WHERE method_Code [ "S00000042"
-^Config.ENS.EnsApiSysConfigD
-
-SELECT * 
-FROM Ens_ApiSysConfig
-WHERE method_Code [ "S00000042"
-
-SELECT * FROM OE_OrdItem
-WHERE OEORI_OEORD_ParRef IN
-(
-	SELECT OEORD_RowId1 FROM OE_Order
-	WHERE OEORD_Adm_DR IN
-	(
-		SELECT PAADM_RowID FROM PA_Adm
-		WHERE PAADM_PAPMI_DR = 95
-	)
-)
 [Code](./doc/code/pisApply.md)
 
 demo
 医院信息平台
 服务列表
+
+医院院内服务总线 iBus
 
 ## 门诊传染病报卡
 dhcdoc.DHCDocDiagnoEntry.V8.js
@@ -439,12 +348,10 @@ s soap=##class(web.DHCENS.BLL.Message.Soap.PUB0009Soap).%New()
 ClassMethod GetCallModeByPayMode(PayMode As %String) As %String
 
 SELECT *
-FROM
-CT_PayMode
+FROM CT_PayMode
 
 SELECT *
-FROM
-DHC_CTPayModeExp
+FROM DHC_CTPayModeExp
 
 INSERT INTO SQLUser.DHC_CTPayModeExp (PME_AppRefundPM_DR, PME_ClassName, PME_HardCom_DR, PME_IFMode, PME_IOType, PME_MethodName, PME_PayMode_DR, PME_RefundFlag)
 VALUES
@@ -570,196 +477,10 @@ s Prior=$p($g(^OEORD(OrderRowid,"I",OrdSub,1)),"^",8)  //add by zhangtong 门诊
 continue:Prior=6
 
 ## 挂号一次三天优惠，做强制控制，三天内有非0元费用挂号，强制挂0元号
-挂号优惠
-三天同科免费
-
-runClassMethod("web.DHCOPAdmReg","GetRegFeeThreeDayFlag",{'PatientId':PatientID},
-	function(data){ 
-		var RegFeeThreeDayFlag = data
-	},"text",false)
-
-
-// 三日内非零挂号记录
-s GetRegFeeThreeDayFlagMethod=##Class(websys.Page).Encrypt($lb("web.DHCOPAdmReg.GetRegFeeThreeDayFlag"))
-//全局请求后台服务对象
-var ServerObj={
-	GetRegFeeThreeDayFlagMethod:"#(GetRegFeeThreeDayFlagMethod)#"
-};
-
----
-```js
-LoadDeptList() onSelect
-var patientid = $("#PatientNo").val();
-var dept = $("#DeptList").lookup('getText');
-var ret=cspRunServerMethod(ServerObj.GetRegFeeThreeDayFlagMethod,patientid,dept);
-if (ret == "Y") {
-	PageLogicObj.threedayFlag = "Y"
-	LoadRegConDisList();
-}
-else {
-	PageLogicObj.threedayFlag = "N";
-	LoadRegConDisList();
-}
-}
-else {
-	//$("#RegConDisList").combobox('select','三天同科免费');
-	PageLogicObj.threedayFlag = "N";
-	LoadRegConDisList();
-	$("#RegConDisList").combobox('setValue','');
-	$("#RegConDisList").removeClass('disable');
-	$("#RegConDisList").next().find('input').removeAttr('disabled');
-	$("#RegConDisList").next().find('span').css('display','');
-	LoadMarkList();	
-}
-```
-
----
-```js
-LoadRegConDisList()
-// 三天优惠
-		if (PageLogicObj.threedayFlag != "Y") {
-			var json = JSON.parse(Data);
-			json = json.filter(item => item.id != 3);
-			Data = JSON.stringify(json);
-			var flag = false;
-		}
-		else {
-			var flag = true;	
-		}
-if (PageLogicObj.threedayFlag == "Y") {
-	$("#RegConDisList").combobox('setValue',3);
-	LoadMarkList();
-	}
-	else {
-	$("#RegConDisList").combobox('setValue','');
-	LoadMarkList();
-}
-
-```
-
-/// w ##class(web.DHCOPAdmReg).GetRegFeeThreeDayFlag(77, "呼吸内科门诊")
-
-ClassMethod GetRegFeeThreeDayFlag(PatientId, Dept)
-{
-	q:PatientId=""
-	q:Dept=""
-	s PatientId = +PatientId
-	s RegfeeDepDr = ""
-	s RegfeeDepDr = $o(^CTLOC(0,"Desc",Dept,RegfeeDepDr))
-	s flag = "N"
-	s RegfeeDate = ..%SysDate()
-	s RegfeeTime = ..%SysTime()
-	&sql(DECLARE mycursor CURSOR FOR
-		select Regfeetemp1 into Regfeetemp1
-		from SQLUser.DHCRegistrationFee
-		where RegfeeAdmDr in (
-			select PAADM_RowID
-			from SQLUser.PA_Adm
-			where PAADM_PAPMI_DR =:PatientId
-		) 
-		and RegfeeDepDr = :RegfeeDepDr
-		and RegfeeDate + 3 >= :RegfeeDate
-
-	)
-	&sql(OPEN mycursor)
-	
-	for {
-		&sql(FETCH mycursor)
-		;w Regfeetemp1
-		;发票ID
-    	QUIT:SQLCODE'=0
-    	if Regfeetemp1 '= "" {
-	    	s flag = "Y"
-	    }
-	}
-	&sql(CLOSE mycursor)
-	q flag
-}
-
----
-```js
-// OPDoc.RepidRegist.hui.js
-if(SrcObj && SrcObj.id.indexOf("CardNo")>=0){
-	CardNoKeydownHandler(e);
-	var patientid = $("#PatNo").val();
-	var dept = $("#LocList").combobox('getText');
-	var ret=$.cm({
-		ClassName:"web.DHCOPAdmReg",
-		MethodName:"GetRegFeeThreeDayFlag",
-		dataType:"text",
-		PatientId: patientid,
-		Dept: dept
-	},false);
-	if(ret == "Y"){
-		PageLogicObj.threedayFlag = "Y"
-		LoadRegConDisList();
-	}else{
-		PageLogicObj.threedayFlag = "N";
-		LoadRegConDisList();
-	}
-	return false;
-}
-```
-
-```js
-// 三天优惠
-if (PageLogicObj.threedayFlag != "Y") {
-	var json = JSON.parse(Data);
-	json = json.filter(item => item.id != 3);
-	Data = JSON.stringify(json);
-	var flag = false;
-}
-else {
-	var flag = true;
-}
-var cbox = $HUI.combobox("#RegConDisList", {
-		valueField: 'id',
-		textField: 'text', 
-		panelHeight:'160',
-		editable: true,
-		disabled: flag,
-		data: JSON.parse(Data),
-});
-if (PageLogicObj.threedayFlag == "Y") {
-	$("#RegConDisList").combobox('setValue',3);
-	}
-	else {
-	$("#RegConDisList").combobox('setValue','');
-}
-```
-
+[Code](./doc/code/regCon.md)
 
 ## 	回龙观可以维护同医生、同时段、同开始时间、不同门诊的排班，且均可以生成排班记录，需在新增排班时增加提示
-同一医生不同科室出诊
-w ##class(web.DHCRBApptSchedule).CreateResOneDaySchedule("2||1||1",61100,1)
-InsertOneSchedule()
-set ret=##class(web.DHCRBResourceRule).CheckSchedule(ResRowID,ScheduleDate,RoomID, SessStartTime,"")
-.s TRRowId=##class(web.DHCRBApptSchedule).GetTimeRangeStrByTime(SessionStartTime)
-/*.s TRRowId=0  f  s TRRowId=$O(^DHCTimeRange(TRRowId)) Q:(TRRowId="")  d
-..s StartTime=$P(^DHCTimeRange(TRRowId),"^",3)
-..s EndTime=$P(^DHCTimeRange(TRRowId),"^",4)
-..s UseStDate=$P(^DHCTimeRange(TRRowId),"^",7)
-..Q:(UseStDate>+$H)&&(UseStDate'="")
-..s UseEndDate=$P(^DHCTimeRange(TRRowId),"^",8)
-..Q:(UseEndDate<+$H)&&(UseEndDate'="")
-..if StartTime=SessionStartTime  d
-...s Sub=(EndTime-StartTime)
-...s TempTimRang(Sub)=TRRowId
-.i $d(TempTimRang) d
-..s TRRowIdSub=$O(TempTimRang(0))
-..s TRRowId=$G(TempTimRang(TRRowIdSub))
-..s TRRowId=##class(web.DHCRBApptSchedule).GetTimeRangeStrByRange(TRRowId)*/
-
-
-RoomID = ""
-OPAdm/ScheduleAdjust.hui.js
-DHCRBRes.Session.bak.js
-var InsertData=""+"^"+SessDOW+"^"+SessTimeStart+"^"+SessTimeEnd+"^"+SessSlotLength+"^"+SessLoad+"^"+SessNoSlots+"^"+SessNoApptSlot;
-InsertData=InsertData+"^"+SessNumberOfWeeks+"^"+SessNoOverbookAll+"^"+SessRoom+"^"+SessType+"^"+SessClinicGroup+"^"+SessPatientType+"^"+SessNo+"^"+SessScheduleGenerFlag;
-InsertData=InsertData+"^"+TRFlag+"^"+TRStartTime+"^"+TREndTime+"^"+TRLength+"^"+TRRegNum+"^"+TRRegNumStr+"^"+TRRegInfoStr
-var encmeth=DHCC_GetElementData('InsertMethod');
-	var ret=cspRunServerMethod(encmeth,ResDateRowid,InsertData);
-
+[Code](./doc/code/checkSchedule.md)
 
 ## PACS回传报告地址
 
@@ -785,47 +506,13 @@ web.UDHCStopOrderLook.cls
 [Code](./doc/code/cancelOrder.md)
 
 ## 挂号统计增加出诊时段筛选
-润乾报表
-^RBAS({AS_RES_ParRef},0,"DateTR",{AS_Date},{AS_TimeRange_DR},{AS_Childsub})
+[Code](./doc/code/regDocLog.md)
 
-SELECT TR_RowId into TimeRange
-FROM SQLUser.DHC_TimeRange
-WHERE TR_Desc = :TimeRange
-
-Adm -> Resource
 ## 整包装发药不能开长期医嘱
 [Code](./doc/code/needPackQty.md)
 
 ## 检验结果显示其他人检验项目
-一个报告对应不同人的检验项目
-dhcapp.seepatlis.csp
-url:LINK_CSP+"?ClassName=web.DHCAPPSeePatLis&MethodName=JsonQryOrdListNew&Params="+Params
-w ##class(web.DHCAPPSeePatLis).JsonQryOrdListNew(1,60,"","","274^46^2023-10-08^2023-11-07^^0^^^18881^0^^^^Y^^^^")
-Set result1=##class(%Library.ResultSet).%New("web.DHCAPPSeePatLis:QueryOrderList")
-d ##Class(%ResultSet).RunQuery("web.DHCAPPSeePatLis","QueryOrderList","274","46","2023-10-08","2023-11-07","","0","","","18881","0","","","","Y","","")
-
-s OutPutReportDR=##class(web.DHCENS.EnsHISService).DHCHisInterface("QryLISRptIDByLabNo",LabEpisode)
-
-s OrdRowIds=##class(web.DHCENS.EnsHISService).DHCHisInterface("QryLISOrdIDByRpt",oneReportDR)
-
-/// Creator：ZhangXinying
-/// CreatDate：2019—09-06
-/// Description：根据检验号获取报告ID，针对部分报告，逗号分割多个报告ID
-/// Table：Ens_LISSpecimenReport
-/// Input：检验号
-/// Return：报告ID，逗号分割
-/// Debug:w ##class(web.DHCENS.STBLL.Method.PostReportInfo).QryLISRptIDByLabNo("323110600040")
-
-/// Creator：ZhangXinying
-/// CreatDate：2019—09-06
-/// Description：根据报告ID获取医嘱rowid，针对拆报告的，逗号分割多个医嘱rowid
-/// Table：Ens_LISSpecimenReport
-/// Input：报告ID
-/// Return：医嘱ID，逗号分割
-/// Debug:w ##class(web.DHCENS.STBLL.Method.PostReportInfo).QryLISOrdIDByRpt("20231106-7-2")
-set myquery = "SELECT * FROM SqlUser.Ens_LisSpecimenReport where LISSR_ReportID= "_"'"_rptID_"'"
-
-瑞美报告问题
+[Code](./doc/code/report.md)
 
 ## 0元挂号计费出错
 w ##class(web.DHCOPAdmReg).OPRegistBroker("518","3514||14","1","","5||5||0||0||0||0||0","CASH","","19084","239","","","","","","","","","","","","","")
@@ -838,7 +525,6 @@ if (InsertOrdFlag=0)&&(Price=0)&&(FreeOrder'="") {
 
 挂号设置 免费医嘱
 计费 允许零元医嘱
-
 
 ## 门诊日志 初诊复诊筛选条件
 
