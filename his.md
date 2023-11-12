@@ -334,42 +334,12 @@ if (##class(appcom.OEOrdItem).ISLongOrderPrior(PriorityDR))&&(doseUnitDr="") {
 ## 挂号速度慢
 w ##class(web.DHCENS.BLL.Message.Method.public).SendMessageInfo("MES0072","44$#$17855606389,17631666188$#$1")
 s soap=##class(web.DHCENS.BLL.Message.Soap.PUB0009Soap).%New()
-		b ; 101
-		;s stream=soap.HIPService(MessageCode,streams)
+b ; 101
+;s stream=soap.HIPService(MessageCode,streams)
 
 
 ## 挂号调用支付接口
-/// Creator: zhenghao
-/// CreatDate: 2018-03-07
-/// Descripiton: 根据支付方式ID取配置表
-/// Input: PayMode:支付方式ID
-/// Return: 支付方式扩展表字段(调用标志、调用方法、调用方式、退费标志)
-/// Debug: w ##class(DHCBILL.Common.DHCBILLCommon).GetCallModeByPayMode(4)
-ClassMethod GetCallModeByPayMode(PayMode As %String) As %String
-
-SELECT *
-FROM CT_PayMode
-
-SELECT *
-FROM DHC_CTPayModeExp
-
-INSERT INTO SQLUser.DHC_CTPayModeExp (PME_AppRefundPM_DR, PME_ClassName, PME_HardCom_DR, PME_IFMode, PME_IOType, PME_MethodName, PME_PayMode_DR, PME_RefundFlag)
-VALUES
-(NULL, NULL, NULL, 'SP', 'OP', NULL, '3', NULL),
-('Y', 'DHCBILL.MisPos.Adapter.YLSWMisPosSYDEFY', 1, 'DLL', 'OP', NULL, '48', NULL),
-('Y', 'DHCBILL.MisPos.Adapter.YLSWMisPosSYDEFY', 1, 'DLL', 'OP', NULL, '49', NULL),
-('Y', NULL, 1, 'YDGZ', 'OP', NULL, '50', NULL),
-('Y', NULL, 1, 'DZPZ', 'OP', NULL, '53', NULL),
-('Y', NULL, 1, 'YDGZ', 'OP', NULL, '54', NULL),
-('Y', NULL, 1, 'SP', 'OP', NULL, '65', NULL),
-('Y', NULL, 1, 'SP', 'OP', NULL, '66', NULL),
-('Y', NULL, 1, 'WS', 'OP', NULL, '58', NULL),
-('Y', NULL, 1, 'SPYLSW', 'OP', NULL, '47', NULL),
-('Y', '', 1, 'SPYLSW', 'OP', NULL, '46', NULL);
-
-MisPosePublic.js
-DHCBillPayService.js
-DHCBillMisPosPay.js
+[Code](./doc/code/payInterface.md)
 
 ## 病理申请单Not Found
 
@@ -528,3 +498,34 @@ if (InsertOrdFlag=0)&&(Price=0)&&(FreeOrder'="") {
 
 ## 门诊日志 初诊复诊筛选条件
 
+## 挂号筛选便民号
+web.DHCOPAdmReg.cls
+..S resDesc = $p(^RB("RES",RowId),"^",17)
+..S groupDesc = $p(^SSU("SSGRP",GroupRowId),"^",1)
+..Q:(groupDesc'["收费")&&(resDesc["便民号")
+
+## 自助机筛选便民号
+/// DHCExternalService.RegInterface.Service.SelfRegService
+Method QueryScheduleTimeInfo(XMLRequest As %String) As %Stream.GlobalCharacter [ WebMethod ]
+{
+	set rtn=##class(DHCExternalService.RegInterface.SelfRegMethods).QueryScheduleTimeInfo(XMLRequest)
+	;QueryScheduleTimeInfoNew接口,因为某些第三方需要将非分时段的排班也查询出来,该接口适用此需求
+	;set rtn=##class(DHCExternalService.RegInterface.SelfRegMethods).QueryScheduleTimeInfoNew(XMLRequest)
+	do rtn.XMLExportToStream(.OutputStream,"Response")
+	quit OutputStream
+}
+
+## 滚床位费
+
+[Code](./doc/code/bedFee.md)
+
+床位类型 费别 全自费
+## 日志
+/// creator:郭荣勇
+/// date:20170310
+/// desc:一般性的通用日志
+/// table:DHCDoc_Log.Common
+/// input:根据主键更新或者插入(Insert/Update),调用日志类,调用日志类方法,日志描述,主键(可以"."拼接),日志记录值
+/// output:
+/// eg: d ##class(DHCDoc.Log.Common).General("Update","web.DHCOEDispensing","PortForDurg","批次价失败记录","321||23||1","-1^执行记录不能为空")
+/// eg: d ##class(DHCDoc.Log.Common).General("Insert","web.DHCOEDispensing","PortForDurg01","批次价失败记录第二个位置","321||23||1","-1^执行记录不能为空")

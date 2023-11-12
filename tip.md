@@ -13,6 +13,11 @@ if value d
 .i value d
 ..s a=3
 
+## order iterate start node
+s id = 0
+;s id = "" if exists 0 node, will find 0 node.
+s id = ^User.Mail("Name",name,id)
+
 ## object encapsulation
 ```objectscript
 Set OutputObj=##Class(DHCExternalService.CardInterface.Entity.FindPatientCardRp).%New()

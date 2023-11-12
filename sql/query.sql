@@ -331,3 +331,17 @@ From PA_Adm
 group by PAADM_DepCode_DR;
 select * FROM Ct_loc;
 -- 患者 科室 统计
+
+-- @Block
+select PAADM_DepCode_DR -> ctloc_desc ,count(*) As 总数
+from PA_Adm  
+where PAADM_VisitStatus = "A" 
+	and PAADM_AdmDate ='2023-11-11' 
+	and PAADM_Type  in ('O','E') 
+group by PAADM_DepCode_DR;
+
+-- @Block
+select *
+from SS_Group
+where SS_Group.SSGRP_Desc like "%收费%";
+-- 安全组
