@@ -54,10 +54,7 @@ s qHandle($i(ind))=lb(CTCode,CTDesc)
 $listbuild()
 $listget()
 
-
-
 ## arithmetic operation
-
 +number=+number
 force arithmetic operation
 // force arithmetic
@@ -80,11 +77,6 @@ set myString = "This is a string with double quotes ""inside"" it."
 
 ## aviod null
 $p($g())
-
-## render data
-loadSex
-valuefield
-textfield
 
 ## Replacing a Substring Using SET $PIECE
 SET colorlist="Red,Green,Blue,Yellow,Orange,Black"
@@ -162,11 +154,7 @@ for {
 
 ## debug
 b ;01
-
-b 0
-
 g next line
-
 q exit
 
 [Studio Debug](./mumps/studio/studio.md##debug)

@@ -345,3 +345,13 @@ select *
 from SS_Group
 where SS_Group.SSGRP_Desc like "%收费%";
 -- 安全组
+
+-- @Block
+select * 
+from RB_Resource 
+where res_desc like "%便民号%";
+
+-- @Block
+SELECT *
+FROM RBC_SessionType;
+-- 挂号职称
