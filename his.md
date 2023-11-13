@@ -165,6 +165,7 @@ DHCDoc.DHCDocCure.Record.cls
 doc.patientinfoupdate.hui.csp
 doc.patientinfoupdateforbiobank.hui.csp
 doc.patientinfoupdatebiobank.hui.csp
+doc.patientinfoupdate.hui.csp
 
 s IPAddress=##class(%SYSTEM.Process).ClientIPAddress()    ;获取IP地址
 
@@ -497,7 +498,9 @@ if (InsertOrdFlag=0)&&(Price=0)&&(FreeOrder'="") {
 计费 允许零元医嘱
 
 ## 门诊日志 初诊复诊筛选条件
-
+<!--opdoc.recadmlog.hui.csp HISUI门诊日志--> 
+ClassName : "web.DHCOPDOCLog",
+QueryName : "DHCOPLocLog",
 ## 挂号筛选便民号
 web.DHCOPAdmReg.cls
 ..S resDesc = $p(^RB("RES",RowId),"^",17)
@@ -514,12 +517,16 @@ Method QueryScheduleTimeInfo(XMLRequest As %String) As %Stream.GlobalCharacter [
 	do rtn.XMLExportToStream(.OutputStream,"Response")
 	quit OutputStream
 }
+## 就诊登记便民号
+OPDoc.RapidRegist.hui.js
+w ##class(web.DHCDoc.OP.PatConfigQuery).FindDocMarkStr(22005,1)
 
 ## 滚床位费
 
 [Code](./doc/code/bedFee.md)
 
 床位类型 费别 全自费
+
 ## 日志
 /// creator:郭荣勇
 /// date:20170310
@@ -529,3 +536,32 @@ Method QueryScheduleTimeInfo(XMLRequest As %String) As %Stream.GlobalCharacter [
 /// output:
 /// eg: d ##class(DHCDoc.Log.Common).General("Update","web.DHCOEDispensing","PortForDurg","批次价失败记录","321||23||1","-1^执行记录不能为空")
 /// eg: d ##class(DHCDoc.Log.Common).General("Insert","web.DHCOEDispensing","PortForDurg01","批次价失败记录第二个位置","321||23||1","-1^执行记录不能为空")
+
+## 医生叫号 已就诊患者叫号提示"11^队列信息不存在不能呼叫!"
+opdoc.patient.list.csp
+dhcdoc.opdoc.patient.list.js
+var ret=tkMakeServerCall("web.DHCVISQueueManage","RunNextButton","","",GetCacheIPAddress());
+ClassMethod CheckCalledStatus(EpisodeID As %String, UserID As %String = "") As %String
+{
+	s retStr=""
+	q:$g(EpisodeID)="" "9^就诊信息不存在,请重新呼叫!"
+    i UserID="" s UserID=%session.Get("LOGON.USERID")
+    s CareID=$P($G(^SSU("SSUSR",UserID)),"^",14)
+	q:$g(CareID)="" "10^用户非医护人员不能呼叫!"
+	s QueRowId=$O(^User.DHCQueueI("QuePaadmDrIndex",EpisodeID,""))
+	q:QueRowId="" "11^队列信息不存在不能呼叫!"
+	s oref=##Class(User.DHCQueue).%OpenId(QueRowId)
+	s called=oref.QueCompDr
+	s DocDr=oref.QueDocDrGetObjectId()
+    d oref.%Close()
+    q:(called=1)&&(DocDr'=CareID)&&(DocDr'="") "12^该病人已被其他医生呼叫,请重新呼叫!"
+    q 0
+}
+
+## 医嘱套明细添加医嘱lookup添加字段
+<!--udhcfavitem.edit.newedit.csp HUI医嘱套明细维护-->
+
+## 医嘱选择用法后不能填数量
+特殊用法设置
+外用用法
+没有疗程和单次剂量，只应用于门急诊（即选择该用法后，自动清空疗程和单次剂量）
