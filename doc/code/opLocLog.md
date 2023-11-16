@@ -1,6 +1,6 @@
 ClassMethod DHCOPLocLogExecute(ByRef qHandle As %Binary, Gsearchmessage As %String, SearchConditions As %String, SPatientAge As %String, EPatientAge As %String, FindByDoc As %String, RLocID As %String, SerCon As %String, ResourceCon As %String, DocNo1 As %String, OpDate As %String, OpDate2 As %String, SearhLoc As %String, MRDiagnos As %String = "", MRDIAICDCodeID As %String = "", Time As %String, Time2 As %String, PatientID As %String = "") As %Status
 {
-	//d ##class(%ResultSet).RunQuery("web.DHCOPDOCLog","DHCOPLocLog","","","","","","","","","ys01","14/08/2023","13/1/2023","","","","","")
+	//d ##class(%ResultSet).RunQuery("web.DHCOPDOCLog","DHCOPLocLog","","","35","","","","","ys01","14/08/2018","16/08/2018","","","","","")
 	k ^DHCOPDOCLogTEMP
 	s DocNo=""
 	s depid=%session.Get("LOGON.CTLOCID")
@@ -62,12 +62,12 @@ ClassMethod DHCOPLocLogExecute(ByRef qHandle As %Binary, Gsearchmessage As %Stri
 	     ..s TransAdm=$p($g(^PAADM(paadmrowid,"DHC")),"^",5)
 	     ..i TransAdm="Y" s jz="转诊" //,admfir=0,admre=0
 	     ..s jz=##class(websys.Translation).Get("opdoc.recadmlog.hui.csp",jz)
-	     ..s regfeeid = $o(^User.DHCRegistrationFeeI("ADM",paadmrowid,""))
+	     ..s regfeeid = $o(^User.DHCRegistrationFeeI("ADM"," "_paadmrowid,""))
 	     ..s sessionTypeId = $lg(^User.DHCRegistrationFeeD(regfeeid),19) ;排班记录
 	     ..s sessionDesc = $p(^RBC("SESS",sessionTypeId),"^",2)
 	     ..;挂号职称是否包含复诊
-	     ..;s sessionFirstFlag = "初诊"
-	     ..;i sessionDesc["复诊" s sessionFirstFlag = "复诊"
+	     ..s sessionFirstFlag = "初诊"
+	     ..i sessionDesc["复诊" s sessionFirstFlag="复诊"
 	     ..s QueueDr=$o(^User.DHCQueueI("QuePaadmDrIndex",paadmrowid,""))
 	     ..;为适配应急系统,按应急系统规则判断患者队列状态,无需门诊日志查应急系统就诊记录项目使用以下注释行即可
 	     ..s AdmQueStatInfo=##Class(DHCDoc.Interface.StandAlone.Service).GetCESAdmQueStatInfo(paadmrowid,QueueDr)
@@ -176,17 +176,19 @@ ClassMethod DHCOPLocLogExecute(ByRef qHandle As %Binary, Gsearchmessage As %Stri
        ..q:((SerCon=##class(websys.Translation).Get("opdoc.recadmlog.hui.csp",$g(^STUDENT(1))))&&(admfir'=1))
        ..q:((SerCon=##class(websys.Translation).Get("opdoc.recadmlog.hui.csp",$g(^STUDENT(2))))&&(admre'=1))
        ..q:(SerCon=##class(websys.Translation).Get("opdoc.recadmlog.hui.csp",$g(^STUDENT(3))))&&(InfectFlag'="是")
-       ..q:((SerCon=##class(websys.Translation).Get("opdoc.recadmlog.hui.csp",$g(^STUDENT(4))))&&(IliFlag'="on"))
-       ..;q:(ResourceCon'="")&&(ResourceCon'=sessionFirstFlag)
+       ..q:((SerCon=##class(websys.Translation).Get("opdoc.recadmlog.hui.csp",$g(^STUDENT(4))))&&(IliFlag'="on")) 
+       ..//号别状态
+       ..;q:((ResourceCon=##class(websys.Translation).Get("opdoc.recadmlog.hui.csp",$g(^STUDENTS(1))))&&(sessionFirstFlag="初诊")&&(ResourceCon'=""))
+       ..;q:((ResourceCon=##class(websys.Translation).Get("opdoc.recadmlog.hui.csp",$g(^STUDENTS(2))))&&(sessionFirstFlag="复诊")&&(ResourceCon'=""))
+       ..q:(ResourceCon'=sessionFirstFlag)&&(ResourceCon'="")
        ..s TPAPMICardTypeDR=$p($g(^PAPER(papmidr,"PAT",3)),"^",7)
 	   ..s TPAPMICardType=$s(+$p($g(^PAPER(papmidr,"PAT",3)),"^",7)'=0:$p($g(^PAC("CARD",$p($g(^PAPER(papmidr,"PAT",3)),"^",7))),"^",2),1:"")
 	   ..Set TPAPMICardType= ##class(User.DHCCredType).GetTranByDesc("CRTDesc",TPAPMICardType,langid)
 	   ..s AdmReason=##class(DHCDoc.OPDoc.AjaxInterface).GetAdmReason($g(paadmrowid))
-	   ..;set data=$lb(paadmrowid,papmiCardNo,Mdeicare,papminame,papmiage,papmigender,papmiwork,papmidiagnose,xuhao,ctdesc,admfir,admre,admdate2,zfyb,zfgl,zfqt,SocialStatus,jz,InfectFlag,LocalFlagDesc,PAPERTelH,InfectionStr,IliFlag,time,CTLOCDesc,CTOCCDesc,PAADMTriageDat,MRDIAICDCodeDR,CTPCPId,papmidr,DVANumber,TPAPMICardType,AdmReason)
- 	   ..d OutputRow
- 	   ..;Set ^TMP($j,"DHCOPLocLog",CTPCPId,paadmrowid)=data
+       ..set data=$lb(paadmrowid,papmiCardNo,Mdeicare,papminame,papmiage,papmigender,papmiwork,papmidiagnose,xuhao,ctdesc,admfir,admre,admdate2,zfyb,zfgl,zfqt,SocialStatus,jz,InfectFlag,LocalFlagDesc,PAPERTelH,InfectionStr,IliFlag,time,CTLOCDesc,CTOCCDesc,PAADMTriageDat,MRDIAICDCodeDR,CTPCPId,papmidr,DVANumber,TPAPMICardType,AdmReason)
+ 	   ..;d OutputRow
+ 	   ..Set ^TMP($j,"DHCOPLocLog",CTPCPId,paadmrowid)=data
  	   //相同医生排序
- 	   /*
 	   Set CTPCPId="" For {
 		Set CTPCPId=$ORDER(^TMP($j,"DHCOPLocLog",CTPCPId))
 		Quit:CTPCPId=""
@@ -229,9 +231,9 @@ ClassMethod DHCOPLocLogExecute(ByRef qHandle As %Binary, Gsearchmessage As %Stri
 			set AdmReason = $lg(temp, 33)
 			s papmidr=$P(^PAADM(paadmrowid),"^",1)
 			s AdmCount = admCount(papmidr)
-			;Do OutputRow		
+			Do OutputRow		
 		}
-	}*/
+	}
     s ^DHCOPDOCLogTEMP("InfectSum")=sum_"^"_Zsum
     Set qHandle=$lb(0,repid,0)
     Quit $$$OK
@@ -243,7 +245,6 @@ OutputRow
  s InfectFlag=##class(websys.Translation).Get("opdoc.recadmlog.hui.csp",InfectFlag)
  s admfir=##class(websys.Translation).Get("opdoc.recadmlog.hui.csp",admfir)
  s admre=##class(websys.Translation).Get("opdoc.recadmlog.hui.csp",admre)
- s AdmCount = 1
  set Data=$lb(paadmrowid,papmiCardNo,Mdeicare,papminame,papmiage,papmigender,papmiwork,papmidiagnose,xuhao,ctdesc,admfir,admre,admdate2,zfyb,zfgl,zfqt,SocialStatus,jz,InfectFlag,LocalFlagDesc,PAPERTelH,InfectionStr,IliFlag,time,CTLOCDesc,CTOCCDesc,PAADMTriageDat,MRDIAICDCodeDR,CTPCPId,papmidr,DVANumber,TPAPMICardType,AdmReason,AdmCount)
  Set ^CacheTemp(repid,ind)=Data
  Set ind=ind+1

@@ -5,7 +5,17 @@ where table_name like "PA_adm";
 -- 表字段
 
 -- @Block
-SELECT * FROM SQLUser.CT_Sex;
+SELECT description,*
+From information_schema.columns
+where	
+		table_schema = "SQLUser"
+	-- and column_name like "%json%"
+ 	and table_name like "%SS_group%";
+-- 表字段
+
+-- @Block
+SELECT * 
+FROM SQLUser.CT_Sex;
 --性别
 
 -- @Block
@@ -280,9 +290,10 @@ where RegfeeAdmDr in (
 	select PAADM_RowID
 	from SQLUser.PA_Adm
 	where PAADM_PAPMI_DR = 46
+		and PAADM_VisitStatus = "A"
 ) 
-	and RegfeeDepDr = RegfeeDepDr
-	and RegfeeDate + 3 >= RegfeeDate   
+	-- and RegfeeDepDr = RegfeeDepDr
+	-- and RegfeeDate + 3 >= RegfeeDate   
 	and RegfeeArcPrice > 0;
 -- 挂号 发票 价格
 
@@ -355,3 +366,39 @@ where res_desc like "%便民号%";
 SELECT *
 FROM RBC_SessionType;
 -- 挂号职称
+
+-- @Block
+SELECT *
+from ARC_ItmMast
+where ARCIM_RowId = "15963||1";
+-- 医嘱项
+
+-- @Block
+SELECT *
+FROM ARC_ItemCat;
+-- 医嘱项子类
+
+-- @Block
+SELECT arcc.ARCIC_Desc,sum(pbo.PBO_ToTalAmount) As 费用 --,pbo.PBO_ToTalAmount,arc.arcim_desc,*
+FROM dhc_patbillorder pbo
+join ARC_ItmMast arc
+on pbo.PBO_ARCIM_DR = arc.ARCIM_RowId
+join ARC_ItemCat arcc on arc.ARCIM_ItemCat_DR = arcc.ARCIC_RowId
+where 
+		arcc.ARCIC_OrderType = "R"
+	and	arcc.ARCIC_Desc != "其他"
+group by ARCIC_Desc;
+-- 医嘱 费用 子类
+
+-- @Block
+SELECT arc.ARCIM_Desc ,* 
+FROM OE_OrdItem ord
+join ARC_ItmMast arc 
+on ord.OEORI_ItmMast_DR = arc.ARCIM_RowId;
+-- 医嘱 子类
+
+-- @Block
+select OEORI_ItemStat_DR->OSTAT_Desc,OEORI_ResultUpdateUser_DR,* 
+from OE_OrdItem 
+where OEORI_RowId in ("402||77", "402||78", "402||79");
+-- 医嘱 状态 
