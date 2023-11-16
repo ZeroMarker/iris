@@ -499,8 +499,11 @@ if (InsertOrdFlag=0)&&(Price=0)&&(FreeOrder'="") {
 
 ## 门诊日志 初诊复诊筛选条件
 <!--opdoc.recadmlog.hui.csp HISUI门诊日志--> 
+OPDoc.RecAdmLog.hui.js
 ClassName : "web.DHCOPDOCLog",
 QueryName : "DHCOPLocLog",
+[Code](./doc/code/opLocLog.md)
+
 ## 挂号筛选便民号
 web.DHCOPAdmReg.cls
 ..S resDesc = $p(^RB("RES",RowId),"^",17)
@@ -509,11 +512,10 @@ web.DHCOPAdmReg.cls
 
 ## 自助机筛选便民号
 /// DHCExternalService.RegInterface.Service.SelfRegService
-Method QueryScheduleTimeInfo(XMLRequest As %String) As %Stream.GlobalCharacter [ WebMethod ]
+/// TODO: 查询排班记录
+Method QueryAdmSchedule(XMLRequest As %String, SeachType As %String = "") As %Stream.GlobalCharacter [ WebMethod ]
 {
-	set rtn=##class(DHCExternalService.RegInterface.SelfRegMethods).QueryScheduleTimeInfo(XMLRequest)
-	;QueryScheduleTimeInfoNew接口,因为某些第三方需要将非分时段的排班也查询出来,该接口适用此需求
-	;set rtn=##class(DHCExternalService.RegInterface.SelfRegMethods).QueryScheduleTimeInfoNew(XMLRequest)
+	set rtn=##class(DHCExternalService.RegInterface.SelfRegMethods).QueryAdmSchedule(XMLRequest,SeachType)
 	do rtn.XMLExportToStream(.OutputStream,"Response")
 	quit OutputStream
 }
@@ -524,7 +526,7 @@ w ##class(web.DHCDoc.OP.PatConfigQuery).FindDocMarkStr(22005,1)
 ## 滚床位费
 
 [Code](./doc/code/bedFee.md)
-
+d first^CHQTASKNEW(2)
 床位类型 费别 全自费
 
 ## 日志
@@ -565,3 +567,43 @@ ClassMethod CheckCalledStatus(EpisodeID As %String, UserID As %String = "") As %
 特殊用法设置
 外用用法
 没有疗程和单次剂量，只应用于门急诊（即选择该用法后，自动清空疗程和单次剂量）
+
+## 医技录入医嘱提示过滤其他子类
+web.DHCDocNurseBatchSupplementOrd.cls(GetItemToList+278)
+if (OrderType = "R") {
+	;s CallBackFunParams=ArcimDesc_" 在此页面仅支持【取药医嘱】类型,若非取药医嘱，请使用常规“医嘱录入”功能录入"
+	s SubCat = $p(^ARCIM(+ARCIMRowId,$p(ARCIMRowId,"||",2),1),"^",10)
+	//医嘱子类其他
+	if (SubCat'=36) {
+		s CallBackFunParams=ArcimDesc_" 在此页面开立的医嘱为【取药医嘱】类型，是否确认录入？"
+		s CallBackFunStr=##class(web.DHCOEOrdItemView).GetCallBackFunStr(CallBackFunStr,"Confirm",CallBackFunParams)
+	}
+}
+
+## 调整挂号病人信息比例
+opadm.cashierreg.show.csp
+opadm.app.show.csp
+
+## 打印病理条码问题排查
+scripts/nurse/nis/HandleMethod/OrderExcute.js
+scripts/dhcdoc/dhcapp/PrintBarCode.js
+web.DHCDocAPPBL.cls
+
+## 病理申请单标本信息必填
+dhcdoc.dhcapp.blmapshow.js
+dhcdoc.dhcapp.TCTBBPanelNew.js
+
+#TCTSpecListNew
+[Code](./doc/code/TCTBBPanelNew.js.md)
+
+病理菜单 -> HPV申请单 -> 模板维护 -> 元素维护
+
+## 建卡登记号作为卡号报错
+scripts/UDHCCardPatInfoRegExp.js
+NewEmrCard()
+
+w ##Class(DHCDoc.Interface.Outside.ElecHealthCardService.ElecHealthCardMethods).createVmcardQRcode(^temp("createVmcardQRcode"))
+
+## 作废医嘱
+/// 作废医嘱 
+/// w ##Class(LISAPP.Common.BLL.HISOrderItem).UnUseMulti("402||77","22064")
