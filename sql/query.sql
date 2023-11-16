@@ -402,3 +402,8 @@ select OEORI_ItemStat_DR->OSTAT_Desc,OEORI_ResultUpdateUser_DR,*
 from OE_OrdItem 
 where OEORI_RowId in ("402||77", "402||78", "402||79");
 -- 医嘱 状态 
+
+-- @Block
+SELECT *
+from OEC_OrderStatus;
+-- 医嘱状态
