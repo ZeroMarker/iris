@@ -580,7 +580,7 @@ if (OrderType = "R") {
 	}
 }
 
-## 调整挂号病人信息比例
+## 调整挂号病人信息模块比例
 opadm.cashierreg.show.csp
 opadm.app.show.csp
 
@@ -607,3 +607,60 @@ w ##Class(DHCDoc.Interface.Outside.ElecHealthCardService.ElecHealthCardMethods).
 ## 作废医嘱
 /// 作废医嘱 
 /// w ##Class(LISAPP.Common.BLL.HISOrderItem).UnUseMulti("402||77","22064")
+
+## 中药审核医嘱 中药调配费
+///山一大二附院对调配费用加收的特殊规则
+/*
+var UpNums=OrderItemObj.length
+if (UpNums>15){
+	var CNMedAddARCIMRowId="15963||1"
+	//var CNMedAddQty=(Math.ceil(UpNums/5))-3   ///向上取整
+	var CNMedAddQty=(Math.floor(UpNums/5))-3   ///向下取整
+	if (CNMedAddQty>0){
+		var OrderItem=CNMedAddARCIMRowId+"^"+CNMedAddQty + "^" + "" + "^" + ""+"^"+""+"^^^^^^^^^CMPTAOF"+"^"+OrderSerialNum+"^"+CalPrescNo+"^"+CalPrescSeqNo;;
+			OrderItemStr=OrderItemStr+String.fromCharCode(1)+OrderItem;
+	}
+	}
+*/
+## 挂号跳转报错
+[Code](./doc/code/regJump.md)
+SELECT *
+FROM websys.menu
+--where ID = 57618;
+where caption like "挂号";
+
+select *
+from websys.WorkFlowItemDefinition
+--where Url like "%&%";
+WHERE ID = 50001;
+
+## 检查检验不控制数量的子类
+医嘱子类扩展设定
+<!--设置 dhcdoc.config.subcatcontral.csp 子类控制设置-->
+scripts/dhcdocconfig/dhcdoc.config.subcatcontral.js
+url : $URL+"?ClassName=DHCDoc.DHCDocConfig.SubCatContral&QueryName=FindSubCatConfigList"
+w ^DHCDocConfig("HospDr_2","NotLimitQtyCat")
+--
+ClassMethod CheckPackQtyUpdate
+w ##class(web.DHCOEOrdItem).GetItemNotLimitQtySubCatFlag("2119||1")
+
+## 检查核实状态
+select OEORI_ItemStat_DR->ostat_desc,*
+from OE_OrdItem
+WHERE OEORI_RowId = "1238||7";
+
+SELECT *
+FROM Ens_InterfaceMethod
+WHERE method_code like "%UpdateSystemStatus%";
+SELECT ES_PreStatusCode, ES_StatusCode,*
+FROM SqlUser.Ens_Statuslog
+where ES_ExamID like "%EKG1041%";
+
+SELECT *
+from Ens_StatusCode;
+
+SELECT *
+FROM Ens_Status
+WHERE ES_ExamID like "EKG1041%";
+
+## 

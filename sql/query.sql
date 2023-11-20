@@ -307,7 +307,7 @@ where RegfeeAdmDr = AdmId;
 SELECT TR_RowId
 FROM DHC_TimeRange
 WHERE TR_ValidEndDate IS NULL
-	AND TR_Desc = Desc;
+	AND TR_Desc = "Desc";
 -- 时段
 
 -- @Block
@@ -407,3 +407,58 @@ where OEORI_RowId in ("402||77", "402||78", "402||79");
 SELECT *
 from OEC_OrderStatus;
 -- 医嘱状态
+
+SELECT *
+FROM websys.menu
+--where ID = 57618;
+where caption like "挂号";
+
+select *
+from websys.WorkFlowItemDefinition
+--where Url like "%&%";
+WHERE ID = 50001;
+
+select OEORI_ItemStat_DR->ostat_desc,*
+from OE_OrdItem
+WHERE OEORI_RowId = "1238||7";
+
+SELECT *
+FROM Ens_InterfaceMethod
+WHERE method_code like "%UpdateSystemStatus%";
+SELECT ES_PreStatusCode, ES_StatusCode,*
+FROM SqlUser.Ens_Statuslog
+where ES_ExamID like "%EKG1041%";
+
+SELECT *
+from Ens_StatusCode;
+
+SELECT *
+FROM Ens_Status
+WHERE ES_ExamID like "EKG1041%";
+
+SELECT * 
+FROM OE_OrdExec
+where OEORE_OEORI_ParRef = "1238||7";
+
+select * 
+from OEC_OrderCategory;
+
+select * from arc_billgrp;
+select * from arc_billsub;
+
+select * from DHC_TarCate;
+select * from DHC_TarSubCate;
+
+select CTCF_FrUOM_DR -> CTUOM_Desc, CTCF_Factor, CTCF_ToUOM_DR ->CTUOM_Desc, * 
+from ct_confac;
+
+select * from CT_CareProv;
+
+SELECT * from SS_User;
+
+SELECT * from DHC_PAC_BedFeeItem;
+SELECT * from PAC_Bed;
+SELECT * from PAC_BedAdm ;
+SELECT * from DHC_PACBed_FeeType;
+SELECT * from ARC_ItmMast;
+SELECT * from PAC_BedType;
