@@ -14,6 +14,21 @@ where
 -- 表字段
 
 -- @Block
+SELECT OE_OrdItem->OE_OrdExec->OEORE_XDate
+FROM OE_Order;
+-- 子表引用
+
+-- @Block
+select OEORI_ItemStat_DR->ostat_desc As 状态 ,*
+from OE_OrdItem
+WHERE OEORI_RowId in (
+	SELECT DISTINCT  ES_OrdItemID
+	FROM SqlUser.Ens_Statuslog
+	where ES_ExamID like "%EKG104%"
+)
+order by OEORI_ItemStat_DR->ostat_desc;
+
+-- @Block
 SELECT * 
 FROM SQLUser.CT_Sex;
 --性别
@@ -462,3 +477,11 @@ SELECT * from PAC_BedAdm ;
 SELECT * from DHC_PACBed_FeeType;
 SELECT * from ARC_ItmMast;
 SELECT * from PAC_BedType;
+
+SELECT description,*
+From information_schema.columns
+where	
+		table_schema = "SQLUser"
+	-- and column_name like "%json%"
+ 	and table_name like "DHC_oedispensing";
+-- 打包
