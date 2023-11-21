@@ -116,7 +116,7 @@ ClassMethod DHCOPLocLogExecute(ByRef qHandle As %Binary, Gsearchmessage As %Stri
 		..s Mdeicare=##Class(DHCWMR.IO.OutService).IGetMrNoByEpisodeID(paadmrowid,MedType,.ErrMsg)
 	    ..if (SearchConditions=3)&&(Gsearchmessage'=Mdeicare&&(Gsearchmessage'="")) q //添加病案号查询并对病案号进行判断
 	    ..s papminame=$p(^PAPER(papmidr,"ALL"),"^",1)   //取姓名
-	    ..s admCount(papmidr)=$g(adm(papmidr))+1
+	    ..s admCount(papmidr)=$g(admCount(papmidr))+1		//就诊次数
 	    ..s CTOCCDesc=""
 	     ..s PAPEROccupationDR=$p($G(^PAPER(papmidr,"PER",2)),"^",6)  //职业PAPER_Occupation_D  "PER",2________  6_______  "^"_______PAADM_Occupation_D  1__  36______  "^"_______ 
 	     ..i (PAPEROccupationDR'=""){ s CTOCCDesc=$P(^CT("OCC",PAPEROccupationDR),"^",2) }  //CT_Occupation CT_Occupation
@@ -204,7 +204,8 @@ ClassMethod DHCOPLocLogExecute(ByRef qHandle As %Binary, Gsearchmessage As %Stri
 			set papmigender = $lg(temp, 6)
 			set papmiwork = $lg(temp, 7)
 			set papmidiagnose = $lg(temp, 8)
-			set xuhao = $lg(temp, 9)
+			;set xuhao = $lg(temp, 9)
+			set xuhao = $lg(xuhao)
 			set ctdesc = $lg(temp, 10)
 			set admfir = $lg(temp, 11)
 			set admre = $lg(temp, 12)
