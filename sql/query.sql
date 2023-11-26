@@ -485,3 +485,10 @@ where
 	-- and column_name like "%json%"
  	and table_name like "DHC_oedispensing";
 -- 打包
+
+SELECT * FROM 
+MR_Diagnos;
+SELECT *
+from MR_DiagType;
+SELECT *
+from MRC_DiagnosType;
