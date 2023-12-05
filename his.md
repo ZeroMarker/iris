@@ -2,12 +2,9 @@
 cardreg.hui.csp
 cardreg.show.hui.csp
 
-web.DHCEntity.PCA.PATMAS.cls    add property to middle store class
+web.DHCEntity.PCA.PATMAS.cls
 
 CardReg.hui.js
-$("#NewCard").click(NewCardclick);
-function GetPatDetailByPAPMINo() {
-}
 
 web.DHCBL.CARDIF.ICardRefInfo.cls
 web.DHCBL.CARD.UCardPatRegBuilder.cls
@@ -15,23 +12,12 @@ web.DHCBL.CARD.UCardPatRegBuilder.cls
 web.DHCBL.CARD.UCardPaPatMasInfo.cls
 
 User.PAPatMas.cls
-
-web.DHCEntity.PCA.CardPatInfoReg.cls
-建卡信息存储中间类
-(.csp -> .show.csp -> .js -> .cls -> cls)
-// 建卡信息回传
-CardReg.hui.js
-function GetPatDetailByPAPMINo()
-ClassName: "web.DHCBL.CARD.UCardPaPatMasInfo",
-MethodName: "GetPatInfoByPANo",
-$o(^PAADM(5),-1)
-4
+[Code](doc/code/createCard.md)
 
 ## 医嘱录入搜索提示添加集采字段
 
-安全组
-医嘱录入表格列设置
-BDP
+demo
+安全组 -> 医嘱录入表格列设置
 
 oeorder.oplistcustom.new.csp
 
@@ -40,10 +26,6 @@ scripts/dhcdoc/UDHCOEOrder.List.Custom.New.js
 oeorder.oplistcustom.show.csp
 
 web.DHCDocOrderEntry.cls
-Query LookUpItem(args)	// 位置决定字段值的位置
-LookUpItemExecute(){
-	s data = $lb()	// 位置决定字段值的位置
-}
 
 ## 挂号
 opadm.reg.hui.csp
@@ -56,26 +38,21 @@ web.DHCOPAdmReg.cls
 
 ## 读卡挂号建卡不重复读卡
 
-```js
-function BRegExpClickHandle(PatientNo) {
-	if (typeof PatientNo == undefined) { PatientNo = ""; }
-	if ((PatientNo == "undefined") || (PatientNo == undefined)) { PatientNo = ""; }
-	var src = "reg.cardreg.hui.csp?PatientNoReg=" + PatientNo;
-	var $code = "<iframe width='100%' height='100%' scrolling='auto' frameborder='0' src='" + src + "'></iframe>";
-	createModalDialog("CardReg", "建卡", PageLogicObj.dw + 160, PageLogicObj.dh, "icon-w-edit", "", $code, "");
-}
-BRegExpClickHandle(PatientNo);
-```
+Reg.hui.js
+
+[](doc/code/reg.md)
 
 ## 挂号科室搜索前缀匹配排序
 web.DHCOPAdmReg.cls
 [Code](./doc/code/opDeptList.md##挂号科室搜索前缀匹配排序)
-demo: 科室排序定义排序
+
+demo
+科室排序定义排序
 
 ## 病历浏览没有治疗记录
 
 dhcdoc/dhcdoccure/dhcdoc.cure.applylist
-q 查询科室和就诊科室不一致
+查询科室和就诊科室不一致
 
 ## 卡管理卡操作查询排序
 Reg.CardManagement.hui.js
@@ -87,30 +64,13 @@ Reg.CardManagement.hui.js
 
 ## 毒麻处方打印总量
 oeorder.printall.js
-```js
-if ((PoisonClass=='[麻 精一]')||(PoisonClass=='[精二]')){
-	var inststring = "   			用法:每次" + DoseQty + "     " + Freq + "     " + PackQty + Inst + Testflag + "     " + Ordremark
-}
-```
+
 ClassName : "web.DHCDocPrescript",
 MethodName : "GetPrescInfoByOrd",
 
 ## 毒麻疼痛评分
-```js
-var lnk="dhcdoccheckpoison.csp?PatID="+PatientID+"&EpisodeID="+EpisodeID;
-var retval=window.showModalDialog(lnk,"","dialogwidth:575px;dialogheight:180px;status:no;center:1;resizable:no");
-if(retval){
-	//web.DHCDocCheckPoison.UpdateAgencyInfo
-	var encmeth=GlobalObj.UpdateAgencyInfoMethod;
-	if (encmeth!=""){
-		var rtn=cspRunServerMethod(encmeth,PatientID,retval,EpisodeID);
-		if(rtn=="-100"){
-			dhcsys_alert(ItemDesc+t['POISONSAVE_FAILED'])
-			return false;   
-		}
-	}               
-}
-```
+dhcdoccheckpoison.csp
+[Code](doc/code/hurt.md)
 
 ## 就诊号到达时间
 DHCQueue
@@ -119,27 +79,9 @@ DHCQueueStatus
 
 PerState
 
-///^PAADMi("No",$$ALPHAUP({PAADM_ADMNo}),{PAADM_RowID})
-///^User.DHCQueueI("QuePaadmDrIndex",QuePaadmDr)
-
 [Code](./doc/code/admNoArriveTime.md##就诊号到达时间)
 
 ## 修改患者信息接口
-【需求背景】:提供住院患者修改个人信息的接口，所需修改的字段已提供
-民族（必填）
-婚姻状况（必填）
-身份证号
-籍贯：省、市、县、地址（必填）
-现住址：省、市、县、地址（必填）
-户口：省、市、县、地址（必填）
-联系人：（必填，不能是本人姓名，也不是“本人”俩字）
-与患者关系（必填）
-联系人电话（必填）
-联系人证件类型
-联系人证件号
-联系人地址（必填）
-电脑和小程序信息互通，如果在电脑上填了，手机上也会显示
-【使用环境】:住院患者信息修改，接口，互联网医院住院患者信息修改
 
 DHCExternalService.RegInterface.Service.SelfRegService.cls
 
@@ -165,7 +107,7 @@ DHCDoc.DHCDocCure.Record.cls
 doc.patientinfoupdate.hui.csp
 doc.patientinfoupdateforbiobank.hui.csp
 doc.patientinfoupdatebiobank.hui.csp
-doc.patientinfoupdate.hui.csp
+doc.patlistquerybiobank.hui.csp
 
 s IPAddress=##class(%SYSTEM.Process).ClientIPAddress()    ;获取IP地址
 
@@ -200,6 +142,7 @@ WARG_2:InsertItem
 开始空格保存为空
 
 ## 停医嘱提示已经停止
+[Code]()
 w ##class(web.DHCDocInPatPortalCommon).MulOrdDealWithCom("2657||78"_$c(1)_"2021-12-20 21:17:31","","","U","1","12178^114^23^1^","")
 w ##class(appcom.OEOrdItem).StopMulti("531546||1",590,"")
 if PAADMType'="I" {
@@ -498,6 +441,8 @@ if (InsertOrdFlag=0)&&(Price=0)&&(FreeOrder'="") {
 计费 允许零元医嘱
 
 ## 门诊日志 初诊复诊筛选条件
+## 就诊次数
+## 相同医生排序
 <!--opdoc.recadmlog.hui.csp HISUI门诊日志--> 
 OPDoc.RecAdmLog.hui.js
 ClassName : "web.DHCOPDOCLog",
@@ -528,6 +473,7 @@ w ##class(web.DHCDoc.OP.PatConfigQuery).FindDocMarkStr(22005,1)
 [Code](./doc/code/bedFee.md)
 d first^CHQTASKNEW(2)
 床位类型 费别 全自费
+床位 费用设置 附加费
 
 ## 日志
 /// creator:郭荣勇
@@ -643,11 +589,23 @@ w ^DHCDocConfig("HospDr_2","NotLimitQtyCat")
 --
 ClassMethod CheckPackQtyUpdate
 w ##class(web.DHCOEOrdItem).GetItemNotLimitQtySubCatFlag("2119||1")
-
+/// w ##class(web.DHCOEOrdItem).GetItemNotLimitQtySubCatFlag("2119||1")
+ClassMethod GetItemNotLimitQtySubCatFlag(ARCIMRowid)
+{
+	n (ARCIMRowid)
+	s SubCat = $p(^ARCIM(+ARCIMRowid,$p(ARCIMRowid,"||",2),1),"^",10)
+	s SubCatStr = ^DHCDocConfig("HospDr_2","NotLimitQtyCat")
+	if (SubCatStr[SubCat) {
+		q "Y"	
+	}
+	else {
+		q "N"
+	}
+}
 ## 检查核实状态
 select OEORI_ItemStat_DR->ostat_desc,*
 from OE_OrdItem
-WHERE OEORI_RowId = "1238||7";
+WHERE OEORI_RowId = "2||304";
 
 SELECT *
 FROM Ens_InterfaceMethod
@@ -675,3 +633,70 @@ url:$URL+"?ClassName=web.DHCDocDiagnosEntryV8&QueryName=GetDelDiagList&mradm="+m
 //诊断类型
 s DiagTypeDr=$g(^MRDelLog(mradm,"Sub",sub,"Data","TYP",1))
 s DiagType=##class(User.MRCDiagnosType).%OpenId(DiagTypeDr).DTYPDesc
+
+## 结算界面上方患者信息栏增加：参保类型，参保单位
+[Code](doc/code/insuType.md)
+select inadm_xstring7,* from INSU_AdmInfo;
+SELECT * from INSU_DicData;
+
+## 打印住院证
+组件编辑器右键 
+Component Layouts
+View -> Tool Box
+
+## 输血退费报错
+web.DHCDocInPatPortalCommon.cls
+退费失败！退费失败：-1^执行记录已结算或完成,不能执行该操作！^医嘱停止错误！
+输血科
+zn "dhc-lisdata"
+
+:;B:Billed;TB:To Bill;I:Ignore;R:Refunded;P:Paid;
+select OEORI_ItemStat_DR->ostat_desc,OE_OrdItem->arcim_desc,* from OE_OrdItem 
+where OEORI_RowId in ("2||198","2||199","2||200","2||202");
+SELECT TOP 1000 OEORE_billed,OEORE_Order_Status_DR,* FROM oe_ordexec 
+WHERE OEORE_OEORI_ParRef in ("2||198","2||199","2||200","2||202");
+SELECT * from ARC_ItmMast ;
+SELECT * from SQLUser.OEC_OrderStatus;
+select * from SQLUser.OEC_Order_AdminStatus;
+## 开住院证更新预约日期
+/// 更新住院证
+/// OperType:Cancel 表示是在住院证-住院证列表直接撤销住院证记录
+/// w ##class(web.DHCDocIPBookNew).UpdateBook(^lxz("UpdateBook"))
+
+## 门诊日志挂号日期查询，导出数据
+<!--opadm.regquery.hui.csp HISUI挂号查询-->
+OPAdm/RegQuery.hui.js
+
+## 测试组 多部位医嘱计费
+<!--住院患者总览csp,csp:ipdoc.patinfoview.csp-->
+dhcdoc/ipdoc/InPatOrderView.js
+[Code](doc/code/multiPosition.md)
+
+## 工具类
+DHCDoc.Util.Array
+DHCDoc.Util.Date
+
+## 医嘱库存不足
+医嘱套单位数量维护 && 药房
+s GetItemCongeriesToListMethod=##Class(websys.Page).Encrypt($lb("web.DHCOEOrdItemView.GetItemCongeriesToList"))
+
+## 诊查费不能撤销
+SELECT * FROM DHCDoc_ErrCodeRegister;
+```objectscript
+s str1 = ^OEORD(+oeorirowid,"I",$p(oeorirowid,"||",2),1)
+s ItmMastDR=$p(str1,"^",2)
+s ARCIMDesc=$p(^ARCIM(+ItmMastDR,$p(ItmMastDR,"||",2),1),"^",2)
+s service = $p(^ARCIM(+ItmMastDR,$p(ItmMastDR,"||",2),8),"^",7)
+if (service=6) && (AdmType="O") {
+	s err = 1
+}
+// w ##class(web.UDHCStopOrderLook).StopOrder("""","""",""463||5&&&??"",""6"",""1"",""Y"")
+//诊查费不能停止，医嘱项服务组为挂号组
+	s service = $p(^ARCIM($p(Arcimid,"||",1),$p(Arcimid,"||",2),8),"^",7)
+	if (service=6) && (AdmType="O") {
+		;s ErrMsg=..%GetErrCodeMsg("-100010")
+		s ErrMsg="诊查费不能撤销"
+		s err = "-100010"
+	}
+```
+

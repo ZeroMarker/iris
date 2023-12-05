@@ -1,23 +1,12 @@
 ## nested structure
-if value {
-    s a=1
-    if value {
-        if value {
-            s a=3
-        }
-    }
+.
+..
+
+{
+	{
+
+	}
 }
-
-if value d
-.s a=1
-.i value d
-..s a=3
-
-## order iterate start node
-s id = 0
-;s id = "" if exists 0 node, will find 0 node.
-s id = ^User.Mail("Name",name,id)
-
 ## object encapsulation
 ```objectscript
 Set OutputObj=##Class(DHCExternalService.CardInterface.Entity.FindPatientCardRp).%New()
@@ -28,31 +17,11 @@ if (UserID="") {
 ```
 
 ## variable usage
-use variable
 i var '= "" s var=""
 
-## global example
-^PAPERi("PAPMI_PatNo",$$ALPHAUP({PAPMI_No}),{PAPMI_RowId})
-$o(^PAPERi("PAPMI_PatNo",$ZCVT(PatientNo,"U"),""))
-^PAADMi("No",$$ALPHAUP({PAADM_ADMNo}),{PAADM_RowID})
-rowid=0
-$o(^PAADMi("No",admNo,rowid))
-$o(^PAADM(5),-1)
-4
-
 ## iris terminal
-iris list
-irissession < instancename>
+iris
 irisdb
-
-s:ind="" ind=1
-/*
-*/
-s qHandle($i(ind))=lb(CTCode,CTDesc)
-
-## list method
-$listbuild()
-$listget()
 
 ## arithmetic operation
 +number=+number
@@ -67,16 +36,12 @@ s y = +x
 ## prefix match
 $Extract(Code,1,$L(Target))=Target
 
-
 ## concat \r\n
 _$C(13,10)
 
 ## quotes escape
 In ObjectScript, if you want to create a string that contains double quotes (") within it, you can use two double quotes together to escape them. Here's an example:
 set myString = "This is a string with double quotes ""inside"" it."
-
-## aviod null
-$p($g())
 
 ## Replacing a Substring Using SET $PIECE
 SET colorlist="Red,Green,Blue,Yellow,Orange,Black"

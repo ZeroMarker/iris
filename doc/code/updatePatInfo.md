@@ -1,4 +1,19 @@
 ## 修改患者信息接口
+【需求背景】:提供住院患者修改个人信息的接口，所需修改的字段已提供
+民族（必填）
+婚姻状况（必填）
+身份证号
+籍贯：省、市、县、地址（必填）
+现住址：省、市、县、地址（必填）
+户口：省、市、县、地址（必填）
+联系人：（必填，不能是本人姓名，也不是“本人”俩字）
+与患者关系（必填）
+联系人电话（必填）
+联系人证件类型
+联系人证件号
+联系人地址（必填）
+电脑和小程序信息互通，如果在电脑上填了，手机上也会显示
+【使用环境】:住院患者信息修改，接口，互联网医院住院患者信息修改
 ```objectscript
 /// zw ##class(DHCExternalService.CardInterface.CardManager).UpdatePatInfoFromPat("<Request><PatientCard></PatientCard><PAPMINo>0000000001</PAPMINo><PatName>志明</PatName><PAPERMarital>22</PAPERMarital><NationDesc>2</NationDesc><IDNo>320721198708275413</IDNo><Address>山东省泰安市岱岳区泰山大街山一大二附院</Address><ProvinceInfo>四川省</ProvinceInfo><CityDesc>成都市</CityDesc><CityArea>金牛区</CityArea><ProvinceHome>1</ProvinceHome><CityHome>1</CityHome><RegisterPlace>户口地址</RegisterPlace><ProvinceHouse>1</ProvinceHouse><CityHouse>1</CityHouse><AreaHouse>1</AreaHouse><AddressBrith>出生地址</AddressBrith><ProvinceBrith>1</ProvinceBrith><CityBrith>1</CityBrith><AreaBrith>1</AreaBrith><ContactName>小明</ContactName><ContactAddress>山东省</ContactAddress><Relation>177</Relation><ContactTelNo>15233332222</ContactTelNo><ContactIDType>20</ContactIDType><ContactIDNo>320721198708275413</ContactIDNo></Request>")
 /// zw ##class(DHCExternalService.CardInterface.CardManager).UpdatePatInfoFromPat("<Request><PatientCard></PatientCard><PAPMINo>0000000001</PAPMINo><PatName>志明</PatName><PAPERMarital>未婚</PAPERMarital><NationDesc>汉族</NationDesc><IDNo>320721198708275413</IDNo><Address>山东省泰安市岱岳区泰山大街山一大二附院</Address><ProvinceInfo>现住省份</ProvinceInfo><CityDesc>现住地市</CityDesc><CityArea>现住县区</CityArea><ProvinceHome>籍贯省份</ProvinceHome><CityHome>籍贯地市</CityHome><RegisterPlace>户口地址</RegisterPlace><ProvinceHouse>户口省份</ProvinceHouse><CityHouse>户口地市</CityHouse><AreaHouse>户口县区</AreaHouse><AddressBrith>出生地址</AddressBrith><ProvinceBrith>出生省份</ProvinceBrith><CityBrith>出生地市</CityBrith><AreaBrith>出生县区</AreaBrith><ContactName>小明</ContactName><ContactAddress>山东省</ContactAddress><Relation>174</Relation><ContactTelNo>15233332222</ContactTelNo><ContactIDType>居民身份证</ContactIDType><ContactIDNo>320721198708275413</ContactIDNo></Request>")

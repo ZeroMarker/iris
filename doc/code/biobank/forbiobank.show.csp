@@ -1,0 +1,135 @@
+<div class="hisui-layout" fit="true">
+	<div data-options="region:'north',border:false,collapsible:false" style="height:215px;padding:10px 10px 0 10px;">
+		<div class="hisui-panel" fit="true" data-options="title:'患者生物标本库修改日志查询',headerCls:'panel-header-gray',iconCls:'icon-apply-check'" style="border:1px solid #ccc;border-radius:0;">
+			<table class="search-table">
+				<tr>
+					<td class="r-label">
+						<label for="Startdate">开始日期</label>
+					</td>
+					<td>
+						<input class="hisui-datebox textbox" id="Startdate" disabled data-options="formatter:myformatter,parser:myparser"/>
+					</td>
+					<td class="r-label">
+						<label for="Enddate">结束日期</label>
+					</td>
+					<td>
+						<input class="hisui-datebox textbox" id="Enddate" disabled data-options="formatter:myformatter,parser:myparser"/>
+					</td>
+					
+					<td class="r-label">
+						<label for="CardTypeNew">卡类型</label>
+					</td>
+					<td>
+						<input class="textbox" disabled id="CardTypeNew"/>
+					</td>
+					<td class="r-label" style="padding-left:20px;">
+						<label for="CardNo">卡号</label>
+					</td>
+					<td>
+						<input class="textbox" disabled id="CardNo"/>
+					</td>
+					<td class="r-label">
+						<input id="cOutStatus" class='hisui-checkbox' disabled type="checkbox" label="门急诊患者">
+					</td>
+					<td>
+						<a id="BReadCard" href="#" class="hisui-linkbutton" disabled data-options="iconCls:'icon-w-card'">读卡</a>
+					</td>
+					<td class="r-label">
+						<a id="BPrint" href="#" class="hisui-linkbutton" disabled data-options="iconCls:'icon-w-print'">打印</a>
+					</td>
+				</tr>
+				<tr>
+					<td class="r-label">
+						<label for="PatNo">登记号</label>
+					</td>
+					<td>
+						<input class="textbox" id="PatNo"/>
+					</td>
+					<td class="r-label">
+						<label for="Name">姓名</label>
+					</td>
+					<td>
+						<input class="textbox" disabled id="Name"/>
+					</td>
+					<td class="r-label">
+						<label for="Sex">性别</label>
+					</td>
+					<td>
+						<input class="textbox" disabled id="Sex"/>
+					</td>
+					<td class="r-label">
+						<label for="Birth">出生日期</label>
+					</td>
+					<td>
+						<input class="textbox" disabled id="Birth"/>
+					</td>
+					<td class="r-label" style="text-align:left;">
+						<input id="cInStatus" class='hisui-checkbox' disabled type="checkbox" label="住院患者">
+					</td>
+					<td>
+						<a id="BFind" href="#" class="hisui-linkbutton" data-options="iconCls:'icon-w-find'">查询</a>
+					</td>
+					<td class="r-label">
+						<a id="BClear" href="#" class="hisui-linkbutton" data-options="iconCls:'icon-w-clean'">清屏</a>
+					</td>
+				</tr>
+				<tr>
+					<td class="r-label">
+						<label for="PatMed">住院病案号</label>
+					</td>
+					<td>
+						<input class="textbox" disabled id="PatMed"/>
+					</td>
+					<td class="r-label">
+						<label for="CTLoc">科室</label>
+					</td>
+					<td>
+						<input class="hisui-combobox textbox" disabled id="CTLoc"/>
+					</td>
+					
+					<td class="r-label">
+						<label for="WardDesc">病区</label>
+					</td>
+					<td>
+						<input class="hisui-combobox textbox" disabled id="WardDesc"/>
+					</td>
+					<td class="r-label">
+						<label for="AdmDoc">医生</label>
+					</td>
+					<td>
+						<input class="hisui-combobox textbox" disabled id="AdmDoc"/>
+					</td>
+					<td class="r-label" style="text-align:left;">
+						<input id="cDisInStatus" class='hisui-checkbox' disabled type="checkbox" label="出院患者">
+					</td>
+					
+				</tr>
+				<tr>
+					<td class="r-label">
+						<label for="PatMed">诊断</label>
+					</td>
+					<td>
+						<input class="textbox" disabled id="Diagnosis"/>
+					</td>
+					<td class="r-label">
+						<label for="SAge">年龄</label>
+					</td>
+					<td>
+						<input class="hisui-numberbox textbox" disabled id="SAge"/>
+					</td>
+					<td style="text-align:center;">
+						<label for="EAge">~</label>
+					</td>
+					<td>
+						<input class="hisui-numberbox textbox" disabled id="EAge"/>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div data-options="region:'center',title:'',border:false" style="padding:0 10px 10px 10px;;border:0;">
+		<div class="hisui-panel" fit="true" style="height:100%;border:1px solid #ccc;border-top:0;border-radius:0 0 4px 4px;">
+			<table id="mygrid"></table>
+		</div>
+	</div>
+</div>
