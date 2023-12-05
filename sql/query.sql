@@ -492,3 +492,28 @@ SELECT *
 from MR_DiagType;
 SELECT *
 from MRC_DiagnosType;
+
+select * from INSU_AdmInfo;
+
+select inadm_xstring7,* from INSU_AdmInfo;
+SELECT * from INSU_DicData;
+
+/*
+SELECT * from ARC_InsuranceType;
+select * from INSU_TarContrast;
+
+select description,* from information_schema.columns
+where table_name like "%INSU%"
+and description like "%类型%";
+*/
+
+-- :;B:Billed;TB:To Bill;I:Ignore;R:Refunded;P:Paid;
+select OEORI_ItemStat_DR->ostat_desc,OE_OrdItem->arcim_desc,* from OE_OrdItem 
+where OEORI_RowId in ("2||198","2||199","2||200","2||202");
+SELECT OEORE_billed,OEORE_Order_Status_DR,* FROM oe_ordexec 
+WHERE OEORE_OEORI_ParRef in ("2||198","2||199","2||200","2||202");
+SELECT * from ARC_ItmMast;
+SELECT * from SQLUser.OEC_OrderStatus;
+-- 医嘱状态
+select * from SQLUser.OEC_Order_AdminStatus;
+-- 执行记录状态
