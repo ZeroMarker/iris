@@ -63,12 +63,15 @@ judge number
 s remark=$tr(remark," ","")
 s ^Temp("u78k4",2) = remark
 
-## bool &&
+## comma bool && and
 if x > 1, y > 2 {
     // Code to execute if both conditions are true
 } else {
     // Code to execute if the conditions are not met
 }
+
+i x=1,y=2 s r = 3
+i (x=1)&&(y=2) s r = 3
 
 ## record arguments
 set ^TMP("FindDailyDtl")=$lb(wardId, admStr, stDate, stTime, endDate, endTime, otherQryStr, langId)
@@ -130,3 +133,4 @@ step into
 step over
 step out
 run to cursor
+

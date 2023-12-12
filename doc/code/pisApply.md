@@ -1,3 +1,8 @@
+demo
+医院信息平台
+服务列表
+
+医院院内服务总线 iBus
 
 ClassName: web.DHCDocAPPBL
 MethodName: InsertNewBLInformation

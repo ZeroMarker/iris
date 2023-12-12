@@ -1,4 +1,6 @@
 ## 挂号科室搜索前缀匹配排序
+demo
+科室排序定义排序
 ```objectscript
 /// d ##class(%ResultSet).RunQuery("web.DHCOPAdmReg","OPDeptList","reg","","",2)
 ClassMethod OPDeptListExecute(ByRef qHandle As %Binary, UserId As %String, AdmType As %String = "", paradesc As %String = "", HospitalID As %String = "") As %Status

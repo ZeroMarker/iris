@@ -65,3 +65,13 @@ ClassMethod GetStartTMENU(GroupID As %String) As %String
     
     Q StartTMENU
 }
+
+SELECT *
+FROM websys.menu
+--where ID = 57618;
+where caption like "挂号";
+
+select *
+from websys.WorkFlowItemDefinition
+--where Url like "%&%";
+WHERE ID = 50001;

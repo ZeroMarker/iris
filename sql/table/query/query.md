@@ -39,21 +39,24 @@ OutputRow
 ## Use Query()
 ```objectscript
 // 1st way
-s rs = ##class(%ResultSet).%New("web.PAAdm:QueryItem")
+s query = ##class(%ResultSet).%New("web.PAAdm:QueryItem")
 
 // 2rd way
-s rs = ##class(%ResultSet).%New()
-s rs.ClassName="web.PAAdm"
-s rs.QueryName="QueryItem"
+s query = ##class(%ResultSet).%New()
+s query.ClassName="web.PAAdm"
+s query.QueryName="QueryItem"
 
-if (rs) {
-    s rc = rs.Execute(Code,Desc)
-    while (rs.Next()) {
-        s Code = rs.Data("Code")
-        w
+if (query) {
+    s rc = query.Execute(Code,Desc)
+    while (query.Next()) {
+        s Code = query.Data("Code")
+        if Code = 2 {
+            s desc = query.Data("desc")
+        }
     }
 }
-d rs.%Close()
+d query.%Close()
+q amount
 ```
 ```objectscript
 ClassMethod GetStudentClose(ByRef qHandle As %Binary) As %Status [ PlaceAfter = GetStudentExecute ]
