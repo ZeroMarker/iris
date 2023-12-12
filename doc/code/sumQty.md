@@ -29,3 +29,14 @@ TOrderDesc:
 TOrderName: 
 "<font color=red>停止</font>&nbsp&nbsp(基)0.9%氯化钠注射液[袋装100ml]&nbsp&nbsp首日:1"
 240||86
+
+w ##Class(web.DHCDocInPatPortalCommon).OrderInfo("240||86")
+
+w (^OEORD(240,"I",86,2))
+
+;长嘱剂量为空数量去除"共"
+if (##class(appcom.OEOrdItem).ISLongOrderPrior(PriorityDR))&&(doseUnitDr="") {
+	s TOrderDesc = $replace(TOrderDesc, "共：", "")	
+	s TOrderName = TOrderName_space_SumQty
+	s SumQty = ""
+}

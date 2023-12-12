@@ -1,3 +1,8 @@
+<!--opdoc.recadmlog.hui.csp HISUI门诊日志--> 
+OPDoc.RecAdmLog.hui.js
+ClassName : "web.DHCOPDOCLog",
+QueryName : "DHCOPLocLog",
+
 ClassMethod DHCOPLocLogExecute(ByRef qHandle As %Binary, Gsearchmessage As %String, SearchConditions As %String, SPatientAge As %String, EPatientAge As %String, FindByDoc As %String, RLocID As %String, SerCon As %String, ResourceCon As %String, DocNo1 As %String, OpDate As %String, OpDate2 As %String, SearhLoc As %String, MRDiagnos As %String = "", MRDIAICDCodeID As %String = "", Time As %String, Time2 As %String, PatientID As %String = "") As %Status
 {
 	//d ##class(%ResultSet).RunQuery("web.DHCOPDOCLog","DHCOPLocLog","","","35","","","","","ys01","14/08/2018","16/08/2018","","","","","")

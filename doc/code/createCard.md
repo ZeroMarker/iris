@@ -1,6 +1,20 @@
 cardreg.hui.csp
 cardreg.show.hui.csp
 
+web.DHCEntity.PCA.PATMAS.cls
+
+CardReg.hui.js
+
+web.DHCBL.CARDIF.ICardRefInfo.cls
+web.DHCBL.CARD.UCardPatRegBuilder.cls
+
+web.DHCBL.CARD.UCardPaPatMasInfo.cls
+
+User.PAPatMas.cls
+
+cardreg.hui.csp
+cardreg.show.hui.csp
+
 web.DHCEntity.PCA.PATMAS.cls    add property to middle store class
 
 CardReg.hui.js

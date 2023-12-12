@@ -1,5 +1,9 @@
 ## 修改患者信息接口
-【需求背景】:提供住院患者修改个人信息的接口，所需修改的字段已提供
+DHCExternalService.RegInterface.Service.SelfRegService.cls
+
+DHCExternalService.CardInterface.CardManager.cls
+
+需求背景】:提供住院患者修改个人信息的接口，所需修改的字段已提供
 民族（必填）
 婚姻状况（必填）
 身份证号

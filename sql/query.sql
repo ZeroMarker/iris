@@ -492,12 +492,13 @@ SELECT *
 from MR_DiagType;
 SELECT *
 from MRC_DiagnosType;
+-- 诊断类型 诊断
 
 select * from INSU_AdmInfo;
 
 select inadm_xstring7,* from INSU_AdmInfo;
 SELECT * from INSU_DicData;
-
+-- 医保类型 医保字典 
 /*
 SELECT * from ARC_InsuranceType;
 select * from INSU_TarContrast;
@@ -517,3 +518,18 @@ SELECT * from SQLUser.OEC_OrderStatus;
 -- 医嘱状态
 select * from SQLUser.OEC_Order_AdminStatus;
 -- 执行记录状态
+
+
+SELECT * FROM DHCDoc_ErrCodeRegister;
+-- 医生站错误代码
+
+select PAPMI_ID, PAPMI_DVAnumber from PA_PatMas;
+-- 身份证 && 证件号
+-- $p($g(^PAPER(papmi,"PAT",3)),"^",6) PAPMI_DVAnumber
+-- $p($g(^PAPER(papmi,"ALL")),"^",9) PAPMI_ID
+
+SELECT 	OEORI_SeeDate,OEORI_SeeTime from SQLUser.OE_OrdItemExt;
+-- 处理时间
+
+SELECT * from Doc_InterfaceMethod;
+-- 医生站接口
