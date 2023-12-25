@@ -1,17 +1,13 @@
-%Query
+## intro
+- %Query
+- websys.Query ///实现Fetch, Close
+- %SQLQuery
 
-websys.Query
-///实现Fetch, Close
-
-%SQLQuery
-
-不要忘记实现Fetch&Close
 Studio
 New Query
 Input Parameter
 Output Parameter
-
-
+## 实现
 ```objectscript
     set repid=$i(^CacheTemp)
     set ind=1
@@ -36,7 +32,7 @@ OutputRow
     ////
     quit
 ```
-## Use Query()
+## Use Query
 ```objectscript
 // 1st way
 s query = ##class(%ResultSet).%New("web.PAAdm:QueryItem")
@@ -58,6 +54,8 @@ if (query) {
 d query.%Close()
 q amount
 ```
+
+## close && fetch
 ```objectscript
 ClassMethod GetStudentClose(ByRef qHandle As %Binary) As %Status [ PlaceAfter = GetStudentExecute ]
 {

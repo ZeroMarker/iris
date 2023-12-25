@@ -301,3 +301,57 @@ s GetItemCongeriesToListMethod=##Class(websys.Page).Encrypt($lb("web.DHCOEOrdIte
 ## 诊查费不能撤销
 [Code](./doc/code/errMsg.md)
 
+## 门诊日志
+[Code](./doc/code/OPDocLog.md)
+
+## 过敏记录
+<!--过敏记录csp,csp:dhcdoc.allergyenter.csp--> 
+scripts/dhcdoc/allergyenter.js
+web.DHCDocAllergyEnter
+
+## 检查申请单特殊字符
+```js
+let item = "%^&&<>   	' ' '";
+item = item.replace(/\s/g,''); //whitespace
+
+console.log(item);
+item = item.replace(/&/g, '&amp;').replace(/\^/g, '&Hat;').replace(/'/g,'&apos;');
+
+console.log(item);
+```
+
+## 医嘱录入
+GetItemCongeries()
+CreatOrdNo()
+SavaOrderItems()
+InsertOrderItems()
+w ##class(web.DHCDocOrderCommon).GetLabSpec("3950||1",2)
+
+## 导诊单
+DHCDoc.OPDoc.TreatPrint.cls
+LoadPrintItemTree()
+// 门诊系统参数 是否打印导诊单
+prepareHandle()
+ClassName:"web.DHCDocPrescript",
+MethodName:"GetXMLTemplateId",
+ClassName : printmethod["class"],//"DHCDoc.OPDoc.TreatPrint",
+MethodName : printmethod["method"]//"PrintOrder"
+DHCDoc.OPDoc.TreatPrint.cls
+GetDZDPrintData()
+// 删除最后的分隔线
+for i=1:1:($l(OrdItemInfo,$c(2))-2)
+<txtdatapara name="PANoBarCode" xcol="1.587" yrow="0.794" defaultvalue="" printvalue="" fontbold="false" fontname="C39P36DmTt" fontsize="26" />
+
+## 挂号条
+w ##class(web.DHCOPAdmReg).OPRegistBroker()
+##class(DHCDoc.Common.pa).GetOPPrintData(RegfeeRowId)
+
+## 草药录入
+DHCDocCT
+草药录入备注
+web.DHCDocCTCommon
+代码模块数据维护
+
+## xml打印机
+xml设计打印机名称
+

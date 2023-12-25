@@ -25,7 +25,7 @@ code snippets
 Goto "" ctrl + shift + g
 Go back ctrl + alt + g
 
-## debug
+## Debug
 toggle breakpoint   F9
 go                  Ctrl+F5
 step into
