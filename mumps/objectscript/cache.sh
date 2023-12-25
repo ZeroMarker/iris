@@ -13,10 +13,10 @@ USER > set company = ##class(Demo.Company).%OpenId(1)
 USER > do ##class(Demo.Company).%DeleteId(1)
 USER > do ##class(Demo.Company).%DeleteExtent() // delete all
 
-DHC-APP > zw ^User.DHCStudentSFCD(1)
+DHC-APP > zw ^User.StudentD(1)
 ^User.DHCStudentSFCD(1)=$lb("","1","张",,66475,1)
 
-DHC-APP > zw ^User.DHCStudentSFCD
+DHC-APP > zw ^User.StudentD
 ^User.DHCStudentSFCD=1
 ^User.DHCStudentSFCD(1)=$lb("","1","张",,66475,1)
 
@@ -29,14 +29,14 @@ DHC-APP > s CTADDRowID = $Order(^CT("ADD",0,"Code",110101007,0))
 DHC-APP > w
 CTADDRowID=9
 
-DHC-APP > set obj=##class(User.DHCStudentSFC).%New()    
+DHC-APP > set obj=##class(User.Student).%New()    
 DHC-APP > w obj
-1@User.DHCStudentSFC
+1@User.Student
 DHC-APP > zw obj
-obj=<OBJECT REFERENCE>[1@User.DHCStudentSFC]
+obj=<OBJECT REFERENCE>[1@User.Student]
 +----------------- general information ---------------
 |      oref value: 1
-|      class name: User.DHCStudentSFC
+|      class name: User.Student
 | reference count: 2
 +----------------- attribute values ------------------
 |       %Concurrency = 1  <Set>

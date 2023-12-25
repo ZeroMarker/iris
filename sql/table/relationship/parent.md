@@ -1,6 +1,7 @@
-父子表
+## intro
 Relationship
 1-n,父子
+```objectscript
 /// 子表建立关系
 Relationship DHCScParRef As DHCStudentGXA [ Cardinality = parent, Inverse = ChildScCourse, SqlFieldName = DHC_ScParRef ];
 
@@ -10,6 +11,7 @@ Property DHCScChildSub As %Numeric [ InitialExpression = {$i(^DHCCOURSEGX(+$s($d
 
 /// 定义父表的关系
 Relationship ChildScCourse As DHCStudentCourse [ Cardinality = children, Inverse = DHCScParRef ];
+```
 
 ## Cache Storage
 // 父表
@@ -87,9 +89,10 @@ ChildSub            {L6}
 
 
 ## Child Table CRUD
-
+new
+```objectscript
 s obj = ##class(StudentCourse).%New(ParRef)
-新建对象需要传递父表RowId
+// 新建对象需要传递父表RowId
 
 if(obj) {
     d obj.ParRefSetObjectId(ParRef)
@@ -108,10 +111,12 @@ if(obj) {
 }
 q result
 
+
+```
+Query
+```objectscript
 s id = "3||6"
 s obj=##class(Student).OpenId(id)
-
-
 
 if (ParRef'="") {
     s ChildSub = 0
@@ -136,8 +141,8 @@ else {
         }
     }
 }
-
-父子表保存
+```
+save
 ```objectscript
 tstart
 s sc=obj.%Save()

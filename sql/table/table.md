@@ -59,14 +59,3 @@ User.DHCOEOrdItem
 
 User.OEOrdStatus
 User.OEOrdExec
-
-# queue
-
-DHCQueue
-
-DHCQueueStatus
-
-PerState
-
-///^PAADMi("No",$$ALPHAUP({PAADM_ADMNo}),{PAADM_RowID})
-///^User.DHCQueueI("QuePaadmDrIndex",QuePaadmDr)

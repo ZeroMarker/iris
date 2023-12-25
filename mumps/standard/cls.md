@@ -1,8 +1,5 @@
-## function
-function(.obj)  // pointer
-## 陷阱 $ZTRAP
+## $ZTRAP
 set $zt = "ERROR"
-...
 ERROR ;
     set $zt = ""
     set ErrMSG = $ze

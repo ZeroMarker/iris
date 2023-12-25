@@ -1,23 +1,15 @@
-+num=+num
-force arithmetic operation
+# Type Cast
+- + cast to numberic
 
-[
-contain
+# String
+- [ contain
+- ] contained
+- _ concatenate
+- , concatenate
 
-]
-contained
+# Bool
+- & and
+- || or
+- ' not
+- , and
 
-_
-concatenate
-
-,
-concatenate
-
-&
-and
-
-||
-or
-
-'
-not

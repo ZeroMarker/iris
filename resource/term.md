@@ -16,11 +16,11 @@ HRP：医院资源管理系统（Hospital Resource Planning ）
 
 PASS（Prescription Automatic Screening System）合理用药监测系统
 
-Pharmacy Information System
+PIS Pharmacy Information System
 
-心电图(Electrocardiogram,ECG或者EKG)
+EKG 心电图(Electrocardiogram,ECG或者EKG)
 
-病理信息系统(Pathology Information System, P.I.S)
+PIS 病理信息系统(Pathology Information System, P.I.S)
 
 US超声
 
@@ -28,6 +28,6 @@ ES内镜
 
 BIS输血
 
-静脉血栓栓塞症静脉血栓栓塞症(venous thromboembolism,VTE)
+VTE 静脉血栓栓塞症静脉血栓栓塞症(venous thromboembolism,VTE)
 
 iBus

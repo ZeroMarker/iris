@@ -34,16 +34,14 @@ FOR { &sql(FETCH EmpCursor)
 &sql(CLOSE EmpCursor)
 IF SQLCODE<0 {WRITE "SQL Close Cursor Error:",SQLCODE," ",%msg  QUIT}
 ```
-
-
-
+## variables
 ```objectscript
 &sql(SELECT PAADM_RowID INTO :myvar FROM SQLUser.PA_Adm WHERE PAADM_ADMNo = :AdmNo)
 IF SQLCODE<0 {QUIT "SQLCODE error "_SQLCODE_" "_%msg  }
 ELSEIF SQLCODE=100 {QUIT "Query returns no results"}
 s PAADMRowID=myvar
 ```
-
+## Traversing
 ```objectscript
 Set ADMNo = ... ; -- Assign a value to ADMNo parameter
 
@@ -58,6 +56,8 @@ While mycursor.%Next() {
 }
 
 &sql(CLOSE mycursor)
+```
+## array
 ```objectscript
 set resultArray = []
 &sql(DECLARE myCursor CURSOR FOR
@@ -76,9 +76,8 @@ while &sql(FETCH myCursor INTO :column1, :column2) {
 }
 
 &sql(CLOSE myCursor)
-&sql(CLOSE myCursor)
-
-
+```
+## plist
 ```objectscript
 &sql(
     SELECT * INTO :PLIST() FROM Course
@@ -89,11 +88,10 @@ for i=1:1:count {
     w PLIST(i)
 }
 ```
-
-SQLCODE
-0   successful
-100 failed
-%ROWID
-%msg
+## SQLCODE
+- 0   successful
+- 100 failed
+- %ROWID
+- %msg
 
 

@@ -1,10 +1,10 @@
 ## Link
 http://localhost:57772/terminal/
 
-## namespace
+## switch namespace
 zn "samples"
 
-## sql
+## sql mode
 /sql    // enter sql mode
 
 select top 5 * from Cinema.Film

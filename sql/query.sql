@@ -16,7 +16,7 @@ where
 -- @Block
 SELECT OE_OrdItem->OE_OrdExec->OEORE_XDate
 FROM OE_Order;
--- 子表引用
+-- 父表子表引用
 
 -- @Block
 select OEORI_ItemStat_DR->ostat_desc As 状态 ,*
@@ -533,3 +533,31 @@ SELECT 	OEORI_SeeDate,OEORI_SeeTime from SQLUser.OE_OrdItemExt;
 
 SELECT * from Doc_InterfaceMethod;
 -- 医生站接口
+
+select SSUSR_DefaultDept_DR,* from SS_User;
+SELECT * from SS_UserOtherLogonLoc;
+-- 默认登录科室 登录科室
+
+SELECT 
+	res.RES_CTLOC_DR->CTLOC_Desc,
+	rbas.AS_Date, AS_Load, 
+	AS_NoApptSession,
+	AS_SessStartTime,
+	AS_SessEndTime,
+	AS_TimeRange_DR->TR_Desc,
+	ext.AS_SessionType_DR->SESS_Desc,
+	AS_TimeCreate
+FROM SQLUser.RB_ApptSchedule rbas
+JOIN SQLUser.DHC_RBApptSchedule ext 
+	ON rbas.AS_Rowid = ext.AS_Rowid
+JOIN SQLUser.RB_Resource res 
+	ON rbas.AS_RES_ParRef = res.RES_RowId1 
+WHERE rbas.AS_Date BETWEEN '2012-10-01' AND '2012-10-31'
+AND rbas.AS_RowId NOT IN (
+	SELECT APPT_AS_ParRef
+	FROM RB_Appointment
+)
+ORDER BY res.RES_CTLOC_DR;
+
+SELECT * FROM dbo.bt_specimen;
+-- 标本类型
