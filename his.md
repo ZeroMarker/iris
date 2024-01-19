@@ -29,6 +29,14 @@ oeorder.printall.js
 ClassName : "web.DHCDocPrescript",
 MethodName : "GetPrescInfoByOrd",
 
+用法 1片
+
+频率 Q12h, bid, tid
+
+疗程 1天
+
+BDP 医生站设置菜单 常规设置 长期医嘱首日
+
 ## 毒麻疼痛评分
 dhcdoccheckpoison.csp
 [Code](doc/code/hurt.md)
@@ -41,10 +49,6 @@ dhcdoccheckpoison.csp
 
 ## 生物标本库查询修改日志
 [Code](./doc/code/biobank/README.md)
-
-## 草药代煎接受科室
-opdoc.oeorder.cmlistcustom.csp
-web.DHCDocOrderCommon
 
 ## 患者信息修改接口
 dhcbill.ipbill.reg.csp
@@ -355,3 +359,142 @@ web.DHCDocCTCommon
 ## xml打印机
 xml设计打印机名称
 
+## dip预分组接口
+[Code](./doc/code/DIPCommon.md)
+
+
+## 诊查费撤销控制
+[Code](./doc/code/CheckFeeCancelFlag.md)
+
+## 诊断删除控制
+[Code](./doc/code/diagControl.md)
+
+## 建档日期
+```
+s RowId = ""	;建档时间
+f  s RowId=$o(^DHCCARDi("CF",0,"PAPMIDR",PersonRowId,RowId)) q:RowId=""  d
+.s Flag=$P(^DHCCARD("CF",RowId),"^",10) 
+.q:Flag'="N"
+.s CreatCardDate=$p(^DHCCARD("CF",RowId),"^",7)
+.s:CreatCardDate'="" CreatCardDate=$zd(CreatCardDate,3)
+.s:$g(TCreateDate)'="" TCreateDate=TCreateDate_","
+.s TCreateDate = $g(TCreateDate)_CreatCardDate
+```
+
+## 病历浏览按钮
+[Code](./doc/code/EMRBrowse.md)
+
+## 修改建卡
+新版js不需要根据字段保存取数据，回传设置数据
+```js
+var myparseinfo = $("#InitPatMasEntity").val();
+SetPatInfoByXML(myXMLStr);
+```
+
+## 病历医嘱同步
+SaveOrderToEMR();
+
+## 诊断录入
+WToken: 
+909E13EA00B8D2813A1A9D9E7298CBCD
+paramdata: 
+{"action":"QUALITY_CHECK","params":{"episodeID":"1404","documentID":["1276"],"eventType":"Save^28^233","langID":"20"},"product":"OP"}
+_: 
+1704850060752
+
+MWToken: 
+909E13EA00B8D2813A1A9D9E7298CBCD
+paramdata: 
+{"action":"QUALITY_CHECK","params":{"episodeID":"1404","documentID":["1276"],"eventType":"Save^28^233","langID":"20"},"product":"OP"}
+_: 
+1704850060756
+诊断录入补丁包
+
+## 处方类型 患者类别(费别) 收费类别
+
+患者费别可以对应多种收费类别
+
+处方类型可以对应多种患者费别
+
+收费类别 处方类型 多对一
+
+## 是否存在已收费特定接受科室医嘱
+```
+
+```
+
+## 同步医嘱疗程超量原因
+```JS
+function SynchroOrdExceedReasonClickHandler(){
+	var ids = $('#Order_DataGrid').jqGrid("getGridParam", "selarrrow");
+    if (ids == null || ids.length == 0 || ids.length == 1) {
+        $.messager.alert("警告", "请选择需要同步疗程超量原因的多行记录！");
+        return;
+    }
+    debugger;
+    var Find=0;
+    //ids = ids.sort();
+    // 下拉框文本
+    var FirstExceedReason=GetCellData(ids[0], "ExceedReason");
+    // 下拉框ID值
+    var FirstExceedReasonValue= $("#" + ids[0] + "_" + "ExceedReason").val();
+    debugger;
+    var len = ids.length;
+    for (var i = 1; i < len; i++) {
+	    var OrderARCIMRowid = GetCellData(ids[i], "OrderARCIMRowid");
+	    //空白行和已审核的不能同步
+	    if ((OrderARCIMRowid!="")&&(CheckIsItem(ids[i]) == false)) {
+		    //SetCellData(ids[i], "ExceedReason", FirstExceedReason);
+		    debugger;
+		    var obj = document.getElementById(ids[i] + "_" + "ExceedReason");
+		    if (obj) {
+				// 可编辑
+				if (!FirstExceedReasonValue) {
+					var FirstExceedReasonValue = $("#" + ids[i] + "_" + "ExceedReason" + " option:contains('" + FirstExceedReason + "')").val();
+				}
+				$("#" + ids[i] + "_" + "ExceedReason").val(FirstExceedReasonValue);
+			}
+			else {
+				// 不可编辑
+				$("#Order_DataGrid").setCell(ids[i], "ExceedReason", FirstExceedReason, "", "", true);
+			}
+			debugger;
+		    Find=1;
+		}
+	}
+	if (Find=="0"){
+		$.messager.alert("警告", "没有需要同步的记录!");
+        return;
+	}
+}
+```
+
+## 检查检验树
+User.DHCAppTreeAdd
+User.DHCAppTreeLink
+User.DHCAppPart
+
+## 检查报告时间
+^DHCRBStudy("Report",{DRPT_RowID})
+DRPTVerifyDate
+
+## 日期转化
+```js
+// Get the current date
+let currentDate = new Date();
+
+// Subtract 100 days
+currentDate.setDate(currentDate.getDate() - 100);
+
+// Format the result as a string (optional)
+let formattedDate = currentDate.toISOString().split('T')[0];
+
+console.log(formattedDate);
+```
+
+## 健康卡读卡接口
+UDHCCardPatInfoRegExp.js
+udhcOPPatinfo.js
+ReadRegInfo
+ReadMagCard
+ReadPCSC

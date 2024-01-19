@@ -158,7 +158,7 @@ if ($$$ISOK(sc)) {
         if (crsObj) {
             tstart
             s coursesc = crsObj.%Save()
-            if ($$$ISOK) {
+            if ($$$ISOK(coursesc)) {
                 tcommit
             }
             else {

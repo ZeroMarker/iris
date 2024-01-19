@@ -26,14 +26,19 @@ function RegReturnListTabDataGridLoad(){
 	    RegNo:$("#RegNo").val(),
 	    Pagerows:PageLogicObj.m_CardListTabDataGrid.datagrid("options").pageSize,rows:99999
 	},function(GridData){
-		// Specific value to compare against
+		// 查询精准匹配
+		// 查询结果按拼音字母顺序排序
+		// 获取查询参数
 		var specificValue = $("#Name").val();
 		var records = GridData.rows;
+		// 过滤精准匹配结果
 		var exact = records.filter(record => record.Name == specificValue);
+		// 前序模糊匹配
 		var mid = records.filter(record => record.Name.startsWith(specificValue) && record.Name !== specificValue);
+		// 非前序模糊匹配
 		var remain = records.filter(record => !record.Name.startsWith(specificValue));
 
-		// Sort the array based on pinyin
+		// 根据拼音排序数组
 		mid.sort((a, b) =>
 		a.Name.localeCompare(b.Name, 'zh-Hans-CN', {sensitivity: 'accent'})
 		);
@@ -42,9 +47,8 @@ function RegReturnListTabDataGridLoad(){
 		a.Name.localeCompare(b.Name, 'zh-Hans-CN', {sensitivity: 'accent'})
 		);
 		
+		// 排序好的数组拼接
 		GridData.rows = exact.concat(mid.concat(remain));
-		//GridData.rows.sort((a, b) => a.Name.localeCompare(b.Name));
-		//console.log(GridData);
 		
 		PageLogicObj.m_CardListTabDataGrid.datagrid({loadFilter:pagerFilter}).datagrid('loadData',GridData);
 	}); 

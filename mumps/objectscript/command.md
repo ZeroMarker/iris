@@ -16,6 +16,8 @@ $ztime
 
 $ztrap
 
+$ze
+
 $order
 
 $i
@@ -45,3 +47,5 @@ $justify
 $length
 
 $zcovert    $zcvt(str,"U")
+
+$classmethod(class, method)

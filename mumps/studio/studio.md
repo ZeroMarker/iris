@@ -25,6 +25,8 @@ code snippets
 Goto "" ctrl + shift + g
 Go back ctrl + alt + g
 
+Goto label ctrl + g
+
 ## Debug
 toggle breakpoint   F9
 go                  Ctrl+F5

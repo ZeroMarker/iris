@@ -1,4 +1,8 @@
-/// d ##class(%ResultSet).RunQuery("web.DHCUserGroup","FindLogonLocCTPCPDesc","21")
+```objectscript
+/// desc: 获取科室号别
+/// input: LogLoc 科室
+/// output: CTPCPDesc 科室号别 CTPCPRowId 科室号别ID
+/// debug: d ##class(%ResultSet).RunQuery("web.DHCUserGroup","FindLogonLocCTPCPDesc","21")
 Query FindLogonLocCTPCPDesc(LogLoc As %String, Desc As %String = "") As %SQLQuery(CONTAINID = 1, ROWSPEC = "CTPCPDesc:%String,CTPCPRowId:%String")
 {
 	SELECT DISTINCT MarkdMarkDr->CTPCP_Desc, MarkdMarkDr->CTPCP_RowId FROM DHCMarkDoc
@@ -16,3 +20,4 @@ Query FindLogonLocCTPCPDesc(LogLoc As %String, Desc As %String = "") As %SQLQuer
 		)
 	)
 }
+```

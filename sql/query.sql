@@ -561,3 +561,13 @@ ORDER BY res.RES_CTLOC_DR;
 
 SELECT * FROM dbo.bt_specimen;
 -- 标本类型
+
+SELECT PAADM_AdmReason_DR,* from PA_Adm ;
+SELECT * FROM SQLUser.PAC_AdmReason;
+-- 收费费别
+SELECT PAPER_SocialStatus_DR,* from PA_Person;
+select * from SQLUser.CT_SocialStatus
+-- 病人类型
+SELECT PT_BillType,* FROM SQLUser.DHC_PrescriptType;
+-- 处方类型 收费费别
+

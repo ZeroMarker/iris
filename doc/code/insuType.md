@@ -9,10 +9,10 @@ INADMCompany = $p(^DHCINADM($o(^DHCINADM("0","ADM",EpisodeID,0))),"^",6)
 
 $p(^DHCINADM($o(^DHCINADM("0","ADM",EpisodeID,0))),"^",6)
 
-/// creator:CHL
-/// date:2023-11-27
 /// desc:获取患者参保类型
-/// w ##class(web.DHCDoc.OP.AjaxInterface).GetInsuType()  
+/// input: EpisodeID 就诊号
+/// output: InsuType 参保类型
+/// debug: w ##class(web.DHCDoc.OP.AjaxInterface).GetInsuType()  
 ClassMethod GetInsuType(EpisodeID As %String) As %String
 {
 	Q:EpisodeID="" ""
@@ -22,10 +22,10 @@ ClassMethod GetInsuType(EpisodeID As %String) As %String
 	s InsuType = $p(^DHCINDID(InsuDic),"^",3)
     Q InsuType
 }
-/// creator:CHL
-/// date:2023-11-27
-/// desc:获取患者参保类型
-/// w ##class(web.DHCDoc.OP.AjaxInterface).GetInsuCompany()  
+/// desc:获取患者参保单位
+/// input: EpisodeID 就诊号
+/// output: InsuType 参保单位
+/// debug: w ##class(web.DHCDoc.OP.AjaxInterface).GetInsuCompany()  
 ClassMethod GetInsuCompany(EpisodeID As %String) As %String
 {
 	Q:EpisodeID="" ""

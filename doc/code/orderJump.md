@@ -2,6 +2,11 @@
 var rowid = GetEventRow(e);
 OrderFirstDayTimeskeypresshandlerJump(rowid)
 function OrderFirstDayTimeskeypresshandlerJump(rowid) {
+	// 首日次数回车跳转下一行医嘱名称
+	// 医嘱名称，不可编辑跳转用法
+	// 用法，不可编辑跳转频次
+	// 频次，不可编辑跳转首日次数
+	// 首日次数，不可编辑递归调用跳转
 	var RowNext = GetNextRowId(rowid);
 	if (RowNext==rowid){
 		Add_Order_row();

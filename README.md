@@ -14,7 +14,7 @@ sudo sh get-docker.sh
 ```sh
 docker pull intersystems/irishealth-community:latest-preview
 
-docker run -d --rm -p 52773:52773 --init --name my-iris intersystems/irishealth-community:latest-preview
+docker run -d --rm -p 52773:52773 --init --name iris intersystems/irishealth-community:latest-preview
 ```
 
 ## Then open Management portal in your host browser on:
@@ -24,14 +24,14 @@ http://localhost:52773/csp/sys/UtilHome.csp
 ## Or open a terminal to IRIS:
 ```sh
 # terminal
-docker exec -it my-iris iris terminal IRIS
+docker exec -it iris iris terminal IRIS
 # halt h , exit
 ```
 
 ## Stop IRIS container when you don't need it:
 ```sh
 # stop
-docker stop my-iris
+docker stop iris
 ```
 
 ## for findtable

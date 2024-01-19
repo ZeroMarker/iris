@@ -7,7 +7,7 @@ Studio
 New Query
 Input Parameter
 Output Parameter
-## 实现
+## Execute
 ```objectscript
     set repid=$i(^CacheTemp)
     set ind=1
