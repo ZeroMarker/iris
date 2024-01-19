@@ -1,8 +1,3 @@
-## $ZTRAP
-set $zt = "ERROR"
-ERROR ;
-    set $zt = ""
-    set ErrMSG = $ze
 ## namespace
 permanent switch zn
 temporarily switch set $namespace = "user"

@@ -157,14 +157,13 @@ function LoadRegConDisList(){
 	});
 }
 
-```
-
-/// 三日内是否有非零元挂号费
-/// create by ChHL
+```objectscript
+/// desc: 三日内是否有非零元挂号费
 /// input: PatientId, CTLoc
 /// output: flag
 /// 			Y 三日内有非零元挂号费
-/// w ##class(web.DHCOPAdmReg).GetRegFeeThreeDayFlag(575, 24)
+/// 			N 三日内没有非零元挂号费
+/// debug: w ##class(web.DHCOPAdmReg).GetRegFeeThreeDayFlag(575, 24)
 ClassMethod GetRegFeeThreeDayFlag(PatientId, Dept)
 {
 	q:PatientId=""

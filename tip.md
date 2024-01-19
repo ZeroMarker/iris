@@ -32,9 +32,6 @@ WRITE colorlist,!
 SET $PIECE(colorlist,",",*-3)="Cyan"
 WRITE colorlist,!
 
-## check class property
-##class(web.DHCBL.UDHCCommFunLibary).GetClassPropertyList("web.DHCEntity.PCA.PATMAS")
-
 ## record arguments
 set ^TMP("FindDailyDtl")=$lb(wardId, admStr, stDate, stTime, endDate, endTime, otherQryStr, langId)
 
