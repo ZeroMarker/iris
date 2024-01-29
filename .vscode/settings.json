@@ -1,0 +1,7 @@
+{
+    "objectscript.conn": {
+        "server": "localhost",
+        "ns": "DHC-APP",
+        "active": true
+    }
+}
