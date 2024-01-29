@@ -492,7 +492,9 @@ SELECT *
 from MR_DiagType;
 SELECT *
 from MRC_DiagnosType;
--- 诊断类型 诊断
+SELECT * FROM MR_Adm;
+SELECT * FROM MRC_ICDDx 
+-- 诊断类型 诊断 ICD
 
 select * from INSU_AdmInfo;
 

@@ -72,3 +72,11 @@ console.log(myArray);
 &amp;
 &Hat;
 &#94;
+
+Quit:$g(PatientNo)="" ""
+	Set IDNo=""
+	Set Patient=$$ALPHAUP^SSUTIL4(PatientNo)
+	Set PatientID=""
+	set PatientID=$O(^PAPERi("PAPMI_PatNo",Patient,PatientID))
+	q:PatientID="" ""
+	set IDNo=$p($g(^PAPER(PatientID,"ALL")),"^",9)
