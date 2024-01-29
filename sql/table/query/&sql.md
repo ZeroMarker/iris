@@ -88,10 +88,5 @@ for i=1:1:count {
     w PLIST(i)
 }
 ```
-## SQLCODE
-- 0   successful
-- 100 failed
-- %ROWID
-- %msg
 
 
