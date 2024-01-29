@@ -400,14 +400,13 @@ WToken:
 paramdata: 
 {"action":"QUALITY_CHECK","params":{"episodeID":"1404","documentID":["1276"],"eventType":"Save^28^233","langID":"20"},"product":"OP"}
 _: 
-1704850060752
 
 MWToken: 
 909E13EA00B8D2813A1A9D9E7298CBCD
 paramdata: 
 {"action":"QUALITY_CHECK","params":{"episodeID":"1404","documentID":["1276"],"eventType":"Save^28^233","langID":"20"},"product":"OP"}
 _: 
-1704850060756
+
 诊断录入补丁包
 
 ## 处方类型 患者类别(费别) 收费类别
@@ -424,6 +423,12 @@ _:
 ```
 
 ## 同步医嘱疗程超量原因
+ClassName: 
+DHCDoc.OPDoc.MainFrame
+MethodName: 
+GetBtnCfgData
+SELECT * FROM DocCFTreatStatusInfo
+门诊框架显示信息配置
 ```JS
 function SynchroOrdExceedReasonClickHandler(){
 	var ids = $('#Order_DataGrid').jqGrid("getGridParam", "selarrrow");
@@ -498,3 +503,258 @@ udhcOPPatinfo.js
 ReadRegInfo
 ReadMagCard
 ReadPCSC
+
+## 是否自动启动中间件
+医保系统配置（实施用）
+SELECT  * from 	INSU_DicData where INDID_DicCode like "%Auto%"
+
+## 检查部位
+检查树维护 部位
+医嘱项部位关联配置
+
+## 草药审核后弹出处方
+dhcdoc/opdoc/UDHCOEOrder.CHNMEDEntry.js
+
+## 自定义嘱托
+门诊框架显示信息配置
+```
+//自定义嘱托
+function CustomAdvice_Click() {
+	var Selrowids = GetSelRowId();
+	if (Selrowids == "") {
+		createModalDialog("Custom_Advice",$g("自定义嘱托"), 600, 400,"icon-edit",$g("确定"),"","医嘱嘱托备注","CustomAdviceBtn","AddCustomAdvice()",true);
+	}
+	else {
+		var OrderNote = GetCellData(Selrowids[0],"OrderDepProcNote")
+		createModalDialog("Custom_Advice",$g("自定义嘱托"), 600, 400,"icon-edit",$g("同步备注"),OrderNote,"医嘱备注","CustomAdviceBtn","SyncOrderNote()",true);
+	}
+}
+function AddCustomAdvice() {
+	// chen
+	var OrderNote = $('#Custom_Advice_textarea').val();
+    if (OrderNote != "") {
+	    var result=$.cm({
+	        ClassName:"DHCDoc.Order.Common",
+	        QueryName:"LookUpItem",
+	        desc:"嘱托",
+	        ResultSetType:"array"
+    	},false)
+    	var item = result.filter(item => item.ItemID == "7435||1")
+   		var rowsobj = $('#Order_DataGrid').getDataIDs();
+        var rows = rowsobj.length;
+        const greatestItem = Math.max(...rowsobj.map(Number));
+		if($("#"+greatestItem+"_OrderName").val() != "") {
+			Add_Order_row();
+			var rowid = parseInt(greatestItem) + 1;
+		}
+		else {
+			var rowid = greatestItem;
+		}
+		$("#"+rowid+"_OrderName").parent().parent().removeClass('OrderCritical');
+		$("#" + rowid).find("td").removeClass("SkinTest");
+		SetCellData(rowid, "OrderARCIMRowid","");
+		SetCellData(rowid, "OrderARCOSRowid","");
+		OrderItemLookupSelect(item[0],rowid);
+		PageLogicObj.OrderNote = OrderNote;
+		SetCellData(rowid,"OrderDepProcNote",OrderNote);
+		destroyDialog('Custom_Advice');
+    }
+    else {
+	    $('#Custom_Advice_textarea').focus();
+	}
+}
+function SyncOrderNote() {
+	// chen
+	var ids = GetSelRowId();
+	var OrderNote = $('#Custom_Advice_textarea').val();
+	ids.forEach(id => {
+		SetCellData(id,"OrderDepProcNote",OrderNote);
+	});
+	destroyDialog('Custom_Advice');
+}
+function createModalDialog(id, _title, _width, _height, _icon,_btntext,_content,_placeholder,_btnid,_event,closable){
+	// chen
+	if(_btntext==""){
+	   var buttons="";
+   }else{
+	   var buttons=[{
+			text:_btntext,
+			iconCls:_icon,
+			handler:function(){
+				if(_event!="") eval(_event);
+			},
+			id: _btnid
+		}]
+   }
+   if(!$('#'+id).size()){
+    	$("body").append("<div id='"+id+"' class='hisui-dialog'></div>");
+   }
+    if (_width == null)
+        _width = 800;
+    if (_height == null)
+        _height = 500;
+
+    $("#"+id).dialog({
+        title: _title,
+        width: _width,
+        height: _height,
+        cache: false,
+        iconCls: _icon,
+        collapsible: false,
+        minimizable:false,
+        maximizable: false,
+        resizable: false,
+        modal: true,
+        closed: false,
+        closable: closable,
+        //content:_content,
+        content:"<textarea id='" + id + "_textarea' placeholder='"+_placeholder+"' style='width:99%; height:90%;'></textarea>",
+        buttons:buttons,
+        onClose:function(){
+	        destroyDialog(id);
+	    }
+    });
+    if (_content != "") {
+		$("#"+id+"_textarea").val(_content);
+	}
+}
+function destroyDialog(id){
+	try{
+		$("#"+id).dialog('close');
+	}catch(e){
+	}
+	return
+   $("body").remove("#"+id); //移除存在的Dialog
+   $("#"+id).dialog('destroy');
+}
+```
+## 医嘱模版默认收缩
+<!--oeorder.entry.template.csp--> 
+scripts/dhcdoc/entry.template.y.js
+```js
+$('#tFav').tree({
+		url:'websys.Broker.cls',
+		singleSelect:false,
+		animate:true,	
+		checkbox:false,
+		cascadeCheck:false,		
+		lines:true,
+		dnd:true,
+		formatter:formatTreeNode,
+		onLoadSuccess:function(){
+			var tree = $('#tFav');
+            // Collapse all nodes
+            tree.tree('collapseAll');
+		},
+});
+```
+
+## 医嘱执行记录不能撤销
+护士执行通用配置
+非药品医嘱医技执行后不允许撤销
+
+w ##class(web.DHCDocInPatPortalCommon).IsCanCancelExecOrdArrear($lg(^tempchl,1),$lg(^tempchl,2))
+w ##class(Nur.NIS.Service.Base.OrderHandle).IfCanUpdateOrdGroup()
+
+## 皮试用法屏蔽
+;按照默认皮试及皮试备注审核,不允许修改
+s DisableOrdSkinChange=..%GetConfig("DisableOrdSkinChange",%session.Get("LOGON.HOSPID"))
+## 首日次数
+w ##class(web.DHCOEOrdItemView).GetOrderFirstDayTimes("70","2108||1","30","5","2024-01-21 20:46:17","","","2","1","")
+..%GetConfig("OPFirstTimes",CurLogonHosp)
+s IPNoDelayExe=$P(^PHCFR(OrderFreqRowid),"^",10)
+住院默认按分发次数全执行 节点位置10 chenying add@2018-08-22
+
+## 出院未签名提示
+w ##Class(web.DHCOEOrdItemView).GetItemToList("")
+s ret = ##Class(EMRservice.BOPrivAssist).GetOPSigninfo(EpisodeID)
+	s ^tempchl = OrderARCIMRowid
+	if (ret="0") {
+		s arcic = $p($g(^ARCIM(+OrderARCIMRowid,$p(OrderARCIMRowid,"||",2),1)),"^",10)
+		//s ^tempchl = arcic
+		if ((arcic=246)||(arcic=247)) {
+			//转科 出院
+			s ^tempchl = arcic
+			s CallBackFunParams="患者病历未签名!"
+			s CallBackFunStr=..GetCallBackFunStr(CallBackFunStr,"Alert",CallBackFunParams)	
+		}
+	}
+	
+## paymode
+function GetPayModeCode(){
+	if (ServerObj.ParaRegType!="APP"){
+		var PayModeValue=$("#PayMode").combobox("getValue");
+		if (PayModeValue!="") {
+			var PayModeData=$("#PayMode").combobox('getData');
+			var index=$.hisui.indexOfArray(PayModeData,"CTPMRowID",PayModeValue);
+			var PayModeCode= PayModeData[index].CTPMCode;
+			return PayModeCode;
+		}
+	}
+	return "";
+}
+安全组功能授权-支付方式授权
+
+## 申请单自动打印
+病理申请系统设置
+检查检验系统设置
+
+## 联系电话不必填
+//必填项目验证
+
+var Patdetail=value.split("^");
+var NeedAddPatInfo=Patdetail[32];
+var CredType=Patdetail[24];
+if (CredType == "三无人员") {
+	if (NeedAddPatInfo.includes("联系电话")) {
+		var info = NeedAddPatInfo.split("、");
+		info = info.filter(item => item != "联系电话");
+		NeedAddPatInfo = info.join("、");
+	}
+}
+
+## 特抗
+没有Once频次
+
+
+## 病理申请单
+
+/// 统一草药接收科室获取(涉及：处方类型、煎药方式、医嘱类型、跨院、开始时间)
+/// w ##class(web.DHCDocOrderCommon).GetCMRecLocStr(^Tempsclk("GetCMRecLocStr"))
+
+## 草药录入卡顿 医保
+scripts/DHCInsuPort.js
+
+## 会诊护士撤销
+w ##class(web.DHCDocInPatPortalCommon).IsCanCancelExecOrdArrear($lg(^tempchl,1),$lg(^tempchl,2))
+w ##class(Nur.NIS.Service.Base.OrderHandle).IfCanUpdateOrdGroup()
+
+## 固定间隔首日次数
+
+/*
+		s FreqRowid = PLIST(25)
+		//s FreqIntervalUOM = $p($g(^PHCFR(FreqRowid)),"^",14)
+		//s FirstDayTimes = PLIST(50)
+		// chen
+		s:($g(FirstDayTimes)=0)&&($g(FreqIntervalUOM)="H") GenSttDate=GenSttDate+1
+		*/
+		for GenDate=GenSttDate:1:GenEndDate{
+			d ##class(DHCDoc.Order.Exec).Generate(rowid,GenDate)
+		}
+		
+w ##class(appcom.OEOrdItem).Insert() 
+
+## 诊断 就诊
+s MRAdmID=$p($g(^PAADM(AdmRowId)),"^",61)
+
+## 住院证
+/// w ##class(web.DHCDocIPBookNew).SaveBookMeth(^lxz1234)
+IntBookMes();
+
+Doc.IPBookCreate
+
+## 管制药品
+AddItemDataToRow
+SetPoisonOrderStyle(RowDataObj.OrderPoisonCode, RowDataObj.OrderPoisonRowid, rowid);
+FZ 辅助用药
+SELECT * from PHC_Poison 
