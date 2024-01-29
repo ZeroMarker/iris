@@ -1,6 +1,6 @@
 ## 挂号
 opadm.reg.hui.csp
-Reg.hui.js
+OPAdm/Reg.hui.js
 web.DHCOPAdmReg.cls
 
 ## 处方
@@ -24,6 +24,12 @@ scripts/dhcdoc/DHCDocDiagnoEntry.V8.js
 ## 工具类
 DHCDoc.Util.Array
 DHCDoc.Util.Date
+
+## 建卡
+reg.cardreg.hui.csp
+Reg/CardReg.hui.js
+
+## 检查一体化
 
 ## GetSessionStr()
 ```js
@@ -57,6 +63,15 @@ var ret=cspRunServerMethod(GlobalObj.AddAuditItemToListMethod,'AddCopyItemToList
 var jsonData=tkMakeServerCall("web.DHCEQ.Plat.LIBBusinessModify","GetOneInStockList",BussID);
 ```
 
+## cm
+```
+var result=$.cm({
+        ClassName:"web.DHCANOPArrangeHISUI",
+        QueryName:"FindAnaestMethod",
+        anmethod:"",
+        ResultSetType:"array"
+    },false)
+```
 ## for loop
 ```objectscript
 s id = ""
@@ -88,3 +103,18 @@ return cause restart function
 
 ## 指向字段的复制
 s logObj.MRDLICDCodeDR = diagObj.MRDIAICDCodeDR
+
+## array to json
+var arr = ["apple", "banana"];
+var jsonArray = [];
+
+for (var i = 0; i < arr.length; i++) {
+  var jsonObj = {
+    "id": i + 1,
+    "value": arr[i]
+  };
+  jsonArray.push(jsonObj);
+}
+
+var jsonString = JSON.stringify(jsonArray);
+console.log(jsonString);

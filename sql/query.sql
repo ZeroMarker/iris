@@ -571,3 +571,29 @@ select * from SQLUser.CT_SocialStatus
 SELECT PT_BillType,* FROM SQLUser.DHC_PrescriptType;
 -- 处方类型 收费费别
 
+select * from SQLUser.PHC_Instruc 
+-- 用法
+
+SELECT  * from 	INSU_DicData where INDID_DicCode like "%Auto%"
+-- 医保字典
+
+SELECT * FROM DocCFTreatStatusInfo
+-- 菜单按钮
+
+SELECT * from DHC_AppPart
+-- 部位
+SELECT * from DHC_AppTreeLink
+-- 检查树部位
+
+SELECT ARCIC_OrderType,* from arc_itemCat WHERE  ARCIC_Desc like "%会诊%"
+-- r l m n p x
+-- 药品 检验 材料 其他 自定义 检查
+
+select * from RBC_SessionType
+SELECT * from DHC_RBCSessionTypeService
+-- 出诊级别
+
+SELECT * from PHC_Poison 
+PHC_DrgMast->PHCD_PHCPO_DR
+-- 管制药品
+
