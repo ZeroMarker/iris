@@ -59,3 +59,26 @@ ClassMethod GetStudentFetch(ByRef qHandle As %Binary, ByRef Row As %List, ByRef 
 }
 
 ```
+
+
+```objectscript
+// 1st way
+s query = ##class(%ResultSet).%New("web.PAAdm:QueryItem")
+
+// 2rd way
+s query = ##class(%ResultSet).%New()
+s query.ClassName="web.PAAdm"
+s query.QueryName="QueryItem"
+
+if (query) {
+    s rc = query.Execute(Code,Desc)
+    while (query.Next()) {
+        s Code = query.Data("Code")
+        if Code = 2 {
+            s desc = query.Data("desc")
+        }
+    }
+}
+d query.%Close()
+q amount
+```
