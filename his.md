@@ -779,3 +779,8 @@ scripts/dhcdoc/ipdoc/InPatOrderViewNurse.js
 ## 医生界面缺少按钮
 门诊框架显示信息配置
 
+## 检查检验退费审核撤销执行
+门诊系统参数配置
+
+
+
