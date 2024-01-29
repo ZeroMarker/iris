@@ -3,8 +3,13 @@ Query GetStudent() As %Query(ROWSPEC = "StCode:%String:学号,StName:%String:姓
 {
 }
 
-/// Creator:陈洪亮
-/// d ##class(%ResultSet).RunQuery("web.ChenhongliangYSZ","GetStudent")
+/// Creator:        name
+/// CreatDate:      date
+/// Descript:       desc
+/// Table:          table
+/// Input:          args
+/// Return:         0:desc ，1：desc
+/// Debug:          d ##class(%ResultSet).RunQuery("web.Query","GetStudent")
 ClassMethod GetStudentExecute(ByRef qHandle As %Binary) As %Status
 {
 	set repid=$i(^CacheTemp)
@@ -15,12 +20,14 @@ ClassMethod GetStudentExecute(ByRef qHandle As %Binary) As %Status
     {
         s id=$o(^User.StudentD(id))
         q:id=""
+		
         s StCode=$lg(^User.StudentD(id),2)
         s StName=$lg(^User.StudentD(id),3)
         s StSexDr=$lg(^User.StudentD(id),4)
         s StSexDesc=$lg(^User.CTSexD(StSexDr),3)
         s StDob=$lg(^User.StudentD(id),"^",5)
         s StDob=$zd(StDob,3)
+		
         d OutputRow  
     }
     set qHandle=$lb(0,repid,0)

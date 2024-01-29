@@ -749,12 +749,33 @@ s MRAdmID=$p($g(^PAADM(AdmRowId)),"^",61)
 
 ## 住院证
 /// w ##class(web.DHCDocIPBookNew).SaveBookMeth(^lxz1234)
-IntBookMes();
+IntBookMes(); 
+IntPaMes();
+Doc.IPBookCreate.hui.js
 
-Doc.IPBookCreate
+///切换患者
+function CreatNew(){
+	//var src="doc.patlistquery.hui.csp?FromPage=IPBookCreate"; //"websys.default.csp?WEBSYS.TCOMPONENT=DHCExamPatList";
+	var src="opdoc.patient.list.csp?NotShowBtnBar=Y";
+	if(ServerObj.PAAdmType=='E'){
+		src="dhcem.patlist.csp";
+	}
+	if(typeof websys_writeMWToken=='function') src=websys_writeMWToken(src);
+	var $code ="<iframe width='100%' height='99%' scrolling='auto' frameborder='0' src='"+src+"'></iframe>" ;
+	createModalDialog("BookCreat","患者切换", 1300, 600,"icon-change-loc","",$code,"");
+}
 
 ## 管制药品
 AddItemDataToRow
 SetPoisonOrderStyle(RowDataObj.OrderPoisonCode, RowDataObj.OrderPoisonRowid, rowid);
 FZ 辅助用药
 SELECT * from PHC_Poison 
+
+## 护士医嘱信息总览显示行数
+scripts/dhcdoc/ipdoc/InPatOrderViewNurse.js
+
+## 医嘱执行绑定
+
+## 医生界面缺少按钮
+门诊框架显示信息配置
+
