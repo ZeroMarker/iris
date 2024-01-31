@@ -782,5 +782,5 @@ scripts/dhcdoc/ipdoc/InPatOrderViewNurse.js
 ## 检查检验退费审核撤销执行
 门诊系统参数配置
 
-
-
+## 草药审核后打印
+[Code](./doc/code/cmPrint.md)
