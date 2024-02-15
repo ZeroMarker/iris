@@ -73,3 +73,13 @@ console.log(myArray);
 &Hat;
 &#94;
 
+## eval
+```js
+let x = 10;
+let y = 20;
+let code = "console.log(x + y);"; // JavaScript code as a string
+eval(code); // Outputs: 30
+```
+
+## reload
+PageLogicObj.m_InPatListTabDataGrid=InitInPatListTabDataGrid();
