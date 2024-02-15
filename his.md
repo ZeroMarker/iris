@@ -716,7 +716,6 @@ if (CredType == "三无人员") {
 ## 特抗
 没有Once频次
 
-
 ## 病理申请单
 
 /// 统一草药接收科室获取(涉及：处方类型、煎药方式、医嘱类型、跨院、开始时间)
@@ -779,8 +778,40 @@ scripts/dhcdoc/ipdoc/InPatOrderViewNurse.js
 ## 医生界面缺少按钮
 门诊框架显示信息配置
 
+<<<<<<< Updated upstream
 ## 检查检验退费审核撤销执行
 门诊系统参数配置
 
 ## 草药审核后打印
 [Code](./doc/code/cmPrint.md)
+=======
+## 强制退号
+session As %String = ""
+groupid => 安全组权限
+
+## 诊断录入表格列宽度
+页面表格列设置
+select * FROM DHC_DocOrderListSet
+
+## 诊断复制自动填充诊断备注
+w ##class(web.DHCMRDiagnos).InsertMRDiagnos
+
+## 护士医嘱患者列表
+<!--ipdoc.nursepatlist.panel.csp 护士患者列表-->
+[Code](./doc/code/nursePatList.md)
+w ##class(Nur.NIS.Service.Base.Ward).getPatsAdditionalInfo
+##class(Nur.NIS.Service.OrderExcute.OrderTask).GetDefaultSeeOrderNum
+
+## 绑定来源
+[Code](./doc/code/bindSource.md)
+
+## 踢人
+锁表
+
+## 父类隐藏
+/// 项目个性化修改方法写在此类覆盖父类的方法
+Class EMRservice.BL.opInterface Extends EMRservice.BL.opInterfaceBase
+{
+
+}
+>>>>>>> Stashed changes

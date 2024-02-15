@@ -439,7 +439,7 @@ WHERE OEORI_RowId = "1238||7";
 
 SELECT *
 FROM Ens_InterfaceMethod
-WHERE method_code like "%UpdateSystemStatus%";
+WHERE method_code like "%UpdateSystemStatus%"
 SELECT ES_PreStatusCode, ES_StatusCode,*
 FROM SqlUser.Ens_Statuslog
 where ES_ExamID like "%EKG1041%";
@@ -599,3 +599,18 @@ SELECT * from PHC_Poison
 PHC_DrgMast->PHCD_PHCPO_DR
 -- 管制药品
 
+SELECT * from DHC_RegConDisCount
+-- 挂号优惠
+
+SELECT * from DHCQueue
+SELECT * from DHCPerState
+-- 队列
+
+select * FROM DHC_DocOrderListSet
+-- 诊断录入表格列
+
+select * from SQLUser.DHC_DocDiagnosCertificate;
+
+select * from DHC_RegConDisCount;
+
+SELECT * from RBC_SessionType;

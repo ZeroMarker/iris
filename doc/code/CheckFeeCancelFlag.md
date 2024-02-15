@@ -31,4 +31,5 @@ ClassMethod CheckFeeCancelFlag(OrItemID, Arcimid, UserID)
 	}
 	q flag
 }
+// w ##class(Nur.NIS.Service.Base.OrderHandle).IfCanUpdateOrdGroup
 ```
