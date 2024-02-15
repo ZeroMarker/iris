@@ -778,13 +778,12 @@ scripts/dhcdoc/ipdoc/InPatOrderViewNurse.js
 ## 医生界面缺少按钮
 门诊框架显示信息配置
 
-<<<<<<< Updated upstream
 ## 检查检验退费审核撤销执行
 门诊系统参数配置
 
 ## 草药审核后打印
 [Code](./doc/code/cmPrint.md)
-=======
+
 ## 强制退号
 session As %String = ""
 groupid => 安全组权限
@@ -814,4 +813,4 @@ Class EMRservice.BL.opInterface Extends EMRservice.BL.opInterfaceBase
 {
 
 }
->>>>>>> Stashed changes
+
