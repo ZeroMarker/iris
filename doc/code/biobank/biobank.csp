@@ -90,7 +90,5 @@ if (sysDateFormat=3){
 	<script type="text/javascript" src="../scripts/DHCBillBankCardLogic.js"></script>
 	<script type="text/javascript" src="../scripts/DHCBillBankCardLogicExt.js"></script>
 	<script type="text/javascript" src="../scripts/dhcdoc.jytcardcommon.js"></script>
-	
-	
 </body>
 </HTML>

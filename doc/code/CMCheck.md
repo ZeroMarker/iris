@@ -1,3 +1,4 @@
+```js
 ///山一大二附院对调配费用加收的特殊规则
 /*
 var UpNums=OrderItemObj.length
@@ -11,3 +12,4 @@ if (UpNums>15){
 	}
 	}
 */
+```

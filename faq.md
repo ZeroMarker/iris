@@ -21,9 +21,21 @@ dhcdoc/dhcdoccure_hui/app.emr.cureapplist.js
 ## 诊断
 scripts/dhcdoc/DHCDocDiagnoEntry.V8.js
 
+## 住院证
+doc.ipbookcreate.hui.csp
+scripts/Doc.IPBookCreate.hui.js
+
 ## 工具类
 DHCDoc.Util.Array
 DHCDoc.Util.Date
+
+## 数据获取
+DHCDoc.GetInfo
+DHCDoc.GetInfoBase
+DHCDoc.GetData
+
+## 就诊登记
+opdoc.rapidregist.hui.csp
 
 ## 建卡
 reg.cardreg.hui.csp

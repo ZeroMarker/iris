@@ -1,3 +1,4 @@
+```js
 case "NeedDischgCond":
 	(function(callBackFunExec){
 		new Promise(function(resolve,rejected){
@@ -63,3 +64,5 @@ case "NeedCareOrd":
         })
     })(resolve);
     break;
+
+```

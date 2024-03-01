@@ -1,3 +1,4 @@
+```objectscript
 w ##Class(web.DHCOEOrdItemView).GetItemCongeriesToList($list(^TMPtan("GetItemCongeriesToList"),1),$list(^TMPtan("GetItemCongeriesToList"),2),$list(^TMPtan("GetItemCongeriesToList"),3),$list(^TMPtan("GetItemCongeriesToList"),4),$list(^TMPtan("GetItemCongeriesToList"),5))
 
 s Check =##Class(web.DHCDocOrderCommon).CheckStockEnough(OrderARCIMRowid, BaseDoseQtySum, MOrderRecDepRowid,PAAdmType,ExpStr)
@@ -16,10 +17,13 @@ if ((+DrugRuleFlag=3)&&(cattype="R"))||((+MaterialRuleFlag=1)&&(cattype="M")){
 }else{
     q 0
 }
+```
 
+```sql
 SELECT ARCIM_AllowOrderWOStockCheck ,*
 FROM ARC_ItmMast
 WHERE ARCIM_RowId = "582||1";
+```
 
-## 把材料处理成药品了
+- 把材料处理成药品了
 

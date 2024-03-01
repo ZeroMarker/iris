@@ -1,26 +1,26 @@
 ## 就诊号到达时间
-DHCQueue
 
-DHCQueueStatus
+tables
+- DHCQueue
+- DHCQueueStatus
+- PerState
 
-PerState
-
-///^PAADMi("No",$$ALPHAUP({PAADM_ADMNo}),{PAADM_RowID})
-///^User.DHCQueueI("QuePaadmDrIndex",QuePaadmDr)
+global
+- ^PAADMi("No",$$ALPHAUP({PAADM_ADMNo}),{PAADM_RowID})
+- ^User.DHCQueueI("QuePaadmDrIndex",QuePaadmDr)
 ```objectscript
 /// w ##class().GetArriveTimeByAdmNo(AdmNo)
-/// "2023-09-05 17:09:10"
 ClassMethod GetArriveTimeByAdmNo(AdmNo) As %String
 {
-	s RowId=0
-    s AdmRowId=$o(^PAADMi("No",AdmNo,RowId))
-    s RowId=0
-    s QueDr=$o(^User.DHCQueueI("QuePaadmDrIndex",AdmRowId,RowId))
+	s RowId = 0
+    s AdmRowId = $o(^PAADMi("No",AdmNo,RowId))
+    s RowId = 0
+    s QueDr = $o(^User.DHCQueueI("QuePaadmDrIndex", AdmRowId, RowId))
 
     ;s QueArriveDate=$P($G(^DHCQueueStatus(QueDr,QueChangeSub)),"^",1)
     ;s QueArriveTime=$P($G(^DHCQueueStatus(QueDr,QueChangeSub)),"^",2)
-    s QueArriveTime=""
-    s QueChangeSub=""
+    s QueArriveTime = ""
+    s QueChangeSub = ""
     f  {
         s QueChangeSub=$O(^DHCQueueStatus(QueDr,QueChangeSub),-1)
         Q:(QueChangeSub="")||(QueArriveTime'="")
