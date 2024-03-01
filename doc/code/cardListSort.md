@@ -1,7 +1,6 @@
 ## 卡管理卡操作查询排序
-Reg.CardManagement.hui.js
-
 ```js
+// Reg.CardManagement.hui.js
 function RegReturnListTabDataGridLoad(){
 	PageLogicObj.m_CardListTabDataGrid.datagrid("uncheckAll");
 	$.cm({

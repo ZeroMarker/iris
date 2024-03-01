@@ -1,3 +1,4 @@
+```objectscript
 ClassMethod CheckSchedule(ResRowID As %String, ScheduleDate As %String, RoomID As %String, SessionStartTime As %String, RBASRowId As %String = "") As %String
 {
 	s ^zhou("CheckSchedule")=ResRowID_","_ScheduleDate_","_RoomID_","_SessionStartTime_","_RBASRowId
@@ -105,3 +106,4 @@ InsertData=InsertData+"^"+SessNumberOfWeeks+"^"+SessNoOverbookAll+"^"+SessRoom+"
 InsertData=InsertData+"^"+TRFlag+"^"+TRStartTime+"^"+TREndTime+"^"+TRLength+"^"+TRRegNum+"^"+TRRegNumStr+"^"+TRRegInfoStr
 var encmeth=DHCC_GetElementData('InsertMethod');
 var ret=cspRunServerMethod(encmeth,ResDateRowid,InsertData);
+```

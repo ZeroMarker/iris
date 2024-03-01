@@ -1,4 +1,5 @@
-web.UDHCStopOrderLook.cls
+```objectscript
+// web.UDHCStopOrderLook.cls
 
 s LLabEpisodeNoStr=$P($G(^OEORD(Ord,"I",Sub,"DHC")),"^",22)
 s LLabEpisodeNo=$P($G(^OEORD(Ord,"I",Sub,3)),"^",20)
@@ -12,3 +13,4 @@ for i=1:1:$length(LLabEpisodeNoStr,$C(1)){
         s FindSameLabNo=1
     }
 }
+```

@@ -1,3 +1,4 @@
+```objectscript
 CHQTASKNEW	;滚医嘱、床位费
 	;This program is develped to use instand of Task job on Cache.
 	;At first, CHPAT13 and CHBB1 run.
@@ -60,4 +61,4 @@ fifth
 	;d DHCCALSTOCK^AutoInsDayStock
 	;zn "meddata"
 	;q
- 
+```

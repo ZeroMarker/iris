@@ -814,3 +814,252 @@ Class EMRservice.BL.opInterface Extends EMRservice.BL.opInterfaceBase
 
 }
 
+## 发卡按钮
+CardReg.hui.js
+if (PageLogicObj.m_UsePANoToCardNO == "Y") {
+	$('#btnList').marybtnbar('disable',['BReadCard','BReadInsuCard']);
+	$("#CardNo").attr("disabled", true);
+	DisableBtn("NewCard", false);
+	PageLogicObj.m_CardNoLength = 0;
+	$('#Name').focus();
+}
+else {
+	DisableBtn("NewCard", true);
+}
+if (PageLogicObj.m_AllowNoCardNoFlag=="Y") {
+	DisableBtn("NewCard",false);
+}
+
+## 报告外键
+```objectscript
+/// 标本报告关联表
+Class User.EnsLISSpecimenReport Extends %Persistent [ ClassType = persistent, DdlAllowed, Owner = {UnknownUser}, ProcedureBlock, SqlTableName = Ens_LISSpecimenReport ]
+{
+
+ForeignKey FKSPECIDREFERENCESPECREPORT(LISSRReportID) References User.EnsLISReportResult(LISREPORTRESULTPKey) [ SqlName = FK_SPECID_REFERENCE_SPECREPORT ];
+
+/// DDL Primary Key Specification
+Index LISSPECIMENREPORTPKey On (LISSRReportID, LISSRSpecimenID, LISSROrderItemID);
+
+Index RELORDERSPECIMENHOSCODE On LISSRSpecimenID;
+
+/// 报告ID 
+Property LISSRReportID As %Library.String [ SqlColumnNumber = 2, SqlFieldName = LISSR_ReportID ];
+
+/// 标本号 
+Property LISSRSpecimenID As %Library.String [ SqlColumnNumber = 3, SqlFieldName = LISSR_SpecimenID ];
+
+/// 医嘱号
+Property LISSROrderItemID As User.OEOrdItem [ SqlColumnNumber = 4, SqlFieldName = LISSR_OrderItemID ];
+
+/// 患者ID
+Property LISSRPatientID As User.PAPatMas [ SqlColumnNumber = 5, SqlFieldName = LISSR_PatientID ];
+
+/// 就诊号
+Property LISSRVisitNumber As User.PAAdm [ SqlColumnNumber = 6, SqlFieldName = LISSR_VisitNumber ];
+
+/// 时间戳 
+Property LISSRUpdateDate As %Library.Date [ InitialExpression = {$P($H,",")}, Required, SqlColumnNumber = 7, SqlFieldName = LISSR_UpdateDate ];
+
+/// 时间戳
+Property LISSRUpdateTime As %Library.Time [ InitialExpression = {$P($H,",",2)}, Required, SqlColumnNumber = 8, SqlFieldName = LISSR_UpdateTime ];
+
+/// 报告状态 
+Property LISSRStatus As %Library.String [ InitialExpression = "1", SqlColumnNumber = 9, SqlFieldName = LISSR_Status ];
+
+}
+```
+
+## 检查检验申请 体征 病历
+病历统一标准接口：术语集接口
+
+## 护士费用核对
+nur.hisui.dhccostcheck.csp
+
+## 住院证
+doc.ipbookcreate.hui.csp
+
+## 慢病 病种 挂号 医嘱 医保
+
+
+## 检查检验退回
+className:"web.DHCDocInPatPortalCommon",
+queryName:"FindInPatOrder",
+
+s rslistDetail = ..OrderInfo(OrdRowid)
+
+s OrdItemCallback=##class(web.DHCDocMainOrderInterface).IsCallbackOrder(orderParref,orderId)
+s BackText=..%Translate("ipdoc.patinfoview.csp","退回")
+
+没走平台，走的任务，2分钟一次
+
+## 医生站接口
+##class(%Dictionary.MethodDefinition).%ExistsId("web.DHCARCOrdSets||CheckPresno")
+
+##class(%Dictionary.CompiledMethod).%ExistsId("web.DHCDocInterfaceMethod||DHCDocHisInterface")
+## 挂号成功 医保交易未确认通过
+医保测试工具
+医保回滚
+发票表改成自费
+退费
+## 手术术前诊断
+select * from CIS_An.OperSchedule 
+## wsdl
+```objectscript
+Include %SOAP.WebClient
+
+Set client = ##class(%SOAP.WebClient).%New()
+Set client.Endpoint = "http://example.com/YourWebService?wsdl"
+
+Set params("param1") = "value1"
+Set params("param2") = "value2"
+
+Set response = client.InvokeMethod("YourWebServiceMethod", .params)
+
+If $$$ISERR(response) {
+    Write "Error: ", $System.Status.GetErrorText(response), !
+} else {
+    Write "Response: ", response, !
+}
+```
+
+## 叫号
+web.DHCVISQueueManager.cls
+s insertFlag=##Class(DHCDoc.Interface.Outside.SYDEFY.DHCDocVISService.MainMethods).SendAdmCallInfo(EpisodeID, LocID, UserID, IPAddress, WaitList,LoginFlag,GHList)
+诊室计算机
+服务器设置
+
+-- 诊室
+SELECT * from DHCExaBorough
+
+SELECT * from SQLUser.CT_LOC WHERE CTLOC_desc like "%诊室%"
+
+SELECT * from DHCBorExaRoom
+
+SELECT * from DHCRoomComp
+
+## 出院弹窗
+```js
+websys_showModal({
+		iconCls:'icon-w-edit',
+		url:"../csp/dhcdoc.stopafterlongordcondition.csp?type="+type,
+		title:title,
+		width:400,height:370,
+		paraObj:paraObj,
+		closable:false,
+		CallBackFunc:function(result){
+			websys_showModal("close");
+			var returnObj={
+				SuccessFlag:false,
+				LongOrdStopDateTimeStr:""
+			}
+			if ((result == "") || (result == "undefined")||(result == null)) {
+			    CallBackFun(returnObj);
+		    } else {
+			    var resultArr=result.split("^");
+			    if (type == "NeedDischgCond") {
+		        	GlobalObj.DischargeConditionRowId = resultArr[0].split('!')[0];
+					GlobalObj.DischargeMethodID=resultArr[0].split('!')[1]||'';
+		        }else if (type == "NeedDeathDate"){
+			        GlobalObj.DeceasedDateTimeStr = resultArr[0];
+					GlobalObj.DischargeConditionRowId="";
+					GlobalObj.DischargeMethodID="";
+			    }
+			    $.extend(returnObj, { SuccessFlag: true,LongOrdStopDateTimeStr:resultArr[1]});
+		        CallBackFun(returnObj);
+		    }
+		}
+	})
+```
+CheckBeforeSaveToServer
+CheckAfterCheckMethod
+OpenDeathDate
+OpenStopAfterLongOrder()
+```objectscript
+/// w ##class(web.DHCDocOrderEntry).GetDischargePayMethod()
+ClassMethod GetDischargePayMethod(langid = "")
+{
+ 	s:langid="" langid=..%LanguageID()
+	// Create an array to hold JSON objects
+    Set jsonArray = []
+	
+    // Split the input data by comma to get individual name:code pairs
+    s data = ##class(DHCDoc.DHCDocConfig.LocalConfig).GetLocalConfigValue("IPDoc","DischargePayMethod",2)
+    // 普通住院:ptzy,日间手术结算:rjss,单病种结算:dbz,意外伤害结算:ywsh,中医优势病种:zyysbz,按床日:acr,日间病房:rjbf
+    
+    Set pairs = $LISTFROMSTRING(data, ",")
+
+    // Iterate through each name:code pair
+    For i=1:1:$LISTLENGTH(pairs) {
+        // Split the name:code pair by colon to extract name and code
+        Set pair = $LISTFROMSTRING($LISTGET(pairs, i), ":")
+		break:$d(pair)=0
+		
+        // Extract name and code
+        Set name = $LISTGET(pair, 1)
+        Set code = $LISTGET(pair, 2)
+
+		Set obj = {}
+        Do obj.%Set("Name", name)
+        Do obj.%Set("Code", code)
+        
+        // Create a JSON object with name and code fields and push it to the array
+        Do jsonArray.%Push(obj)
+    }
+    // Convert the array to a JSON string
+    Set jsonString = jsonArray.%ToJSON()
+	Q jsonString
+}
+```
+
+## 门诊诊断证明书
+emr/js/bs.op.search.print.js
+
+## 诊断 诊断备注
+```objectscript
+;头痛(头痛);风湿(风湿)
+s DiagStr = ""
+f i=1:1:$l(Diagnosis,";"){
+	s diag = $p($g(Diagnosis),";",i)
+	set start = $FIND(diag, "(")  // Find the position of the opening parenthesis
+	set end = $FIND(diag, ")", start)  // Find the position of the closing parenthesis starting from the position of the opening parenthesis
+
+	if (start > 0) && (end > start) {  // Ensure both the opening and closing parentheses are found
+		set Diag = $EXTRACT(diag, start, end-2)  // Extract the content between the parentheses
+	}
+	s:($g(Diag)'="")&&(DiagStr'="") DiagStr = DiagStr_";"_$g(Diag)
+	s:($g(Diag)'="")&&(DiagStr="") DiagStr = $g(Diag)
+}
+s Diagnosis = DiagStr
+	;chenhongliang
+```
+## 工会
+web.DHCOPAdmReg.GetAppPrintData
+OPAppArrive
+
+## 总览打印底部按钮
+opdoc.treatprintorder.csp
+
+## 医生页面设置
+epr.frame.js
+showConfig
+dhcdoc.opdoc.mainframework.js
+getConfigUrl
+websys.menugroup.js
+getConfigUrl
+
+## 退号退费
+RegPayObj
+OPAdm.MisPose.MisPosePublic.js
+DHCBillPayService.js
+```js
+var RegObj = {
+	RegPay:function() {
+		
+	}
+}
+var rtn = RegObj.RegPay()
+```
+
+## 护士医嘱模板权限
+页面设置

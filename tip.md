@@ -83,3 +83,23 @@ eval(code); // Outputs: 30
 
 ## reload
 PageLogicObj.m_InPatListTabDataGrid=InitInPatListTabDataGrid();
+
+## sql col2
+SELECT 1, 2
+FROM table_name
+WHERE 1 = 2;
+
+## xml read
+ClassMethod GetOPPatList() As %GlobalCharacterStream
+w ##Class(EMRservice.BL.opInterface).GetOPPatList().Read()
+
+## context menu
+```js
+// 锁定页面右键
+document.oncontextmenu = function(e){
+    return false;
+}
+```
+
+## json
+JSON.parse(json)

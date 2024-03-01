@@ -614,3 +614,12 @@ select * from SQLUser.DHC_DocDiagnosCertificate;
 select * from DHC_RegConDisCount;
 
 SELECT * from RBC_SessionType;
+
+-- 诊室
+SELECT * from DHCExaBorough
+
+SELECT  * from SQLUser.CT_LOC WHERE CTLOC_desc like "%诊室%"
+
+SELECT * from DHCBorExaRoom
+
+SELECT * from DHCRoomComp
