@@ -103,3 +103,79 @@ document.oncontextmenu = function(e){
 
 ## json
 JSON.parse(json)
+
+
+
+## innerText
+```js
+// 获取具有 id 为 'Update' 的 HTML 元素
+var obj = document.getElementById('Update');
+
+// 获取原始内容
+var originalContent = obj.innerHTML;
+
+// 添加 "第二" 到原始内容后面
+var updatedContent = originalContent + "第二";
+
+// 更新元素的内容
+obj.innerHTML = updatedContent;
+```
+
+## 对象指向
+s ItmObj = ##class(User.DHCTarItem).%OpenId(Itm)
+s SubObj = ##class(User.DHCTarSubCate).%OpenId(ItmObj.TARISubCate.%Id())
+s CatObj = ##class(User.DHCTarCate).%OpenId(SubObj.TARSCTARCDR.%Id())
+s Cat = SubObj.TARSCTARCDR.%Id()
+
+## messager
+```js
+$.messager.popover({
+				msg: '保存成功！',
+				type: 'success',
+				timeout: 2000, 		//0不自动关闭。3000s
+				showType: 'slide'  //show,fade,slide
+			});
+```
+## obj
+```
+s PatDiagsStr = ##class(User.DHCPAPatMas).%OpenId(##class(User.PAAdm).%OpenId(Adm).PAADMPAPMIDR.%Id()).PAPMIChronic
+```
+
+## query && query execute
+
+## forEach return
+arr.forEach(item => {
+	if (item.age == 1) {
+		return false;
+	}
+})
+
+## tabs
+```js
+// 获取选中的标签页（tab）的文本
+var selectedTabText = $('#tabs').tabs('getSelected').panel('options').title;
+```
+
+```js
+// 隐藏具有特定 ID 的元素
+$('#elementID').hide();
+
+// 隐藏所有具有特定类的元素
+$('.className').hide();
+
+// 隐藏所有段落元素
+$('p').hide();
+
+```
+
+```js
+// 显示具有特定 ID 的元素
+$('#elementID').show();
+
+// 显示所有具有特定类的元素
+$('.className').show();
+
+// 显示所有段落元素
+$('p').show();
+
+```

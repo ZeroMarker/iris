@@ -2,6 +2,7 @@
 opadm.reg.hui.csp
 OPAdm/Reg.hui.js
 web.DHCOPAdmReg.cls
+scripts/DHCOPAdm.Reg.js v7
 
 ## 处方
 web.DHCDocPrescript.cls
@@ -12,6 +13,9 @@ oeorder.oplistcustom.new.csp
 web.DHCOEOrdItemView.cls
 web.DHCOEOrdItem.cls
 scripts/dhcdoc/UDHCOEOrder.List.Custom.New.js
+dhcdoc/oeorder.oplistcustom.show.js
+oeorder.oplistcustom.new.request.csp
+
 
 ## 治疗记录
 User.DHCDocCureRecode.cls
@@ -20,6 +24,9 @@ dhcdoc/dhcdoccure_hui/app.emr.cureapplist.js
 
 ## 诊断
 scripts/dhcdoc/DHCDocDiagnoEntry.V8.js
+
+## 呼叫
+web.DHCVISQueueManage.cls
 
 ## 住院证
 doc.ipbookcreate.hui.csp
@@ -40,6 +47,7 @@ opdoc.rapidregist.hui.csp
 ## 建卡
 reg.cardreg.hui.csp
 Reg/CardReg.hui.js
+UDHCCardPatInfoRegExp.js v7
 
 ## 检查一体化
 

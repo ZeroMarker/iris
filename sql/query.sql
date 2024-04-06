@@ -623,3 +623,78 @@ SELECT  * from SQLUser.CT_LOC WHERE CTLOC_desc like "%诊室%"
 SELECT * from DHCBorExaRoom
 
 SELECT * from DHCRoomComp
+
+SELECT * from DHC_VIS_VoiceServer 
+-- 服务器
+SELECT * from 	DHC_VIS_ClientInfo
+-- 客户端
+SELECT * from DHC_VIS_VoiceClient 
+SELECT OEORI_Action_DR,* from OE_OrdItem 
+SELECT * FROM OEC_Action 
+-- 皮试备注
+
+select * from dhc_taritem
+-- 收费项
+select * from dhc_orderlinktar
+-- 收费项医嘱项对照
+
+update PA_PatMas set PAPMI_IPNo = '0'||PAPMI_IPNo, PAPMI_OPNo = '0'||PAPMI_OPNo
+
+SELECT * from dbo.BT_TestSetSpecimen 
+
+SELECT * from dbo.BT_TestSet
+
+SELECT * from dbo.BT_Container
+
+select * from dbo.BT_Specimen 
+
+SELECT * from DHCOPAdmRegPayLoc;
+-- 支付日志
+
+select h.clinic_code patient_id, ---患者编号
+           h.name patient_name, ---病人姓名
+           h.dept_code queue_type_source_id,---队列类型编号
+           '' register_id,---挂号单号或检查单号
+           0 queue_num ,---队列编号
+           0 sub_queue_order,---队列级别
+           '初诊' sub_queue_type,---队列级别名称
+           h.noon_code time_interval,---午别
+           h.doct_code doctor_source_id,---医生编号
+           decode(h.trans_type,'2','1','0') is_deleted,---退号标识
+          (case
+         when to_char(h.begin_time,'hh24:mi:ss')<>'00:00:00'  then
+         h.begin_time
+         else
+       to_date(to_char(h.reg_date,'yyyy-mm-dd')| | ' 22:00:00','yyyy-mm-dd hh24:mi:ss')  +h.order_no/18640
+       end)  fre_date,---时间戳
+          h.doct_name,---挂号医生姓名
+          h.doct_code ,--挂号医生编号
+          h.dept_name, ---挂号科室姓名
+          h.card_no content --
+from fin_opr_register;
+
+CREATE VIEW Queue_View As
+SELECT que.QuePaadmDr->PAADM_PAPMI_Dr patient_id,
+	que.QueName patient_name, 
+	que.QueDepDr->CTLoc_Code queue_type_source_id,
+	fee.ID register_id,
+	que.QueNo queue_num,
+	que.QueStateDr -> PersCode sub_queue_order, 
+	que.QueStateDr ->PersName sub_queue_type,
+	fee.RegfeeTimeRangeDr -> TR_Desc time_interval, 
+	que.QueMarkDr ->CTPCP_Code doctor_source_id, 
+	adm.PAADM_VisitStatus is_deleted,
+	que.QueTime fre_date,
+	que.QueMarkDr -> CTPCP_Desc doct_name,
+	que.QueMarkDr -> CTPCP_Code doct_code,
+	que.QueDepDr->CTLoc_desc dept_name,
+	ext.PAADM_RegCardNo content
+from DHCQueue que
+join DHCRegistrationFee fee on que.QuePaadmDr = fee.RegfeeAdmDr 
+join PA_Adm adm on que.QuePaadmDr = adm.PAADM_RowID 
+join PA_AdmExt ext on que.QuePaadmDr = ext.PAADM_RowId 
+where que.QueDate >= {fn CURDATE()} - 150;
+
+SELECT NOW();
+-- https://docs.intersystems.com/iris20241/csp/docbook/DocBook.UI.Page.cls?KEY=RSQL_FUNCTIONS
+
