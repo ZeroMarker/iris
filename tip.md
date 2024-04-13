@@ -179,3 +179,31 @@ $('.className').show();
 $('p').show();
 
 ```
+
+## xml 类 对象
+```objectscript
+s obj.name = name
+s:obj.name="" obj.name = " "
+// 转 xml 只传输非空值
+```
+
+## url para
+```js
+// Define the base URL
+const baseUrl = 'https://example.com/api';
+
+// Define the parameters as an object
+const params = {
+  page: 1,
+  limit: 10,
+  search: 'example'
+};
+
+// Convert the parameters object to URLSearchParams
+const searchParams = new URLSearchParams(params);
+
+// Join the base URL with the parameters
+const urlWithParams = `${baseUrl}?${searchParams}`;
+
+console.log(urlWithParams);
+```

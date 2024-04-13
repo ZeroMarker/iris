@@ -1790,3 +1790,42 @@ SELECT * FORM MRC_DiagnosType
 服务总线
 服务注册
 文件路径
+
+## 两个院区一套优惠 枣庄中医
+w ##class(web.DHCRegDisConDisCount).CheckDHCRegDisConDisCount()
+
+## 登录
+Logon.csp
+
+websys.SessionLogon.cls
+
+## 用法绑定医嘱
+DHCDoc.DHCDocConfig.InstrArcim
+病区绑定医嘱
+执行绑定
+
+## 读卡手输卡号
+SELECT CTD_ReadCardMode ,* from DHC_CardTypeDef;
+
+## 住院证打印
+模板问题
+
+- 病理申请单 临床病历 换行
+- 病历申请单 医嘱号
+
+
+## 强制退号 退费
+select PAADM_VisitStatus,* from pa_adm;
+C => A;
+
+
+## 治疗工作站 基础版本
+zw ^DHCDocConfig("HospDr_2","DocCureUseBase")
+医生站设置 -> 常规设置 -> 其他设置
+
+
+## 抗菌药物 二次申请
+抗菌药物功能设置 二次申请
+
+
+## 读卡包自动部署
