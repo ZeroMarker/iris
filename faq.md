@@ -16,7 +16,6 @@ scripts/dhcdoc/UDHCOEOrder.List.Custom.New.js
 dhcdoc/oeorder.oplistcustom.show.js
 oeorder.oplistcustom.new.request.csp
 
-
 ## 治疗记录
 User.DHCDocCureRecode.cls
 DHCDoc.DHCDocCure.Record.cls
@@ -31,6 +30,11 @@ web.DHCVISQueueManage.cls
 ## 住院证
 doc.ipbookcreate.hui.csp
 scripts/Doc.IPBookCreate.hui.js
+
+## 分诊
+
+## 转诊
+opdoc.transfer.hui.csp
 
 ## 工具类
 DHCDoc.Util.Array
@@ -49,7 +53,8 @@ reg.cardreg.hui.csp
 Reg/CardReg.hui.js
 UDHCCardPatInfoRegExp.js v7
 
-## 检查一体化
+## 检查
+web.DHCAPPExaReport.cls
 
 ## GetSessionStr()
 ```js
@@ -92,17 +97,6 @@ var result=$.cm({
         ResultSetType:"array"
     },false)
 ```
-## for loop
-```objectscript
-s id = ""
-f  s id = $(^Main(id)) q:id=""  d
-.s name = $lg(^Main(id),1)
-.q name = ""
-// two whitespace
-```
-
-## 记录Session
-s ^temp = $lb(%session)
 
 ## 下拉框text取value
 ```
@@ -116,10 +110,6 @@ $("#mySelect option:contains('" + text + "'):selected").val();
 ^OEORD({OE_Order.OEORD_RowId},"I",{OEORI_Childsub})
 ^OEORD({OE_Order.OEORD_RowId},"I",{OE_OrdItem.OEORI_Childsub},"X",{OEORE_Childsub})
 
-## return && return false
-return cause restart function
-
-## 医生站应用配置速查
 
 ## 指向字段的复制
 s logObj.MRDLICDCodeDR = diagObj.MRDIAICDCodeDR

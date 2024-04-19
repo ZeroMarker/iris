@@ -1,18 +1,7 @@
 ## nested structure
 .
 ..
-
-{
-	{
-	}
-}
-
-## variable usage
-i var '= "" s var=""
-
-## iris terminal
-iris
-irisdb
+等同于花括号
 
 ## prefix match
 $Extract(Code,1,$L(Target))=Target
@@ -32,15 +21,15 @@ WRITE colorlist,!
 SET $PIECE(colorlist,",",*-3)="Cyan"
 WRITE colorlist,!
 
-## record arguments
+## Remember arguments
 set ^TMP("FindDailyDtl")=$lb(wardId, admStr, stDate, stTime, endDate, endTime, otherQryStr, langId)
 
-## quit aka break
+## Quit aka Break
 for {
 	quit:x=1
 }
 
-## debug
+## Break point
 - b ;01
 - g next breakpoint
 - q exit
@@ -68,7 +57,7 @@ myArray.splice(4, 0, removedElement);
 
 console.log(myArray);
 ```
-## replace symbols
+## Replace special symbols
 &amp;
 &Hat;
 &#94;
@@ -81,17 +70,8 @@ let code = "console.log(x + y);"; // JavaScript code as a string
 eval(code); // Outputs: 30
 ```
 
-## reload
+## Reload Datagrid
 PageLogicObj.m_InPatListTabDataGrid=InitInPatListTabDataGrid();
-
-## sql col2
-SELECT 1, 2
-FROM table_name
-WHERE 1 = 2;
-
-## xml read
-ClassMethod GetOPPatList() As %GlobalCharacterStream
-w ##Class(EMRservice.BL.opInterface).GetOPPatList().Read()
 
 ## context menu
 ```js
@@ -100,11 +80,6 @@ document.oncontextmenu = function(e){
     return false;
 }
 ```
-
-## json
-JSON.parse(json)
-
-
 
 ## innerText
 ```js
@@ -121,13 +96,15 @@ var updatedContent = originalContent + "第二";
 obj.innerHTML = updatedContent;
 ```
 
-## 对象指向
+## Refer Object Value
+```objectscript
 s ItmObj = ##class(User.DHCTarItem).%OpenId(Itm)
 s SubObj = ##class(User.DHCTarSubCate).%OpenId(ItmObj.TARISubCate.%Id())
 s CatObj = ##class(User.DHCTarCate).%OpenId(SubObj.TARSCTARCDR.%Id())
 s Cat = SubObj.TARSCTARCDR.%Id()
-
+```
 ## messager
+
 ```js
 $.messager.popover({
 				msg: '保存成功！',
@@ -135,13 +112,12 @@ $.messager.popover({
 				timeout: 2000, 		//0不自动关闭。3000s
 				showType: 'slide'  //show,fade,slide
 			});
+// success, alert , info, error
 ```
-## obj
-```
+## Object Refer use
+```objectscript
 s PatDiagsStr = ##class(User.DHCPAPatMas).%OpenId(##class(User.PAAdm).%OpenId(Adm).PAADMPAPMIDR.%Id()).PAPMIChronic
 ```
-
-## query && query execute
 
 ## forEach return
 arr.forEach(item => {
@@ -180,7 +156,7 @@ $('p').show();
 
 ```
 
-## xml 类 对象
+## XML 类 数据传输
 ```objectscript
 s obj.name = name
 s:obj.name="" obj.name = " "
@@ -206,4 +182,9 @@ const searchParams = new URLSearchParams(params);
 const urlWithParams = `${baseUrl}?${searchParams}`;
 
 console.log(urlWithParams);
+```
+
+## css
+```js
+$("#DeptList").css('height',$(window).height()-395);
 ```

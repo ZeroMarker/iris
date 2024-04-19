@@ -1,4 +1,5 @@
 [DECLARE cursor](https://docs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=RSQL_declare)
+
 ```objectscript
 SET name="John Doe",state="##"
 &sql(DECLARE EmpCursor CURSOR FOR 

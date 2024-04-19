@@ -89,6 +89,7 @@ function FrequencyLookUpSelect
 ## 阿帕奇评分死亡转科出院医嘱
 oeorder.oplistcustom.new.csp
 UDHCOEOrder.List.Custom.New.js
+
 [Code](./doc/code/apache.md)
 
 ## 手麻接受科室医嘱库存
@@ -395,18 +396,6 @@ SetPatInfoByXML(myXMLStr);
 SaveOrderToEMR();
 
 ## 诊断录入
-WToken: 
-909E13EA00B8D2813A1A9D9E7298CBCD
-paramdata: 
-{"action":"QUALITY_CHECK","params":{"episodeID":"1404","documentID":["1276"],"eventType":"Save^28^233","langID":"20"},"product":"OP"}
-_: 
-
-MWToken: 
-909E13EA00B8D2813A1A9D9E7298CBCD
-paramdata: 
-{"action":"QUALITY_CHECK","params":{"episodeID":"1404","documentID":["1276"],"eventType":"Save^28^233","langID":"20"},"product":"OP"}
-_: 
-
 诊断录入补丁包
 
 ## 处方类型 患者类别(费别) 收费类别
@@ -1737,8 +1726,6 @@ dhcdoc/dhcapp/MedRecordpanel.js
 		系统参数
 			申请单高度
 
-
-
 抗菌药物申请弹窗
 dhcdocant/kss_hui/apply.js
 
@@ -1746,7 +1733,6 @@ dhcdocant/kss_hui/apply.js
 ## 医嘱模板提示医嘱套未授权
 个人组套和科室组套同一名称
 添加个人组套
-
 
 ## 医嘱表格局部刷新
 opdoc.main.framework.js
@@ -1829,3 +1815,16 @@ zw ^DHCDocConfig("HospDr_2","DocCureUseBase")
 
 
 ## 读卡包自动部署
+/dthealth/app/dthis/web/addins/plugin/
+
+## 病理 共库 Soap 登录密码
+d ..WSSecurityLogin("dhwebservice","password")
+
+## 临时医嘱频次
+执行记录数量 
+医嘱数量 / 频次系数
+打包数量
+医嘱数量 / 频次系数
+
+appcom.OEDispensing
+

@@ -698,3 +698,10 @@ where que.QueDate >= {fn CURDATE()} - 150;
 SELECT NOW();
 -- https://docs.intersystems.com/iris20241/csp/docbook/DocBook.UI.Page.cls?KEY=RSQL_FUNCTIONS
 
+select DARCIM_CanCrossDay ,* from DHC_ItmMast ;
+-- 医嘱项扩展设定
+
+UPDATE DHC_ItmMast
+SET DARCIM_CanCrossDay = NULL
+WHERE DARCIM_CanCrossDay = 'N';
+
