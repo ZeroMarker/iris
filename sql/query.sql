@@ -705,3 +705,7 @@ UPDATE DHC_ItmMast
 SET DARCIM_CanCrossDay = NULL
 WHERE DARCIM_CanCrossDay = 'N';
 
+select * from DHC_CardHardComManager ;
+
+select * from DHC_CardHardComGroup ;
+-- 设备

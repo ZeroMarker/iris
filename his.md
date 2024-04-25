@@ -1828,3 +1828,5 @@ d ..WSSecurityLogin("dhwebservice","password")
 
 appcom.OEDispensing
 
+## 检查申请单状态
+w ##class(web.DHCENS.STBLL.RIS.METHOD.GetRisAppInfo).GetAppBillByStudyNoNew("6092||3^6092||4")
