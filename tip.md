@@ -1,8 +1,3 @@
-## nested structure
-.
-..
-等同于花括号
-
 ## prefix match
 $Extract(Code,1,$L(Target))=Target
 
@@ -187,4 +182,27 @@ console.log(urlWithParams);
 ## css
 ```js
 $("#DeptList").css('height',$(window).height()-395);
+```
+
+```
+s BillFlag1=$P($G(^MRC("ID",+ICDRowid)),"^",13)
+s BillFlag3=$P($G(^MRC("ID",+ICDRowid)),"^",15)
+s DiagObj.DiagnosisClass=$SELECT((BillFlag1="Y")&&(BillFlag3="Y"):"证型",BillFlag3="Y":"中医",1:"西医")
+```
+
+## <NESTED TOO DEEP>
+```objectscript
+q json.%ToJSON()
+
+s json = {}.%FromJSON(json)
+```
+
+## json function 同名变量覆盖
+```
+function Pat() {
+	item = ..Order()
+}
+function Order() {
+	item = name
+}
 ```

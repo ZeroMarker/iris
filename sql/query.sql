@@ -500,6 +500,7 @@ select * from INSU_AdmInfo;
 
 select inadm_xstring7,* from INSU_AdmInfo;
 SELECT * from INSU_DicData;
+-- ^DHCINDID
 -- 医保类型 医保字典 
 /*
 SELECT * from ARC_InsuranceType;
@@ -709,3 +710,54 @@ select * from DHC_CardHardComManager ;
 
 select * from DHC_CardHardComGroup ;
 -- 设备
+SELECT * FROM 	OEC_Priority
+
+SELECT * FROM MR_DiagType
+
+
+select * from CT_LockSchedule
+-- 锁号
+
+-- 检查检验树
+-- User.DHCAppTreeAdd
+-- User.DHCAppTreeLink
+-- User.DHCAppPart
+
+SELECT other.AP_Desc, self.Ap_Desc 
+FROM DHC_AppPart self
+JOIN DHC_AppPart other ON self.ap_lastrowid = other.AP_RowId
+order by other.AP_RowId;
+-- 检查部位
+
+select * from insuqc_po_ch.PersonDiag;
+select * from insuqc_po_ch.DiagDic;
+-- 慢病病种
+
+select * from 	DHCDoc_OrderVirtualtLong;
+-- 虚拟长期
+
+select RegfeeAdmDr ,* from DHCRegistrationFee ;
+select * from RB_ResEffDate ;
+select SESS_Room_DR ,* from RB_ResEffDateSession ;
+select AS_RBEffDateSession_DR ,* from RB_ApptSchedule ;
+-- 排班模板 坐诊信息
+
+select * from PHC_Freq ;
+select * from PHC_DispensingTime;
+-- 频次 分发时间
+
+select UpdateUserName ,* from DHC_DocDataChangeLog 
+WHERE ClassNameDesc = "医保标识" 
+and UpdateDate in ('2024-05-17','2024-05-18')
+and ObjectReference in (
+	select OEORI_RowId from OE_OrdItem 
+	where OEORI_CoverMainIns is not null
+	and OE_OrdItem.OEORI_InsertDate in ('2024-05-17','2024-05-18')
+	and OEORI_ItmMast_DR -> arcim_desc like "%床位%"
+	and OEORI_OEORD_ParRef in (
+		select OEORD_RowId1  from OE_Order where OEORD_Adm_DR in (
+			select PAADM_RowID  from PA_Adm where PAADM_VisitStatus <> "D"
+		)
+	)
+);
+-- 医保标志修改日志
