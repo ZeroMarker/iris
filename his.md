@@ -899,3 +899,28 @@ web.UDHCJFPRICE.GetOrderPrice()
 
 ## 获取年龄
 ##class(web.UDHCJFCOMMON).DispPatAge
+
+## 总览打印
+护士执行单设置
+/// w ##class(DHCDoc.OPDoc.TreatPrint).GetOrdMenuOEChkMap("2885||2","输液单")
+
+## 护士 转科 患者
+if ((PAAdmType="I")&&(LoginAdmLocFlag="Y"))||(VisitStatus="P"){
+	;医嘱单默认在北部 护士强制在北部
+	s OrdListRegion=$SELECT(OrdListRegion'="":OrdListRegion,1:"north")	;isNurseLogin:"north",
+	;此时医嘱模板南北布局跟着医嘱单走
+	if " north south "[(" "_TemplateRegion_" ") s TemplateRegion=OrdListRegion
+ }else{
+	;其余时候不显示医嘱列表
+	;s OrdListRegion=""
+ }
+
+## 方法
+费别处方垃圾数据
+获取医嘱是否预停方法
+
+## 病历 检验引用列表
+url: '../EMRservice.Ajax.lisData.cls?Action=GetLisData&InterFace=' + encodeURI(encodeURI(interface)),
+emr.ip.resource.lisdata.csp
+https://array-stars.decard.com/login?logout
+

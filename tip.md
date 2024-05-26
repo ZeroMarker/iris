@@ -197,12 +197,3 @@ q json.%ToJSON()
 s json = {}.%FromJSON(json)
 ```
 
-## json function 同名变量覆盖
-```
-function Pat() {
-	item = ..Order()
-}
-function Order() {
-	item = name
-}
-```
