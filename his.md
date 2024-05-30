@@ -914,6 +914,7 @@ if ((PAAdmType="I")&&(LoginAdmLocFlag="Y"))||(VisitStatus="P"){
 	;其余时候不显示医嘱列表
 	;s OrdListRegion=""
  }
+ dhcdoc/oeorder.oplistcustom.show.js
 
 ## 方法
 费别处方垃圾数据
@@ -924,3 +925,46 @@ url: '../EMRservice.Ajax.lisData.cls?Action=GetLisData&InterFace=' + encodeURI(e
 emr.ip.resource.lisdata.csp
 https://array-stars.decard.com/login?logout
 
+## bug zGetHourGenTimeList+9^DHCDoc.Order.Exec.1
+s LinkTime=$O(LinkExecList(GenDate,""))
+			s ind=""
+			s:LinkTime'="" ind=$O(LinkExecList(GenDate,LinkTime,""))
+			s:ind'="" LinkOrdExecID=LinkExecList(GenDate,LinkTime,ind).LinkOrdExecID
+
+## bug 单独生成条码
+i (LabItemSingleFlag=0){
+						s keylab=keylab_"^"_Index ;row
+					}
+
+## bug 撤销会诊
+/// CTOR: QP
+/// DATE: 2018-05-14
+/// DESC: 撤销会诊
+/// IN  : 
+/// OUT : 0：成功，-102:失败
+/// EXEC:  w ##class(DHCAnt.KSS.Extend.Undo).UndoConsult("")
+ClassMethod UndoConsult(aaId As %String, user As %String, InHosp = "") As %String
+{
+	n (aaId,user,InHosp)
+	s Err=0
+	s admId=$p(^DHCDAA("ANT",aaId),"^",1)
+	s consultNum=##class(DHCAnt.KSS.Common.Method).GetConsultDepNums(InHosp)
+	s conId1=$p(^DHCDAA("ANT",aaId,1),"^",22)
+	s conId2=$p(^DHCDAA("ANT",aaId,1),"^",26)
+	s conId3=$p(^DHCDAA("ANT",aaId,1),"^",29)
+	s conId="",cResult=0
+	f i=1:1:consultNum {
+		i i=1 s conId=conId1
+		i i=2 s conId=conId2
+		i i=3 s conId=conId3
+		q:cResult'=0
+		s cResult=##Class(web.DHCEMConsInterface).CancelCstNo(conId,user)
+		//q:(cResult'="")&&(cResult'=0)
+		//s cResult=##class(User.DHCConsultation).ChangeStatus(conId,"C","Y",user,admId)
+			
+	}
+	q:cResult'=0 "-102"
+ 	q Err
+}
+
+## Global && ECP && date format

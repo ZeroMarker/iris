@@ -225,3 +225,15 @@ var init = function(){
  
 };
 $(init);
+
+// sort
+$(function(){
+    $('#mygrid').datagrid({
+        onSortColumn: function(sort, order){
+            $('#mygrid').datagrid('reload',{
+                sort: sort,
+                order: order
+            });
+        }
+    });
+})  
