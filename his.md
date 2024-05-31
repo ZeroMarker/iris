@@ -968,3 +968,8 @@ ClassMethod UndoConsult(aaId As %String, user As %String, InHosp = "") As %Strin
 }
 
 ## Global && ECP && date format
+
+
+## 强制退号
+
+挂号设置 授权管理
