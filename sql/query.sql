@@ -761,3 +761,6 @@ and ObjectReference in (
 	)
 );
 -- 医保标志修改日志
+
+select transfer_Input ,* from Ens_InterfaceV8 order by 1 desc;
+平台日志
