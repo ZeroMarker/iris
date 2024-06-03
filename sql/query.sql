@@ -617,13 +617,15 @@ select * from DHC_RegConDisCount;
 SELECT * from RBC_SessionType;
 
 -- 诊室
-SELECT * from DHCExaBorough
+SELECT * from DHCExaBorough;
 
-SELECT  * from SQLUser.CT_LOC WHERE CTLOC_desc like "%诊室%"
+SELECT  * from SQLUser.CT_LOC WHERE CTLOC_desc like "%诊室%";
 
-SELECT * from DHCBorExaRoom
+SELECT * from DHCBorExaRoom;
 
-SELECT * from DHCRoomComp
+SELECT * from DHCRoomComp;
+
+select * from DHCExaBorDep;
 
 SELECT * from DHC_VIS_VoiceServer 
 -- 服务器
@@ -763,4 +765,27 @@ and ObjectReference in (
 -- 医保标志修改日志
 
 select transfer_Input ,* from Ens_InterfaceV8 order by 1 desc;
-平台日志
+-- 平台日志
+
+create view order_graph as
+SELECT OEORI_Doctor_DR doctor,OEORI_Doctor_DR->CTPCP_Desc name,OEORI_ItmMast_DR item, 
+OEORI_ItmMast_DR ->ARCIM_Desc item_name, COUNT(*) as order_count
+FROM OE_OrdItem 
+where OEORI_Doctor_DR->CTPCP_Desc is not null
+GROUP BY OEORI_Doctor_DR, OEORI_ItmMast_DR;
+
+SELECT MRDIA_DocCode_DR->CTPCP_desc, MRDIA_ICDCode_DR ->MRCID_Desc, COUNT(*) as diagnosis_count
+FROM MR_Diagnos
+GROUP BY MRDIA_DocCode_DR, MRDIA_ICDCode_DR
+ORDER BY MRDIA_DocCode_DR, diagnosis_count DESC;
+
+select * from DHC_AppRepPart ;
+select * from DHC_AppRepPos ;
+-- 部位
+-- 体位
+select * from DHC_AppPosition ;
+select * from DHC_AppPart ;
+select * from DHC_AppRepTarItm;
+
+
+select * from  CT_BDP_CT.DischargeMethod;

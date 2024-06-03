@@ -973,3 +973,23 @@ ClassMethod UndoConsult(aaId As %String, user As %String, InHosp = "") As %Strin
 ## 强制退号
 
 挂号设置 授权管理
+
+## 医嘱 到达 就诊科室
+;下医嘱后将病人状态置为到达
+	s CFSetArriveByOrder=..%GetConfig("SetArriveByOrder",AdmDepHospId)
+	s LocType = $p($g(^CTLOC(Loc)),"^",13)
+	if CFSetArriveByOrder=1,Doc'="",LocType="E" d ##class(web.DHCDocOrderEntry).SetArrivedStatus(Adm,Doc,Loc,User)
+
+## 患者信息条码
+var PatStr = $.cm({
+            ClassName: "web.DHCDocOrderEntry",
+            MethodName: "GetPatientByNo",
+            dataType: "text",
+            PapmiNo: RegNo
+        }, false)
+
+## 挂号小条
+
+
+## 挂号
+DHCOPReturn.js
