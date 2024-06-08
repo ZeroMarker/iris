@@ -742,6 +742,7 @@ select RegfeeAdmDr ,* from DHCRegistrationFee ;
 select * from RB_ResEffDate ;
 select SESS_Room_DR ,* from RB_ResEffDateSession ;
 select AS_RBEffDateSession_DR ,* from RB_ApptSchedule ;
+select SESS_Room_DR ,* from RB_ResEffDateSession;
 -- 排班模板 坐诊信息
 
 select * from PHC_Freq ;
@@ -789,3 +790,28 @@ select * from DHC_AppRepTarItm;
 
 
 select * from  CT_BDP_CT.DischargeMethod;
+
+select * from DHC_RBCSessionTypeService;
+
+select * from DHC_RBSessContrast ;
+-- 医护人员类型 职称 对照
+
+select * from DHC_DischargeHistory where DHCDis_PAAdmExt_ParRef = 1384;
+
+select * from dhc_appPisMaster
+
+select * from DHC_AppArcLink ;
+
+select * from DHC_AppRepArc ;
+
+select * from OE_OrdItem ;
+
+select * from RBC_SessionType;
+
+select * from PHC_Freq ;
+
+select * from PHC_FormDoseEquiv WHERE PHC_FormDoseEquiv.EQ_ParRef = "608||1";
+
+
+SELECT rea_admsource,* FROM pac_admreason;
+-- >0 医保

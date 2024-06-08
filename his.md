@@ -993,3 +993,39 @@ var PatStr = $.cm({
 
 ## 挂号
 DHCOPReturn.js
+
+## 住院证特殊字符
+联系人姓名 ""
+
+## 挂号限制
+专业组
+排班模板 扩展
+坐诊
+
+## 加号限额
+ClassMethod GetAvailableSeqNoStr(RBASId As %String, RegType As %String, APPMethodCode As %String = "", HospitalID As %String = "", StartTime As %String = "", EndTime As %String = "", AllowAddRegFlag As %String = "", ClinicGroupId As %String = "") As %String
+
+## 您无权撤销
+```
+if ##class(web.UDHCStopOrderLook).IsPayCanStopOrder(oeorirowid)=1 {
+					s cancelMsg=..%Translate("ipdoc.patinfoview.csp","您无权撤销 ")_OrderName_..%Translate("ipdoc.patinfoview.csp"," 医嘱！")_..%GetErrCodeMsg("-100071")
+					s ErrMsg=cancelMsg
+					Q
+				}
+				s IsOrdExecFlag=+##class(web.UDHCStopOrderLook).IsOrdExec(oeorirowid)
+				if (IsOrdExecFlag>0) {
+					if (StopDealType="") {
+						s cancelMsg=..%Translate("ipdoc.patinfoview.csp","您无权撤销 ")_OrderName_..%Translate("ipdoc.patinfoview.csp"," 医嘱！")_..%GetErrCodeMsg("-100071")
+					}elseif (IsOrdExecFlag=2){
+						s cancelMsg=..%Translate("ipdoc.patinfoview.csp","您无权撤销 ")_OrderName_..%Translate("ipdoc.patinfoview.csp"," 医嘱！执行记录已全部执行！")
+					}					
+					s ErrMsg=cancelMsg
+					Q
+				}
+
+```
+
+## demo挂菜单
+菜单维护
+菜单授权
+
