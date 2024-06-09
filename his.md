@@ -994,6 +994,7 @@ var PatStr = $.cm({
 ## 挂号
 DHCOPReturn.js
 
+<<<<<<< HEAD
 ## 住院证特殊字符
 联系人姓名 ""
 
@@ -1032,4 +1033,16 @@ if ##class(web.UDHCStopOrderLook).IsPayCanStopOrder(oeorirowid)=1 {
 ## 用法绑定 数量为空 跟随主医嘱
 
 ## 保留数 RegType="APP"
+
+
+d ##class(User.OEOrdItem).%BuildIndices()
+m ^OEORD(4192,"I",12)=^OEORD(4192,"I",13)
+s $p(^OEORD(4192,"I",12,11),"^",39) = ""
+
+w ##Class(web.DHCDocInPatientListNew).GetSortDescOrder()
+s JsonRow = $tr(JsonRow,"\","")
+
+s dispqty=$$calcqty^DHCOEOrdItem(drgform,uom,doseqty,AdmType)
+&SQL(SELECT EQ_Qty INTO :uomqty FROM PHC_FormDoseEquiv WHERE EQ_ParRef = :drgform AND EQ_CTUOM_DR = :uom)
+等效单位 毫克 片
 
