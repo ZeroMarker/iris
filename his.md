@@ -1029,3 +1029,7 @@ if ##class(web.UDHCStopOrderLook).IsPayCanStopOrder(oeorirowid)=1 {
 菜单维护
 菜单授权
 
+## 用法绑定 数量为空 跟随主医嘱
+
+## 保留数 RegType="APP"
+
