@@ -924,7 +924,7 @@ if ((PAAdmType="I")&&(LoginAdmLocFlag="Y"))||(VisitStatus="P"){
 url: '../EMRservice.Ajax.lisData.cls?Action=GetLisData&InterFace=' + encodeURI(encodeURI(interface)),
 emr.ip.resource.lisdata.csp
 https://array-stars.decard.com/login?logout
-
+d ##class(EMRservice.Ajax.pacsData).GetPacsData("HSBToHis","40637,"","","","","1")
 ## bug zGetHourGenTimeList+9^DHCDoc.Order.Exec.1
 s LinkTime=$O(LinkExecList(GenDate,""))
 			s ind=""
@@ -1009,20 +1009,20 @@ ClassMethod GetAvailableSeqNoStr(RBASId As %String, RegType As %String, APPMetho
 ## 您无权撤销
 ```
 if ##class(web.UDHCStopOrderLook).IsPayCanStopOrder(oeorirowid)=1 {
-					s cancelMsg=..%Translate("ipdoc.patinfoview.csp","您无权撤销 ")_OrderName_..%Translate("ipdoc.patinfoview.csp"," 医嘱！")_..%GetErrCodeMsg("-100071")
-					s ErrMsg=cancelMsg
-					Q
-				}
-				s IsOrdExecFlag=+##class(web.UDHCStopOrderLook).IsOrdExec(oeorirowid)
-				if (IsOrdExecFlag>0) {
-					if (StopDealType="") {
-						s cancelMsg=..%Translate("ipdoc.patinfoview.csp","您无权撤销 ")_OrderName_..%Translate("ipdoc.patinfoview.csp"," 医嘱！")_..%GetErrCodeMsg("-100071")
-					}elseif (IsOrdExecFlag=2){
-						s cancelMsg=..%Translate("ipdoc.patinfoview.csp","您无权撤销 ")_OrderName_..%Translate("ipdoc.patinfoview.csp"," 医嘱！执行记录已全部执行！")
-					}					
-					s ErrMsg=cancelMsg
-					Q
-				}
+	s cancelMsg=..%Translate("ipdoc.patinfoview.csp","您无权撤销 ")_OrderName_..%Translate("ipdoc.patinfoview.csp"," 医嘱！")_..%GetErrCodeMsg("-100071")
+	s ErrMsg=cancelMsg
+	Q
+}
+s IsOrdExecFlag=+##class(web.UDHCStopOrderLook).IsOrdExec(oeorirowid)
+if (IsOrdExecFlag>0) {
+	if (StopDealType="") {
+		s cancelMsg=..%Translate("ipdoc.patinfoview.csp","您无权撤销 ")_OrderName_..%Translate("ipdoc.patinfoview.csp"," 医嘱！")_..%GetErrCodeMsg("-100071")
+	}elseif (IsOrdExecFlag=2){
+		s cancelMsg=..%Translate("ipdoc.patinfoview.csp","您无权撤销 ")_OrderName_..%Translate("ipdoc.patinfoview.csp"," 医嘱！执行记录已全部执行！")
+	}					
+	s ErrMsg=cancelMsg
+	Q
+}
 
 ```
 
@@ -1046,3 +1046,14 @@ s dispqty=$$calcqty^DHCOEOrdItem(drgform,uom,doseqty,AdmType)
 &SQL(SELECT EQ_Qty INTO :uomqty FROM PHC_FormDoseEquiv WHERE EQ_ParRef = :drgform AND EQ_CTUOM_DR = :uom)
 等效单位 毫克 片
 
+## 出院
+DHCDoc.Interface.Inside.Invoke
+doctorDischarge
+
+## 执行数量
+/// Others:       w ##class(DHCDoc.Interface.Inside.ServiceOrd).GetOrdExecQty("11619||725")
+执行记录执行
+医嘱未执行
+## 数量
+OEORE_PhQtyOrd,OEORE_QtyAdmin
+剂量单位和整包装数量

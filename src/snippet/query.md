@@ -89,3 +89,45 @@ if (query) {
 d query.%Close()
 q amount
 ```
+
+```
+Query FindDiagStatusBroker() As websys.Query(ROWSPEC = "DSTATRowId:%String,DSTATDesc:%String,DSTATCode:%String")
+{
+}
+
+/// debug:	d ##class(%ResultSet).RunQuery("DHCDoc.DHCDocConfig.CNMedCode", "FindDiagStatusBroker")
+/// [ ProcedureBlock = 0 ] 前台没有输出，很神奇
+ClassMethod FindDiagStatusBrokerExecute(ByRef qHandle As %Binary) As %Status [ ProcedureBlock = 1 ]
+{
+	s repid = $i(^CacheTemp)
+	s ind = 1
+	s qHandle = $lb(0, repid, 0)
+	s languageId = ..%LanguageID()
+	
+	s rs=##class(%ResultSet).%New("DHCDoc.DHCDocConfig.CNMedCode:FindDiagStatus")
+	if rs.QueryIsValid(){
+		s status = rs.Execute()
+		if (status) {
+			s columnCount = rs.GetColumnCount()
+			while rs.Next() {
+				s rowLB = ""
+				for i = 1:1:columnCount {
+					s value = rs.GetData(i)
+					if (rs.GetColumnName(i) = "DSTATDesc") {
+						s value = ..%TranslateTableFieldValue("User.MRCDiagnosStatus", "DSTATDesc", value, languageId)
+					}
+					s rowLB = rowLB_$lb(value)
+				}
+				d:rowLB'="" OutputRow
+			}
+		}
+	}
+	Quit $$$OK
+
+OutputRow
+	s Data = rowLB
+	s ^CacheTemp(repid, ind) = Data
+	s ind = ind + 1
+	q
+}
+```
