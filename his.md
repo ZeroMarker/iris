@@ -1057,3 +1057,72 @@ doctorDischarge
 ## 数量
 OEORE_PhQtyOrd,OEORE_QtyAdmin
 剂量单位和整包装数量
+
+## 小时
+/// creater tanjishan
+/// 获取医嘱缺失执行记录详情
+/// Input OEOrdID 医嘱ID 
+/// OutPut 1 存在异常 0不存在异常
+/// w ##class(web.DHCDocMain).CheckExecValidity("60266||93", .MissExecList)
+/// WangQingyong 修改为新的执行记录生成方法统一判断
+ClassMethod CheckExecValidity(OEOrdID As %String, ByRef MissExecList) [ ProcedureBlock = 0 ]
+{
+	n (OEOrdID,MissExecList)
+	k MissExecList
+	s TtemStat=$P($G(^OEORD(+OEOrdID,"I",$p(OEOrdID,"||",2),1)),"^",13)
+	s statcode=$p($g(^OEC("OSTAT",TtemStat)),"^",1)
+	;医嘱无效和实习生审核的
+	Q:(statcode="U")||(statcode="C")||(statcode="I") 0
+	;治疗项目预约时产生则不需要生成
+	Q:##class(DHCDoc.Order.Exec).GetCureAppGenFlag(OEOrdID) 0
+	;PRN医嘱不需要产生
+	Q:##class(appcom.OEOrdItem).ISPRNOrder(OEOrdID) 0
+	;s EndDate=$p($G(^OEORD(+OEOrdID,"I",$p(OEOrdID,"||",2),9)),"^",9)
+	s SttDate=$P($G(^OEORD(+OEOrdID,"I",$p(OEOrdID,"||",2),1)),"^",9)	
+	s EndDate=$p($G(^OEORD(+OEOrdID,"I",$p(OEOrdID,"||",2),3)),"^",34)	
+	s GenDate=$CASE(EndDate,"":+$H,:EndDate)
+	;获取指定时间范围执行时间列表，有停止日期就按停止日期算,没有按今天
+	;临时 住院 小时
+	s Adm = $p(^OEORD(+OEOrdID),"^",1)
+	s AdmType = $p(^PAADM(Adm),"^",2)	
+	s Prior = $p(^OEORD(+OEOrdID,"I",$p(OEOrdID,"||",2),1),"^",8)
+	if ##class(appcom.OEOrdItem).IsHourOrderItem(OEOrdID) {
+		if ((AdmType="I")&&(Prior=3)) {s GenDate=SttDate}
+	}
+	d ##class(DHCDoc.Order.Exec).GetGenTimeList(OEOrdID,GenDate,.ExecList)
+	b ;;;;;
+	d ##class(DHCDoc.Order.Exec).GetOrdExecQtyToList(OEOrdID,.ExecList)
+	s CheckRet=0
+	s Date="" for{
+		s Date=$O(ExecList(Date)) Q:Date=""
+		s Time="" for{
+			s Time=$O(ExecList(Date,Time)) Q:Time=""
+			b ;kkk
+			if '$D(^OEORDi(0,"Date",+OEOrdID,Date,Time,$p(OEOrdID,"||",2))){
+				s CheckRet=1
+				b ;zt1
+				s MissExecList("ExecTime",Date,Time)=""
+			}
+		}
+	}
+	Q CheckRet
+}
+
+##
+if ((ReAdmis=="")&&(FirstAdm=="")&&(OutReAdm=="")&&(ServerObj.PAAdmType!="I")) {
+		$.messager.alert("提示","初诊、门诊复诊或出院复诊不能同时为空！","info")
+		return false;
+	}
+	var Weight=$("#Weight").val();
+	var LocDesc = session['LOGON.CTLOCDESC'];
+	if ((Weight == "") && (LocDesc.indexOf('儿科')!=-1)) {
+		$.messager.alert("提示","儿科体重不能为空！","info")
+		return false;
+	}
+
+## 病理申请
+w ##class(web.DHCENS.STBLL.PIS.METHOD.GetPisAppInfo).SendAppBill("2463||10")
+
+## restart
+iris stop irishealth restart
+
