@@ -1126,3 +1126,12 @@ w ##class(web.DHCENS.STBLL.PIS.METHOD.GetPisAppInfo).SendAppBill("2463||10")
 ## restart
 iris stop irishealth restart
 
+## 治疗申请单
+doccure.cureapplist.show.hui.csp
+
+## 建卡 生日 性别
+setBirthAndSex
+
+## 检查
+/// Descript:  获取检查申请XML串
+/// w ##Class(web.DHCAPPInterface).GetExaReqNoXml("3029")
