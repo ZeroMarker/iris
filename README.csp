@@ -1,2 +1,7 @@
 <script type="text/javascript" src="../scripts/Reg/CardReg.hui.js"></script>
+<script type="text/javascript" src="../scripts/dhcdoc/dhcapp/InfectDispanel.js"></script>
+<server>
+    w ##class(DHCDoc.OPDoc.TreatPrint).GetPrescPrintData()
+    w ##class(web.DHCAPPSeePatPacs).GetLisInspectOrdNew()
+</server>
 

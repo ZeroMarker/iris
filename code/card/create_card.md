@@ -1,5 +1,5 @@
-cardreg.hui.csp
-cardreg.show.hui.csp
+reg.cardreg.hui.csp
+reg.cardreg.show.hui.csp
 
 web.DHCEntity.PCA.PATMAS.cls
 

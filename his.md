@@ -994,7 +994,6 @@ var PatStr = $.cm({
 ## 挂号
 DHCOPReturn.js
 
-<<<<<<< HEAD
 ## 住院证特殊字符
 联系人姓名 ""
 
@@ -1122,9 +1121,13 @@ if ((ReAdmis=="")&&(FirstAdm=="")&&(OutReAdm=="")&&(ServerObj.PAAdmType!="I")) {
 
 ## 病理申请
 w ##class(web.DHCENS.STBLL.PIS.METHOD.GetPisAppInfo).SendAppBill("2463||10")
+w ##class(web.DHCENS.STBLL.PIS.METHOD.GetPisAppListInfo).SendAppBillNew("48||2").Read()
+scripts/dhcdoc/dhcapp/InfectDispanel.js
+传染病史
 
 ## restart
 iris stop irishealth restart
+
 
 ## 治疗申请单
 doccure.cureapplist.show.hui.csp
@@ -1135,3 +1138,92 @@ setBirthAndSex
 ## 检查
 /// Descript:  获取检查申请XML串
 /// w ##Class(web.DHCAPPInterface).GetExaReqNoXml("3029")
+
+## 抗菌药申请列表
+apply.js
+
+## 检查
+/// Debug:w ##class(web.DHCENS.STBLL.Method.ReturnSystemStatus).ReturnSystemStatusCircle().Read()
+
+/// Creator：ZhangXinying
+/// CreatDate：2021—11-06
+/// Description：HIS-API共库调用接口
+/// Table：Ens_InterfaceMethod、Ens_ApiSysConfig Ens_SubApiSysConfig
+/// Input：Input:方法代码,InputStream:入参字符流
+/// Return：0:成功;-1:失败  
+/// w ##class(web.DHCENS.STBLL.MANAGE.MergeInstance).SendMergeInfo()
+
+## studio
+debug target
+
+## 多部位 单独登记
+s flag = 1
+			if $d(^Busi.ENS.EnsStatusI("IndexESOrdItemIDPartID"," "_OEOrdItemID," "_Position)) {
+				s tmpPosition=""
+				for
+				{
+					q:(tmpPosition="")
+					s tmpPosition=$o(^Busi.ENS.EnsStatusI("IndexESOrdItemIDPartID"," "_OEOrdItemID,tmpPosition))
+					s tmpESStatusID1=""
+						s tmpESStatusID1=$o(^Busi.ENS.EnsStatusI("IndexESOrdItemIDPartID"," "_OEOrdItemID,tmpPosition,tmpESStatusID1),-1)
+					for
+					{
+						q:tmpESStatusID1=""
+						s Position1=$tr(tmpPosition," ","")
+						s tmpESStatusStr=$g(^Busi.ENS.EnsStatusD(tmpESStatusID1))
+						s Status=$listget(tmpESStatusStr,9)
+						s EffectiveFlag=$listget(tmpESStatusStr,12)
+						if (EffectiveFlag="Y") && ((Status="SC") || (Status="RP")) {
+							s flag = 0	
+						}
+						;q:EffectiveFlag="Y"
+						;s tmpESStatusID=tmpESStatusID1
+					}	
+				}	
+			}
+// w ##class(web.DHCENS.STBLL.Method.SystemStatusInfo).QuerySystemStatus("[{""OEOrdItemID"":""123||3"",""ExamID"":""456""}]")
+
+;elseif '$d(^Busi.ENS.EnsStatusI("IndexESOrdItemIDPartID"," "_OEOrdItemID," "_Position))&&(Position'["@@"){ //兼容多部位登记时，按多部位中某一部位查询能正常输出检查号的情况
+			elseif flag&&(Position'["@@"){ //兼容多部位登记时，按多部位中某一部位查询能正常输出检查号的情况
+			
+## 撤销停诊
+// w ##class(web.DHCRBApptSchedule).GetRBApptScheduleStatus()
+
+## 病理
+/// Creator：王博
+/// CreatDate： 20190412
+/// Description： 临床下申请单后，推送申请单信息到病理数据表
+/// Table： 
+/// Input： 医嘱号    
+/// Output：       
+/// Return：0：推送成功  -1：失败   
+/// Others：w ##class(PISService.PISApply).SendPISApply("46835||45")
+## 代办人
+<!--pha.in.v1.narcpoison.csp 毒麻代理信息填写-->
+<!--dhcdoccheckpoison.csp 毒麻代理信息填写-->
+## 检查状态回传
+/// Creator：ZhangXinying
+/// CreatDate：2021—04-30
+/// Description：状态变更回传HIS
+/// Table：Ens_Status、Ens_StatusLog
+/// Input：请求xml串
+/// Return：应答xml串
+/// Debug:w ##class(web.DHCENS.STBLL.Method.SystemStatusInfo).ReturnSystemStatusCircle().Read()
+
+## 空医嘱 治疗单
+/// 返回执行记录状态更新为配置里维护的
+/// w ##class(web.DHCEMNurExe).updateDisposeStatCode(1147,74,1)
+
+## 病理 传染病史 阴性+
+dhcdoc/dhcapp/InfectDispanel.js
+
+## 报错
+"<OBJECT DISPATCH>zFindLocDocCurrentAdmExecute+388^web.DHCDocOutPatientList.1 *Property 'QueNo' in class 'User.DHCQueue' must be MultiDimensional "
+
+## 多部位 子医嘱
+医技执行 同步 护士执行
+
+## 挂号费用显示
+/// 得到单个预约记录
+/// w ##Class(DHCExternalService.RegInterface.SelfRegMethods).GetApptObjByRBASObj("688||64||1",18341)
+

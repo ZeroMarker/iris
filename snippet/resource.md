@@ -1,25 +1,24 @@
-```
-/// w ##class(web.DHCDocMain).GetRoomByEpisodeID(5063)
+```objectscript
+/// 获取诊室
+/// w ##class(web.DHCDocMain).GetRoomByEpisodeID(9127)
 ClassMethod GetRoomByEpisodeID(EpisodeID)
 {
 	q:EpisodeID="" ""
-	s ^kkkdd = EpisodeID
 	s regfee = $o(^User.DHCRegistrationFeeI("ADM"," "_EpisodeID,0))
 	s rbas = $lg(^User.DHCRegistrationFeeD(regfee),18)
 	q:rbas="" ""
+	s room = $p(^RBAS(+rbas,$p(rbas,"||",2),"DHC"),"^",5)
 	s eff = $p(^RBAS(+rbas,$p(rbas,"||",2)),"^",12)
-	s:eff'="" room = $p($g(^RB("RES",+eff,"DATE",$p(eff,"||",2),"SESS",$p(eff,"||",2))),"^",19)
-	s:$g(room)="" room = $p(^RBAS(+rbas,$p(rbas,"||",2),"DHC"),"^",5)
-	b ;;;ddd
+	b ;;;;
+	s:((eff'="")&&($g(room)="")) room = $p($g(^RB("RES",+eff,"DATE",$p(eff,"||",2),"SESS",$p(eff,"||",3))),"^",19)
 	q:room="" ""
 	s desc = $p($g(^CTLOC(room)),"^",2)
 	q desc
-	;^RBAS({RB_Resource.RES_RowId},{AS_ChildSub}) 12
-	;^RB("RES",{RB_Resource.RES_RowId},"DATE",{RB_ResEffDate.DATE_Childsub},"SESS",{SESS_Childsub}) 19
 }
 ```
 
-```
+```objectscript
+/// 批量更新坐诊信息
 /// w ##class(web.DHCDocMain).UpdateSess()
 ClassMethod UpdateSess()
 {

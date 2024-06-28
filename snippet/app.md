@@ -1,4 +1,5 @@
 ```objectscript
+/// 获取部位描述
 /// w ##class(web.DHCDocMain).GetPardDesc("5800||25||1")
 ClassMethod GetPardDesc(exec)
 {

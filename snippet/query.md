@@ -1,5 +1,6 @@
 ```objectscript
-Query GetStudent() As %Query(ROWSPEC = "StCode:%String:学号,StName:%String:姓名,StSexDesc:%String:性别,StDob:%String:生日")
+; query
+Query GetStudent() As %Query(ROWSPEC = "Code:%String:学号,Name:%String:姓名,Sex:%String:性别,Birth:%String:生日")
 {
 }
 
@@ -21,19 +22,12 @@ ClassMethod GetStudentExecute(ByRef qHandle As %Binary) As %Status
         s id=$o(^User.StudentD(id))
         q:id=""
 		
-        s StCode=$lg(^User.StudentD(id),2)
-        s StName=$lg(^User.StudentD(id),3)
-        s StSexDr=$lg(^User.StudentD(id),4)
-        s StSexDesc=$lg(^User.CTSexD(StSexDr),3)
-        s StDob=$lg(^User.StudentD(id),"^",5)
-        s StDob=$zd(StDob,3)
-		
         d OutputRow  
     }
     set qHandle=$lb(0,repid,0)
     quit $$$OK
 OutputRow
-	set Data=$lb(StCode,StName,StSexDesc,StDob)
+	set Data=$lb(Code,Name,Sex,Birth)
     set ^CacheTemp(repid,ind)=Data
     set ind=ind+1
     quit
@@ -64,11 +58,11 @@ ClassMethod GetStudentFetch(ByRef qHandle As %Binary, ByRef Row As %List, ByRef 
 	s qHandle=$lb(AtEnd,repid,ind)
 	Quit $$$OK
 }
-
 ```
 
 
 ```objectscript
+; query
 // 1st way
 s query = ##class(%ResultSet).%New("web.PAAdm:QueryItem")
 
@@ -77,7 +71,7 @@ s query = ##class(%ResultSet).%New()
 s query.ClassName="web.PAAdm"
 s query.QueryName="QueryItem"
 
-if (query) {
+if query.QueryIsValid() {
     s rc = query.Execute(Code,Desc)
     while (query.Next()) {
         s Code = query.Data("Code")
@@ -90,7 +84,7 @@ d query.%Close()
 q amount
 ```
 
-```
+```objectscript
 Query FindDiagStatusBroker() As websys.Query(ROWSPEC = "DSTATRowId:%String,DSTATDesc:%String,DSTATCode:%String")
 {
 }

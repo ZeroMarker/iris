@@ -815,3 +815,20 @@ select * from PHC_FormDoseEquiv WHERE PHC_FormDoseEquiv.EQ_ParRef = "608||1";
 
 SELECT rea_admsource,* FROM pac_admreason;
 -- >0 医保
+
+SELECT SSUSR_Mobile, SSUSR_FreeText1, * FROM SS_User WHERE SSUSR_Name = "张慧敏";
+-- 手机号 身份证号
+
+-- 空医嘱
+select count(*),OEORI_OEORD_ParRef ->oeord_adm_dr->paadm_papmi_dr->papmi_name,OEORI_OEORD_ParRef ->oeord_adm_dr->paadm_papmi_dr->papmi_name,
+OEORI_OEORD_ParRef ->oeord_adm_dr->paadm_papmi_dr->papmi_no,* 
+from oe_ordItem where OEORI_OEORD_ParRef in (
+	select distinct OEORD_RowId1  from OE_Order where OE_Order.OEORD_RowId1 in (
+		select distinct OEORI_OEORD_ParRef  from OE_OrdItem where OEORI_ItemStat_DR is null
+	)
+	and OEORD_Adm_DR is not null
+)
+and OEORI_ItemStat_DR is null
+group by OEORI_OEORD_ParRef;
+
+select * from DHCQueue where DHCQueue.QueStateDr = 5 and QueDate = {fn CURDATE()};
