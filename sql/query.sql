@@ -832,3 +832,9 @@ and OEORI_ItemStat_DR is null
 group by OEORI_OEORD_ParRef;
 
 select * from DHCQueue where DHCQueue.QueStateDr = 5 and QueDate = {fn CURDATE()};
+
+select dhcaction_code,DHCAction_Desc,* from websys.DHCMessageActionType where DHCAction_Desc like "%抗菌%";
+
+select * from ARC_OrdSetDate;
+select * from ARC_OrdSets where ARCOS_RowId1 = 242;
+select * from ARC_OrdSetDateItem where ARC_OrdSetDateItem.ITM_ParRef = "242||1";

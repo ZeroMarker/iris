@@ -3,5 +3,7 @@
 <server>
     w ##class(DHCDoc.OPDoc.TreatPrint).GetPrescPrintData()
     w ##class(web.DHCAPPSeePatPacs).GetLisInspectOrdNew()
+    ;doc.ipbookquery.hui.csp
+    ;doc.ipbookcreate.hui.csp
 </server>
 

@@ -1156,6 +1156,7 @@ apply.js
 ## studio
 debug target
 
+envirument class track variable
 ## 多部位 单独登记
 s flag = 1
 			if $d(^Busi.ENS.EnsStatusI("IndexESOrdItemIDPartID"," "_OEOrdItemID," "_Position)) {
@@ -1227,3 +1228,98 @@ dhcdoc/dhcapp/InfectDispanel.js
 /// 得到单个预约记录
 /// w ##Class(DHCExternalService.RegInterface.SelfRegMethods).GetApptObjByRBASObj("688||64||1",18341)
 
+## 结算状态
+// 结算状态
+	;s FSStatus=##Class(web.DHCWMRBasePaadm).GetFSStatus(EpisodeID) ;潍坊人民医院增加结算状态
+	;s FSStatusDesc=""
+	;s:FSStatus'="N" FSStatusDesc="未结算"
+    ;s auditUser=$P($G(^PAADM(EpisodeID,2)),"^",92)
+    ;i auditUser'="" s FSStatusDesc="财务审核"
+    ;s billFlag=$P($G(^PAADM(EpisodeID)),"^",45)
+    ;i billFlag="Y" s FSStatusDesc="财务结算"
+s flag=##class(web.DHCDocMainOrderInterface).HiddenMenuFlag(EpisodeID)
+	if (flag=0)||(flag=5){
+		q ""
+	}
+	s Msg=$case(flag,2:"已医疗结算",2.5:"费用调整中",3:"已护士结算",4:"已财务结算")
+
+
+## JS 调用栈
+// Create a new Error object
+var err = new Error();
+
+// Capture the stack trace
+var stackTrace = err.stack;
+
+// Print or process the stack trace as needed
+//console.log(stackTrace);
+const regex = /scripts\/.*\.js/g;
+stackTrace = stackTrace.match(regex);
+stackTrace = stackTrace.join(',');
+
+## 医嘱缓存
+xhrRefresh()
+GetSessionData()
+
+
+## 抗菌药审核
+dhcdocant/kss_hui/audit.js 抗菌药物审核界面
+
+## 发送消息
+/// w ##class(websys.DHCMessageInterface).SendTest()
+/// websys.DHCMessageBiz
+ClassMethod SendTest()
+{
+}
+
+/// @param: Context 		信息文本内容		可为空,通过入参生成相关内容
+/// @param: ActionTypeCode  信息的动作类型代码  websys.DHCMessageActionType表的code字段值
+/// @param: FormUserRowId   信息发出人	 		SS_User->SSUSR_rowid, 如果消息发出人不在his人员表中,可直接传用户姓名。格式:"^Name"
+/// @param: EpisodeId 		病人就诊Id	 		PA_Adm->PAADM_RowId
+/// @param: OrdItemId 		医嘱明细表Id        OE_OrdItem->OEORI_RowId
+/// @param: ToUserRowId     信息发给人			SS_User->SSUSR_rowid  强制把消息发给该用户
+/// @param: OtherInfoJson   其它业务相关对象    Json格式,一些其它信息,如link等{"link":"x.csp?type=a&id=1"}
+/// 如果成功返回值大于0
+ClassMethod Send(Context, ActionTypeCode, FromUserRowId, EpisodeId = "", OrdItemId = "", ToUserRowId As %String(MAXLEN=30000) = "", OtherInfoJson As %String(MAXLEN=30000) = "", ToLocRowId As %String(MAXLEN=30000) = "", EffectiveDays = "", CreateLoc = "")
+{
+}
+https://note.youdao.com/s/CE3m1e3o
+
+## 电子病历获取医嘱明细
+d ##class(%ResultSet).RunQuery("DHCDoc.Interface.Inside.Service","FindEMROPItems","84698","","SaveOrder")
+
+## 出院诊断重复
+/// Creator:      songchunli
+/// CreateDate:   2022.10.14
+/// Description:  更新出院前需开诊断类型行数据
+/// Input:       
+/// Return:       
+/// Other:        ##Class(Nur.HISUI.NeedCareOrderSet).updateDiagBeforeDisch()
+
+## 切换病人 信息总览 病历质控
+dhc.emr.quality.qualityinfoshow.csp
+
+## 过敏
+scripts/dhcdoc/OEOrder.GuideAllergy.js
+w ##Class(web.DHCOEOrderGuideAllergy).GetGuideAllergyTableJson
+BuildRelatedAllergyList
+
+## 医嘱套 关联序号
+```objectscript
+d ##class(%ResultSet).RunQuery("web.DHCDocOrderCommon","FindOSItems","1738","2",5716)
+.s ItemLinkDoctor=$p(s,"^",14)
+.i ItemLinkDoctor'="" d
+..s tempMaster=$p(ItemLinkDoctor,".",1)
+..s tempSubSeqNo=$p(ItemLinkDoctor,".",2)
+..//i (tempSubSeqNo'="")&&($d(^||TempARCOSSeqNoArr($j,ItemLinkDoctor))) s tempMaster=$g(^||TempARCOSSeqNoArr($j,tempMaster))+1,ItemLinkDoctor=tempMaster_"."_tempSubSeqNo
+..//s ^||TempARCOSSeqNoArr($j,ItemLinkDoctor)=tempMaster
+..if tempSubSeqNo'="" d
+...s ItemLinkDoctor=tempMaster_"."_tempSubSeqNo
+...; ARCOSCount
+..e  d
+...;if ($d(^||TempARCOSSeqNoArr($j,ARCOSCount))) s ARCOSCount=ARCOSCount+1
+...s ItemLinkDoctor=tempMaster
+...; ARCOSCount
+...s ^||TempARCOSSeqNoArr($j,tempMaster)=1
+...; ARCOSCount
+```
