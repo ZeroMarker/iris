@@ -10,6 +10,7 @@ doc.patlistquerybiobank.hui.csp
 
 
 s IPAddress=##class(%SYSTEM.Process).ClientIPAddress()    ;获取IP地址
+s:$d(%session) IPAddress=$p(##class(User.DHCClientLogin).GetInfo(),"^",1) //$Get(%session.Data("REMOTE_ADDR"))
 
 s %session.Data("LOGON.USERID")=UserID
 s %session.Data("LOGON.CTLOCID")=LocID
