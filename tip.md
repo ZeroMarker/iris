@@ -69,3 +69,56 @@ s DiagObj.DiagnosisClass=$SELECT((BillFlag1="Y")&&(BillFlag3="Y"):"证型",BillF
 ```
 
 
+
+
+## GetSessionStr()
+```js
+// websys.js
+function GetSessionStr() {
+    return websys_getSessionStr();
+}
+```
+
+## reload datagrid
+```js
+$('#allergytb').datagrid('load', {   
+    PatientID:PatientID
+});
+```
+## run class method
+```js
+runClassMethod("web.DHCADVCOMMONPART","GetRecordId",{'LinkRecordId':recordId,'FormCode':"DrugHeaNurEvaluate"},
+function(data){ 
+			HeadNurEvaRecId=data
+},"text",false)
+```
+
+## cspRunServerMethod
+```js
+var ret=cspRunServerMethod(GlobalObj.AddAuditItemToListMethod,'AddCopyItemToList','',EpisodeID,AnditAARowidArr);
+```
+
+## tkMakeServerCall
+```js
+var jsonData=tkMakeServerCall("web.DHCEQ.Plat.LIBBusinessModify","GetOneInStockList",BussID);
+```
+
+## cm
+```
+var result=$.cm({
+        ClassName:"web.DHCANOPArrangeHISUI",
+        QueryName:"FindAnaestMethod",
+        anmethod:"",
+        ResultSetType:"array"
+    },false)
+```
+
+## 下拉框text取value
+```
+$("#mySelect option:contains('" + text + "'):selected").val();
+```
+
+
+
+
+

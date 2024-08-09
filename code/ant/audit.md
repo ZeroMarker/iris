@@ -178,4 +178,110 @@ ClassMethod LocAuditOne(App, OrdItem)
 		q 0
 	}
 }
+
+/// w ##class(web.DHCDocMain).GetArcimApp(4171,19590,2,"47||1")
+ClassMethod GetArcimApp(EpisodeID, UserID, HospID, Arcim)
+{
+	q:EpisodeID="" ""
+	q:UserID="" ""
+	q:HospID="" ""
+	q:Arcim="" ""
+	s App = ""
+	s query = ##class(%ResultSet).%New()
+	s query.ClassName="DHCAnt.KSS.MainInterface"
+	s query.QueryName="QryAntApplyInfo"
+
+	if query.QueryIsValid() {
+	    s rc = query.Execute(EpisodeID,UserID,HospID)
+	    while (query.Next()) {
+	        s id = query.Data("ArcimId")
+	        if id = Arcim {
+	            s status = query.Data("AppStatus")
+	            if status = "U" {
+		        	s App = query.Data("id")    
+		        }
+	        }
+	        s oeori = query.Data("cOeori")
+	        if oeori '= "" {
+		    	;s App = ""    
+		    }
+			q:App'=""
+	    }
+	}
+	d query.%Close()
+	q App
+}
+
+/// w ##class(web.DHCDocMain).GetArcimCat("15540||1")
+ClassMethod GetArcimCat(Arcim)
+{
+	q:Arcim="" ""
+	q ..Comm("value","ARCIM",10,+Arcim,1,1)
+}
+
+/// w ##class(web.DHCDocMain).CheckAdmTime(1,$zt(40000))
+ClassMethod CheckAdmTime(EpisodeID, Time)
+{
+	q:EpisodeID="" ""
+	q:Time="" ""
+	s AdmTime=$p($g(^PAADM(EpisodeID)),"^",7)
+	s TimeZ = $zth(Time)
+	if AdmTime > TimeZ {
+		q $zt(AdmTime) 	
+	}
+	q Time
+}
+
+ClassMethod IsConsultFinish(App, EpisodeID, UserID, HospID)
+{
+	q:App="" ""
+	q:EpisodeID="" ""
+	q:UserID="" ""
+	s flag = 1
+	s query = ##class(%ResultSet).%New()
+	s query.ClassName="DHCAnt.KSS.MainInterface"
+	s query.QueryName="QryAntApplyInfo"
+
+	if query.QueryIsValid() {
+	    s rc = query.Execute(EpisodeID,UserID,HospID)
+	    while (query.Next()) {
+			s id = query.Data("id")
+			if id = App {
+				;ConsultDoc1:%String,ConsultDT1
+		        s ConsultDoc1 = query.Data("ConsultDoc1")
+		        s ConsultDT1 = query.Data("ConsultDT1")
+		        s ConsultDoc2 = query.Data("ConsultDoc2")
+		        s ConsultDT2 = query.Data("ConsultDT2")
+		        s ConsultDoc3 = query.Data("ConsultDoc3")
+		        s ConsultDT3 = query.Data("ConsultDT3")
+		        if (ConsultDoc1 '= "") && (ConsultDT1 ="") {
+			    	s flag = 0
+			    }
+			    if (ConsultDoc2 '= "") && (ConsultDT2 ="") {
+			    	s flag = 0
+			    }
+			    if (ConsultDoc3 '= "") && (ConsultDT3 ="") {
+			    	s flag = 0
+			    }
+			    b ;;; flag	
+			}
+		    
+	    }
+	}
+	d query.%Close()
+	q flag
+}
+
+/// w ##class(web.DHCDocMain).diff($zdh("2024-07-18",3),$zth("17:00:00"))
+ClassMethod diff(date, time)
+{
+	s diff = ((+$h - date) * 60 * 60 * 24) + ($p($h,",",2) - time)
+	b ;;; diff
+	if diff > (60 * 60 * 24) {
+		q 0
+	}
+	else {
+		q 1	
+	}
+}
 ```
