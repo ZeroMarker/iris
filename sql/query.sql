@@ -29,9 +29,7 @@ WHERE OEORI_RowId in (
 order by OEORI_ItemStat_DR->ostat_desc;
 
 -- @Block
-SELECT * 
-FROM SQLUser.CT_Sex;
---性别
+
 
 -- @Block
 INSERT INTO SQLUser.Student 
@@ -42,10 +40,7 @@ SELECT TARAC_TARTAC_DR->TARTAC_Desc,*
 FROM SQLUser.DHC_TarAcctCate;
 -- 账单费用类别
 
--- @Block
-SELECT * 
-FROM SQLUser.PA_PatMas;
---病人信息
+
 
 -- @Block
 SELECT AA_Arcim_DR -> ARCIM_Desc AS apply_count, count(*) 
@@ -53,15 +48,6 @@ FROM SQLUser.DHC_Doc_AntibioticApply
 group by AA_Arcim_DR;
 -- 特抗药申请
 
--- @Block
-Select * 
-FROM SQLUser.CT_Address;
---地址
-
--- @Block
-SELECT * 
-from SQLUser.CT_Hospital;
---医院
 
 -- @Block
 SELECT * 
@@ -75,7 +61,7 @@ select * from SQLUser.DHC_CardRef;
 -- @Block
 SELECT *
 FROM SQLUser.OE_OrdItem;
---医嘱明细
+-- 医嘱明细
 
 -- @Block
 SELECT  AA_OEORI_DR->OEORI_OEORD_ParRef->OEORD_Adm_DR->PAADM_PAPMI_DR->PAPMI_No 
@@ -128,11 +114,6 @@ FROM SQLUser.DHC_Doc_AntibioticApply
 group by AA_Arcim_DR
 -- 特抗药
 
--- @Block
-select PAPMI_ConcessionCardNo ,* 
-from SQLUser.PA_PatMas;
--- 病人信息
-
 
 -- @Block
 SELECT OEORI_RowId 
@@ -153,10 +134,7 @@ WHERE OEORI_RowId IN (
 SElECT * 
 FROM SQLUser.CT_CareProv
 
--- @Block
-SELECT * 
-FROM SQLUser.CT_Loc
--- 科室
+
 
 -- @Block
 SELECT PAADM_PAPMI_DR -> PAPMI_Name,PAADM_AdmDocCodeDR->CTPCP_Desc,PAADM_DepCode_DR->CTLOC_Desc,* 
@@ -831,10 +809,7 @@ from oe_ordItem where OEORI_OEORD_ParRef in (
 and OEORI_ItemStat_DR is null
 group by OEORI_OEORD_ParRef;
 
-select * from DHCQueue where DHCQueue.QueStateDr = 5 and QueDate = {fn CURDATE()};
+
 
 select dhcaction_code,DHCAction_Desc,* from websys.DHCMessageActionType where DHCAction_Desc like "%抗菌%";
 
-select * from ARC_OrdSetDate;
-select * from ARC_OrdSets where ARCOS_RowId1 = 242;
-select * from ARC_OrdSetDateItem where ARC_OrdSetDateItem.ITM_ParRef = "242||1";
