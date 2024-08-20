@@ -1139,6 +1139,7 @@ setBirthAndSex
 /// Descript:  获取检查申请XML串
 /// w ##Class(web.DHCAPPInterface).GetExaReqNoXml("3029")
 
+
 ## 抗菌药申请列表
 apply.js
 
@@ -1324,4 +1325,11 @@ d ##class(%ResultSet).RunQuery("web.DHCDocOrderCommon","FindOSItems","1738","2",
 ...; ARCOSCount
 ```
 
-## 
+
+## 总览打印 第一次 无法单独取消勾选
+scripts/dhcdoc/opdoc/TreatPrint.js
+if (data[j]["PrintFlag"]) {
+	//db.getPanel().find('input[type="checkbox"]')[j+1].disabled=true;
+	//_$ck[j].disabled=true;
+}
+

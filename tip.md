@@ -78,6 +78,8 @@ function GetSessionStr() {
     return websys_getSessionStr();
 }
 ```
+d ##class(Nur.NIS.Service.OrderExcute.ExecuteBindOrder).ExcuteBindOrd()
+病区执行绑定
 
 ## reload datagrid
 ```js
@@ -117,8 +119,4 @@ var result=$.cm({
 ```
 $("#mySelect option:contains('" + text + "'):selected").val();
 ```
-
-
-
-
 

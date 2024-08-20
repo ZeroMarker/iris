@@ -784,6 +784,10 @@ select * from DHC_AppRepArc ;
 
 select * from OE_OrdItem ;
 
+select * from PHC_DrgForm;
+select PHCD_PHCPO_DR,* from PHC_DrgMast WHERE PHCD_PHCPO_DR is not null;
+select * from PHC_Poison;
+
 select * from RBC_SessionType;
 
 select * from PHC_Freq ;
