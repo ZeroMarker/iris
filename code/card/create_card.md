@@ -37,5 +37,3 @@ CardReg.hui.js
 function GetPatDetailByPAPMINo()
 ClassName: "web.DHCBL.CARD.UCardPaPatMasInfo",
 MethodName: "GetPatInfoByPANo",
-$o(^PAADM(5),-1)
-4

@@ -281,7 +281,7 @@ SavaOrderItems()
 InsertOrderItems()
 w ##class(web.DHCDocOrderCommon).GetLabSpec("3950||1",2)
 
-## 挂号条
+## 挂号条 挂号凭证
 w ##class(web.DHCOPAdmReg).OPRegistBroker()
 ##class(DHCDoc.Common.pa).GetOPPrintData(RegfeeRowId)
 
@@ -789,7 +789,7 @@ d ##class(DHCDoc.Interface.Inside.Service).GenPresno("6119",1,"")
 /// Description:获取病理申请单信息
 /// Table：
 /// Input：医嘱号
-/// w ##class(web.DHCENS.STBLL.PIS.METHOD.GetPisAppListInfo).SendAppBillNew("48||2").Read()
+/// w ##class(web.DHCENS.STBLL.PIS.METHOD.GetPisAppListInfo).illNew("48||2").Read()
 s Obj.ClinicalDiagnosis=##class(web.DHCSTKUTIL).GetMRDiagnosDesc($p(^OEORD(+OrdID),"^",1),",") ;$p(APPString,"^",37)
 
 ## 诊断

@@ -5,7 +5,7 @@ Title: 标本类型
 Name: SpceTypelist
 Type: LIVN
 HospID: 2
-
+```objectscript
 /// Descritp: 病理基础字典数据
 /// w ##class(web.DHCAppPisMasterQuery).JsonBaseItemList("采集方式","CollectTypelist","LIVN","2")
 ClassMethod JsonBaseItemList(Title, Name, Type As %String = "", HospID As %String)
@@ -22,3 +22,4 @@ ClassMethod JsonBaseItemList(Title, Name, Type As %String = "", HospID As %Strin
 	d Stream.Write("]")
 	Q Stream.Read()
 }
+```

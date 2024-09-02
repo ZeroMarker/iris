@@ -1,5 +1,5 @@
 ## 挂号调用支付接口
-```
+```objectscript
 /// Creator: zhenghao
 /// CreatDate: 2018-03-07
 /// Descripiton: 根据支付方式ID取配置表

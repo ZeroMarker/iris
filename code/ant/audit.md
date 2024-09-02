@@ -1,4 +1,5 @@
 ```objectscript
+/// 抗菌药审核后审核
 /// w ##class(web.DHCDocMain).AfterInsertAnt("5639||90","668","19590")
 /// w ##class(web.DHCDocMain).AfterInsertAnt("4083||250","674","19590")
 ClassMethod AfterInsertAnt(OrdItem, App, User)
