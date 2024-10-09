@@ -63,7 +63,7 @@
 
 <!--治疗记录-->
 <script type="text/javascript" src="scripts/dhcdoc/dhcdoccure_hui/app.emr.cureapplist.js"></script>
-<csp:Include Page="opadm.reg.hui.csp">
+<!--doccure.recordtemp.hui.csp 治疗记录模板展示-->
 <server>
     w ##class(DHCDoc.DHCDocCure.Record).OPDocList()
     w ##class(User.DHCDocCureRecode).OPDocList()
@@ -122,12 +122,13 @@
 <!--总览打印-->
 <script type="text/javascript" src="scripts/dhcdoc/UDHCOEOrder.List.Custom.New.js"></script>
 <script type="text/javascript" src="scripts/dhcdoc/oeorder.oplistcustom.show.js"></script>
+<!--opdoc.complete.adm.csp 完成就诊 --> 
 <csp:Include Page="oeorder.oplistcustom.new.request.csp">
 <csp:Include Page="opdoc.transfer.hui.csp">
 <server>
     w ##class(DHCDoc.OPDoc.TreatPrint).GetPrescPrintData()
 </server>
 
-<!--opdoc.complete.adm.csp--> 
+
 
 
