@@ -75,12 +75,6 @@ $("#mySelect option:contains('" + text + "'):selected").val();
 ```
 
 
-## 禁用 启用
-```js
-//$("#i-apply-panel-emreason").removeAttr("disabled");
-$("#i-apply-panel-emreason").simplecombobox('enable');
-```
-
 
 datagrid:
 remoteSort:false

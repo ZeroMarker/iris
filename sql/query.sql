@@ -134,8 +134,6 @@ WHERE OEORI_RowId IN (
 SElECT * 
 FROM SQLUser.CT_CareProv
 
-
-
 -- @Block
 SELECT PAADM_PAPMI_DR -> PAPMI_Name,PAADM_AdmDocCodeDR->CTPCP_Desc,PAADM_DepCode_DR->CTLOC_Desc,* 
 FROM SQLUser.PA_Adm 
@@ -194,19 +192,7 @@ FROM DHC_InvPrt
 WHERE PRT_Acount = 1243.29;
 -- 发票
 
--- @Block
-SELECT * 
-FROM OE_OrdItem
-WHERE OEORI_OEORD_ParRef IN
-(
-	SELECT OEORD_RowId1 FROM OE_Order
-	WHERE OEORD_Adm_DR IN
-	(
-		SELECT PAADM_RowID FROM PA_Adm
-		WHERE PAADM_PAPMI_DR = 676
-	)
-);
---  就诊 医嘱 医嘱明细
+
 
 -- @Block
 SELECT TOP 20 * 
@@ -214,26 +200,7 @@ FROM DHC_InvPrt
 WHERE PRT_inv = "0001000202";
 -- 发票打印
 
--- @Block
-SELECT * 
-FROM dhc_patbilldetails
-WHERE PBD_PBO_ParRef IN
-(
-	SELECT PBO_RowId 
-	FROM dhc_patbillorder
-	WHERE PBO_PB_ParRef IN
-	(
-		SELECT PB_Rowid 
-		FROM dhc_patientbill
-		WHERE PB_Adm_DR IN
-		(
-			SELECT PAADM_Rowid 
-			FROM PA_adm
-			WHERE PAADM_PAPMI_DR = 846 & PAADM_Type = "I"
-		)
-	)
-);
--- 就诊 账单 账单医嘱 账单明细
+
 
 -- @Block
 SELECT TOP 20 * 
@@ -277,20 +244,6 @@ WHERE INTR_INCI_DR IN
 -- 转移记录
 
 -- @Block
-select Regfeetemp1
-from SQLUser.DHCRegistrationFee
-where RegfeeAdmDr in (
-	select PAADM_RowID
-	from SQLUser.PA_Adm
-	where PAADM_PAPMI_DR = 46
-		and PAADM_VisitStatus = "A"
-) 
-	-- and RegfeeDepDr = RegfeeDepDr
-	-- and RegfeeDate + 3 >= RegfeeDate   
-	and RegfeeArcPrice > 0;
--- 挂号 发票 价格
-
--- @Block
 select RegfeeTimeRangeDr
 from SQLUser.DHCRegistrationFee
 where RegfeeAdmDr = AdmId;
@@ -303,21 +256,7 @@ WHERE TR_ValidEndDate IS NULL
 	AND TR_Desc = "Desc";
 -- 时段
 
--- @Block
-SELECT OEORI_LabEpisodeNo,* 
-FROM OE_OrdItem
-WHERE OEORI_OEORD_ParRef IN
-(
-	SELECT OEORD_RowId1 
-	FROM OE_Order
-	WHERE OEORD_Adm_DR IN
-	(
-		SELECT PAADM_RowID 
-		FROM PA_Adm
-		WHERE PAADM_PAPMI_DR = 46
-	)
-);
--- 就诊 医嘱 检验
+
 
 -- @Block
 SELECT AS_TimeRange_DR ,* 
@@ -328,21 +267,6 @@ FROM DHC_RBApptSchedule;
 SELECT * 
 FROM SqlUser.OEC_Priority;
 -- 医嘱类型 自备药长期
-
--- @Block
-select PAADM_DepCode_DR -> ctloc_desc ,count(*) As 总数
-From PA_Adm
-group by PAADM_DepCode_DR;
-select * FROM Ct_loc;
--- 患者 科室 统计
-
--- @Block
-select PAADM_DepCode_DR -> ctloc_desc ,count(*) As 总数
-from PA_Adm  
-where PAADM_VisitStatus = "A" 
-	and PAADM_AdmDate ='2023-11-11' 
-	and PAADM_Type  in ('O','E') 
-group by PAADM_DepCode_DR;
 
 -- @Block
 select *
@@ -371,17 +295,7 @@ SELECT *
 FROM ARC_ItemCat;
 -- 医嘱项子类
 
--- @Block
-SELECT arcc.ARCIC_Desc,sum(pbo.PBO_ToTalAmount) As 费用 --,pbo.PBO_ToTalAmount,arc.arcim_desc,*
-FROM dhc_patbillorder pbo
-join ARC_ItmMast arc
-on pbo.PBO_ARCIM_DR = arc.ARCIM_RowId
-join ARC_ItemCat arcc on arc.ARCIM_ItemCat_DR = arcc.ARCIC_RowId
-where 
-		arcc.ARCIC_OrderType = "R"
-	and	arcc.ARCIC_Desc != "其他"
-group by ARCIC_Desc;
--- 医嘱 费用 子类
+
 
 -- @Block
 SELECT arc.ARCIM_Desc ,* 
@@ -403,7 +317,7 @@ from OEC_OrderStatus;
 
 SELECT *
 FROM websys.menu
---where ID = 57618;
+-- where ID = 57618;
 where caption like "挂号";
 
 select *
@@ -500,7 +414,6 @@ SELECT * from SQLUser.OEC_OrderStatus;
 select * from SQLUser.OEC_Order_AdminStatus;
 -- 执行记录状态
 
-
 SELECT * FROM DHCDoc_ErrCodeRegister;
 -- 医生站错误代码
 
@@ -518,27 +431,6 @@ SELECT * from Doc_InterfaceMethod;
 select SSUSR_DefaultDept_DR,* from SS_User;
 SELECT * from SS_UserOtherLogonLoc;
 -- 默认登录科室 登录科室
-
-SELECT 
-	res.RES_CTLOC_DR->CTLOC_Desc,
-	rbas.AS_Date, AS_Load, 
-	AS_NoApptSession,
-	AS_SessStartTime,
-	AS_SessEndTime,
-	AS_TimeRange_DR->TR_Desc,
-	ext.AS_SessionType_DR->SESS_Desc,
-	AS_TimeCreate
-FROM SQLUser.RB_ApptSchedule rbas
-JOIN SQLUser.DHC_RBApptSchedule ext 
-	ON rbas.AS_Rowid = ext.AS_Rowid
-JOIN SQLUser.RB_Resource res 
-	ON rbas.AS_RES_ParRef = res.RES_RowId1 
-WHERE rbas.AS_Date BETWEEN '2012-10-01' AND '2012-10-31'
-AND rbas.AS_RowId NOT IN (
-	SELECT APPT_AS_ParRef
-	FROM RB_Appointment
-)
-ORDER BY res.RES_CTLOC_DR;
 
 SELECT * FROM dbo.bt_specimen;
 -- 标本类型
@@ -632,50 +524,6 @@ select * from dbo.BT_Specimen
 SELECT * from DHCOPAdmRegPayLoc;
 -- 支付日志
 
-select h.clinic_code patient_id, ---患者编号
-           h.name patient_name, ---病人姓名
-           h.dept_code queue_type_source_id,---队列类型编号
-           '' register_id,---挂号单号或检查单号
-           0 queue_num ,---队列编号
-           0 sub_queue_order,---队列级别
-           '初诊' sub_queue_type,---队列级别名称
-           h.noon_code time_interval,---午别
-           h.doct_code doctor_source_id,---医生编号
-           decode(h.trans_type,'2','1','0') is_deleted,---退号标识
-          (case
-         when to_char(h.begin_time,'hh24:mi:ss')<>'00:00:00'  then
-         h.begin_time
-         else
-       to_date(to_char(h.reg_date,'yyyy-mm-dd')| | ' 22:00:00','yyyy-mm-dd hh24:mi:ss')  +h.order_no/18640
-       end)  fre_date,---时间戳
-          h.doct_name,---挂号医生姓名
-          h.doct_code ,--挂号医生编号
-          h.dept_name, ---挂号科室姓名
-          h.card_no content --
-from fin_opr_register;
-
-CREATE VIEW Queue_View As
-SELECT que.QuePaadmDr->PAADM_PAPMI_Dr patient_id,
-	que.QueName patient_name, 
-	que.QueDepDr->CTLoc_Code queue_type_source_id,
-	fee.ID register_id,
-	que.QueNo queue_num,
-	que.QueStateDr -> PersCode sub_queue_order, 
-	que.QueStateDr ->PersName sub_queue_type,
-	fee.RegfeeTimeRangeDr -> TR_Desc time_interval, 
-	que.QueMarkDr ->CTPCP_Code doctor_source_id, 
-	adm.PAADM_VisitStatus is_deleted,
-	que.QueTime fre_date,
-	que.QueMarkDr -> CTPCP_Desc doct_name,
-	que.QueMarkDr -> CTPCP_Code doct_code,
-	que.QueDepDr->CTLoc_desc dept_name,
-	ext.PAADM_RegCardNo content
-from DHCQueue que
-join DHCRegistrationFee fee on que.QuePaadmDr = fee.RegfeeAdmDr 
-join PA_Adm adm on que.QuePaadmDr = adm.PAADM_RowID 
-join PA_AdmExt ext on que.QuePaadmDr = ext.PAADM_RowId 
-where que.QueDate >= {fn CURDATE()} - 150;
-
 SELECT NOW();
 -- https://docs.intersystems.com/iris20241/csp/docbook/DocBook.UI.Page.cls?KEY=RSQL_FUNCTIONS
 
@@ -713,7 +561,7 @@ select * from insuqc_po_ch.PersonDiag;
 select * from insuqc_po_ch.DiagDic;
 -- 慢病病种
 
-select * from 	DHCDoc_OrderVirtualtLong;
+select * from DHCDoc_OrderVirtualtLong;
 -- 虚拟长期
 
 select RegfeeAdmDr ,* from DHCRegistrationFee ;
@@ -727,31 +575,8 @@ select * from PHC_Freq ;
 select * from PHC_DispensingTime;
 -- 频次 分发时间
 
-select UpdateUserName ,* from DHC_DocDataChangeLog 
-WHERE ClassNameDesc = "医保标识" 
-and UpdateDate in ('2024-05-17','2024-05-18')
-and ObjectReference in (
-	select OEORI_RowId from OE_OrdItem 
-	where OEORI_CoverMainIns is not null
-	and OE_OrdItem.OEORI_InsertDate in ('2024-05-17','2024-05-18')
-	and OEORI_ItmMast_DR -> arcim_desc like "%床位%"
-	and OEORI_OEORD_ParRef in (
-		select OEORD_RowId1  from OE_Order where OEORD_Adm_DR in (
-			select PAADM_RowID  from PA_Adm where PAADM_VisitStatus <> "D"
-		)
-	)
-);
--- 医保标志修改日志
-
 select transfer_Input ,* from Ens_InterfaceV8 order by 1 desc;
 -- 平台日志
-
-create view order_graph as
-SELECT OEORI_Doctor_DR doctor,OEORI_Doctor_DR->CTPCP_Desc name,OEORI_ItmMast_DR item, 
-OEORI_ItmMast_DR ->ARCIM_Desc item_name, COUNT(*) as order_count
-FROM OE_OrdItem 
-where OEORI_Doctor_DR->CTPCP_Desc is not null
-GROUP BY OEORI_Doctor_DR, OEORI_ItmMast_DR;
 
 SELECT MRDIA_DocCode_DR->CTPCP_desc, MRDIA_ICDCode_DR ->MRCID_Desc, COUNT(*) as diagnosis_count
 FROM MR_Diagnos
@@ -800,19 +625,6 @@ SELECT rea_admsource,* FROM pac_admreason;
 
 SELECT SSUSR_Mobile, SSUSR_FreeText1, * FROM SS_User WHERE SSUSR_Name = "张慧敏";
 -- 手机号 身份证号
-
--- 空医嘱
-select count(*),OEORI_OEORD_ParRef ->oeord_adm_dr->paadm_papmi_dr->papmi_name,OEORI_OEORD_ParRef ->oeord_adm_dr->paadm_papmi_dr->papmi_name,
-OEORI_OEORD_ParRef ->oeord_adm_dr->paadm_papmi_dr->papmi_no,* 
-from oe_ordItem where OEORI_OEORD_ParRef in (
-	select distinct OEORD_RowId1  from OE_Order where OE_Order.OEORD_RowId1 in (
-		select distinct OEORI_OEORD_ParRef  from OE_OrdItem where OEORI_ItemStat_DR is null
-	)
-	and OEORD_Adm_DR is not null
-)
-and OEORI_ItemStat_DR is null
-group by OEORI_OEORD_ParRef;
-
 
 
 select dhcaction_code,DHCAction_Desc,* from websys.DHCMessageActionType where DHCAction_Desc like "%抗菌%";
