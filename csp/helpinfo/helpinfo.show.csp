@@ -1,0 +1,5 @@
+<div data-options="region:'west',border:false,split:false,collapsible:false" style="width:1450px;padding:0 10px 10px 10px;">
+	<div class="hisui-panel" title="未执行医嘱" data-options="headerCls:'panel-header-gray',iconCls:'icon-add-note',fit:true,tools:'#Tip-Panel-Tools'">
+		<table id="OrderList"></table>
+	</div>
+</div>
