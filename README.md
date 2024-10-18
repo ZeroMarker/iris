@@ -1,3 +1,3 @@
 # iris
 
-grep -ri "blacktype" /dthealth/app/dthis/web
+grep -ri "var PatListTabDataGrid=" /dthealth/app/dthis/web

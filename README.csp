@@ -14,17 +14,15 @@
     w ##class(web.DHCOPAdmReg).OPDocList()
 </server>
 
-<!--就诊登记-->
-<script type="text/javascript" src="scripts/OPAdm/Reg.hui.js"></script>
-<script type="text/javascript" src="scripts/DHCOPAdm.Reg.js"></script>
+<!--就诊-->
+<script type="text/javascript" src="scripts/dhcdoc/opdoc/patient.list.js"></script>
 <csp:Include Page="opdoc.rapidregist.hui.csp">
 <server>
     d ##class(%ResultSet).RunQuery("web.DHCDocOutPatientList","FindLocDocCurrentAdm","49","21258","","","","","","","","")
 </server>
 
-<!--就诊-->
-<script type="text/javascript" src="scripts/OPAdm/Reg.hui.js"></script>
-<script type="text/javascript" src="scripts/DHCOPAdm.Reg.js"></script>
+<!--就诊登记-->
+<script type="text/javascript" src="scripts/OPDoc.RapidRegist.hui.js"></script>
 <csp:Include Page="opdoc.rapidregist.hui.csp">
 <server>
     w ##class(web.DHCOPAdmReg).OPDocList()
