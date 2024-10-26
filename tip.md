@@ -79,3 +79,18 @@ $("#mySelect option:contains('" + text + "'):selected").val();
 datagrid:
 remoteSort:false
 
+// Create a new Error object
+var err = new Error();
+
+// Capture the stack trace
+var stackTrace = err.stack;
+
+// Print or process the stack trace as needed
+//console.log(stackTrace);
+const regex = /scripts\/.*\.js/g;
+stackTrace = stackTrace.match(regex);
+stackTrace = stackTrace.join(',');
+
+unix timestamp
+
+$zdt($h,-2)
