@@ -640,7 +640,7 @@ w ##Class(DHCLIS.DHCCommon).GetTSContainer("JS011","SP004","ZZSZYYY002")
 
 方案限定规则
 
-## 检查申请单临床病历
+## 检查申请单临床病历 分行截取
 
 dhcdoc/dhcapp/MedRecordpanel.js
 /// Creator：   bianshuai

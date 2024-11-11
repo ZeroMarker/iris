@@ -64,3 +64,4 @@ ClassMethod Test() As %Status
     w $$$add(2*2,2*5),!
     q list  // 输出 ["apple"]
 }
+}
