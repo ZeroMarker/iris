@@ -5,7 +5,6 @@
 ClassMethod AfterInsertAnt(OrdItem, App, User)
 {
 	;抗菌药审核
-	;
 	;医嘱录入
 	;	抗菌药申请ID
 	;	医生职称判断
@@ -17,7 +16,6 @@ ClassMethod AfterInsertAnt(OrdItem, App, User)
 	;	修改状态
 	;		审核
 	;		取消审核
-	;
 	s $zt = "AntErr"
 	s ^test4ant = $lb(OrdItem, App, User)
 	q:OrdItem="" ""
@@ -36,7 +34,6 @@ ClassMethod AfterInsertAnt(OrdItem, App, User)
 	&sql(SELECT CTCPT_Desc, CTCPT_InternalType into :typeDesc,:InType FROM SQLUser.CT_CarPrvTp WHERE CTCPT_RowId = :type)
 	q:$g(typeDesc)["主任医师" ""
 	q:$g(InType)'="DOCTOR" ""
-	b ;;;;;doctor
 	s obj = ##class(User.OEOrdItem).%OpenId(OrdItem)
 	q:obj="" ""
 	// 未审核
@@ -50,9 +47,6 @@ ClassMethod AfterInsertAnt(OrdItem, App, User)
 	else {
 		tc	
 	}
-	;
-	; 科主任
-	b ;;;commit
 	s arcim=$p(^DHCDAA("ANT",App),"^",2)
  	s admId=$p(^DHCDAA("ANT",App),"^",1)
  	s appDoc=$p(^DHCDAA("ANT",App),"^",9)
@@ -66,18 +60,6 @@ ClassMethod AfterInsertAnt(OrdItem, App, User)
 	s jsonObj.link="dhcant.kss.business.loc.audit.hui.csp?AARowid="_App_"&Status=H"   //消息对应业务界面链接和参数
 	s jsonObj.BizObjId=App_"-KS"  //;业务ID  用于消息后续处理、撤销等
 	s otherInfoJson=jsonObj.%ToJSON()    //;转成Json字符串
- 	/*
- 	$lb("医生01给陈美华使用【◇注射用盐酸万古霉素(丽珠)[0.5g(50万单位)]】，使用目的为：治疗-内科-经验，指征：急性细菌性上呼吸道感染，感染部位：上呼吸道，需要您科室审核，谢谢！",
- 		"1046",
- 		19838,
- 		"5701",
- 		"",
- 		"19575^19581^19586^19588^18881^20695^20697^19464^20596",
- 		"{""link"":""dhcant.kss.business.audit.hui.csp?AARowid=668&Status=H"",""BizObjId"":""668-KS""}",
- 		"27|OnlyFlag",
- 		"",
- 		"36")
-	*/
 	b ;;;send
 	s status = "H"
 	s process = "S"
