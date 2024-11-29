@@ -70,6 +70,7 @@
 <!--治疗记录-->
 <script type="text/javascript" src="scripts/dhcdoc/dhcdoccure_hui/app.emr.cureapplist.js"></script>
 <!--doccure.recordtemp.hui.csp 治疗记录模板展示-->
+<!--scripts/dhcdoc/dhcdoccure_hui/app.cureapplist.all.js-->
 <server>
     w ##class(DHCDoc.DHCDocCure.Record).OPDocList()
     w ##class(User.DHCDocCureRecode).OPDocList()

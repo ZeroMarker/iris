@@ -16,5 +16,7 @@ ClassMethod List()
         s $list(list,i) = i
     }
     q list
+
+    s $list(list, $ll($g(list))+1) = it
 }
 }

@@ -19,5 +19,6 @@ ClassMethod Stack()
 		}
 		s ^tmpgry("stack",+$h,$i(^tmpgry))=tp_","_cp
     }
+	
 }
 }

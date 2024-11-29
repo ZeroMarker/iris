@@ -834,7 +834,7 @@ w ##Class(web.DHCAPPPrintCom).GetExaReqPrintData("240","")
 ## 限制用药
 ;Set AdmReason=$P(^PAADM(EpisodeID,1),"^",7)
 ;i AdmReason=165 s AdmReason=177 //自费的费别也要能够显示
-;s HospID=##class(DHCDoc.Common.Hospital).GetAdmHospitalId(EpisodeId)
+;s HospID=##class(DHCDoc.Common.Hospital).HospitalId(EpisodeId)
 s limitFlag=##class(web.DHCDocInPatPortalCommon).GetArcimLinkInsuInfo(arcim,AdmReason,HospID,"",9)
 ;s limitinfo = ##class(web.DHCDocInPatPortalCommon).GetInsuLimitInfo(arcim,AdmReason,HospID)
 
