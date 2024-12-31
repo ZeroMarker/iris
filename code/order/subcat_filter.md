@@ -1,3 +1,6 @@
+# code
+
+```objectscript
 web.DHCDocNurseBatchSupplementOrd.cls(GetItemToList+278)
 if (OrderType = "R") {
 	;s CallBackFunParams=ArcimDesc_" 在此页面仅支持【取药医嘱】类型,若非取药医嘱，请使用常规“医嘱录入”功能录入"
@@ -8,3 +11,4 @@ if (OrderType = "R") {
 		s CallBackFunStr=##class(web.DHCOEOrdItemView).GetCallBackFunStr(CallBackFunStr,"Confirm",CallBackFunParams)
 	}
 }
+```

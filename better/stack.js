@@ -5,7 +5,7 @@ var err = new Error();
 var stackTrace = err.stack;
 
 // Print or process the stack trace as needed
-//console.log(stackTrace);
+// console.log(stackTrace);
 const regex = /scripts\/.*\.js/g;
 stackTrace = stackTrace.match(regex);
 stackTrace = stackTrace.join(',');
