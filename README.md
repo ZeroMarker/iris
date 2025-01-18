@@ -7,3 +7,6 @@ grep -ri "var PatListTabDataGrid=" /dthealth/app/dthis/web
 [General Error Messages](https://docs.intersystems.com/iris20242/csp/docbook/Doc.View.cls?KEY=RERR_gen)
 
 [System Error Messagers](https://docs.intersystems.com/iris20242/csp/docbook/Doc.View.cls?KEY=RERR_system)
+
+
+s CPRowId=##class(web.SSUser).GetDefaultCareProvider(UserRowId)
