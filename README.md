@@ -11,4 +11,3 @@ grep -ri "var PatListTabDataGrid=" /dthealth/app/dthis/web
 
 [SQL Error Messages](https://docs.intersystems.com/iris20242/csp/docbook/DocBook.UI.Page.cls?KEY=RERR_sql)
 
-s CPRowId=##class(web.SSUser).GetDefaultCareProvider(UserRowId)

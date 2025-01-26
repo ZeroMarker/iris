@@ -49,7 +49,7 @@
 <script type="text/javascript" src="scripts/dhcdoc/DHCDocDiagnoEntry.V8.js"></script>
 <csp:Include Page="opadm.reg.hui.csp">
 <server>
-    w ##class(web.DHCVISQueueManage.cls).OPDocList()
+    w ##class(web.DHCVISQueueManage).OPDocList()
 </server>
 
 <!--分诊-->
@@ -114,9 +114,9 @@
 <server>
     w ##class(DHCDoc.Util.Array).GetPrescPrintData()
     w ##class(DHCDoc.Util.Date).GetPrescPrintData()
-    w ##class(DHCDoc.GetInfo).GetPrescPrintData()
-    w ##class(DHCDoc.GetInfoBase).GetPrescPrintData()
-    w ##class(DHCDoc.GetData).GetPrescPrintData()
+    ;w ##class(DHCDoc.GetInfo).GetPrescPrintData()
+    ;w ##class(DHCDoc.GetInfoBase).GetPrescPrintData()
+    ;w ##class(DHCDoc.GetData).GetPrescPrintData()
 </server>
 
 <!--转诊-->
