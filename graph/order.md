@@ -1,3 +1,5 @@
+# Example
+
 ```mermaid
 flowchart TD
     A[Order] -->|Create| B[Order Created]
@@ -6,7 +8,7 @@ flowchart TD
     D -->|Complete| E[Order Completed]
 ```
 
-# 泳道图示例
+## 泳道图示例
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#f9f9f9', 'primaryTextColor': '#333333', 'primaryBorderColor': '#cccccc'}}}%%
@@ -39,7 +41,7 @@ stateDiagram-v2
     部门B --> 结束
 ```
 
-# 甬道图示例
+## 甬道图示例
 
 ```mermaid
 journey
@@ -57,6 +59,7 @@ journey
 [process](https://drive.google.com/file/d/17-beBrLy1BqOIg2_pLHbhBZh34ZMsViU/view?usp=sharing)
 
 ## sub
+
 ```mermaid
 flowchart TB
     subgraph 前端
@@ -92,5 +95,4 @@ flowchart TB
     subgraph three
     c1-->c2
     end
-
 ```

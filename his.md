@@ -1046,6 +1046,7 @@ TableName : "OE_OrdItem",
 
 web.DHCOPAdmReg
 OPDocList
+索引冲突
 set ind=AdmDate_TimeRangeSort_SessSort_ScheduleStatusF_($E("0000000000",1,10-$L(RowId))_RowId)_($E("0000000000",1,10-$L(ClinicGroupDr))_ClinicGroupDr)_ASRowId
 
 下标覆盖
@@ -1069,7 +1070,7 @@ web.UDHCJFPRICE.GetOrderPrice()
 
 ## 获取年龄
 
-## class(web.UDHCJFCOMMON).DispPatAge
+w ##class(web.UDHCJFCOMMON).DispPatAge
 
 ## 总览打印
 
@@ -1146,8 +1147,6 @@ ClassMethod UndoConsult(aaId As %String, user As %String, InHosp = "") As %Strin
   q Err
 }
 
-## Global && ECP && date format
-
 ## 强制退号
 
 挂号设置 授权管理
@@ -1173,10 +1172,6 @@ var PatStr = $.cm({
 ## 挂号
 
 DHCOPReturn.js
-
-## 住院证特殊字符
-
-联系人姓名 ""
 
 ## 挂号限制
 
@@ -1215,19 +1210,6 @@ if (IsOrdExecFlag>0) {
 菜单授权
 
 ## 用法绑定 数量为空 跟随主医嘱
-
-## 保留数 RegType="APP"
-
-d ##class(User.OEOrdItem).%BuildIndices()
-m ^OEORD(4192,"I",12)=^OEORD(4192,"I",13)
-s $p(^OEORD(4192,"I",12,11),"^",39) = ""
-
-w ##Class(web.DHCDocInPatientListNew).GetSortDescOrder()
-s JsonRow = $tr(JsonRow,"\","")
-
-s dispqty=$$calcqty^DHCOEOrdItem(drgform,uom,doseqty,AdmType)
-&SQL(SELECT EQ_Qty INTO :uomqty FROM PHC_FormDoseEquiv WHERE EQ_ParRef = :drgform AND EQ_CTUOM_DR = :uom)
-等效单位 毫克 片
 
 ## 出院
 
@@ -1332,10 +1314,6 @@ setBirthAndSex
 
 /// Descript:  获取检查申请XML串
 /// w ##Class(web.DHCAPPInterface).GetExaReqNoXml("3029")
-
-## 抗菌药申请列表
-
-apply.js
 
 ## 检查 调用接口
 
@@ -1480,29 +1458,6 @@ GetSessionData()
 ## 抗菌药审核
 
 dhcdocant/kss_hui/audit.js 抗菌药物审核界面
-
-## 发送消息
-
-```objectscript
-/// w ##class(websys.DHCMessageInterface).SendTest()
-/// websys.DHCMessageBiz
-ClassMethod SendTest()
-{
-}
-
-/// @param: Context   信息文本内容  可为空,通过入参生成相关内容
-/// @param: ActionTypeCode  信息的动作类型代码  websys.DHCMessageActionType表的code字段值
-/// @param: FormUserRowId   信息发出人    SS_User->SSUSR_rowid, 如果消息发出人不在his人员表中,可直接传用户姓名。格式:"^Name"
-/// @param: EpisodeId   病人就诊Id    PA_Adm->PAADM_RowId
-/// @param: OrdItemId   医嘱明细表Id        OE_OrdItem->OEORI_RowId
-/// @param: ToUserRowId     信息发给人   SS_User->SSUSR_rowid  强制把消息发给该用户
-/// @param: OtherInfoJson   其它业务相关对象    Json格式,一些其它信息,如link等{"link":"x.csp?type=a&id=1"}
-/// 如果成功返回值大于0
-ClassMethod Send(Context, ActionTypeCode, FromUserRowId, EpisodeId = "", OrdItemId = "", ToUserRowId As %String(MAXLEN=30000) = "", OtherInfoJson As %String(MAXLEN=30000) = "", ToLocRowId As %String(MAXLEN=30000) = "", EffectiveDays = "", CreateLoc = "")
-{
-}
-// <https://note.youdao.com/s/CE3m1e3o>
-```
 
 ## 电子病历获取医嘱明细
 
