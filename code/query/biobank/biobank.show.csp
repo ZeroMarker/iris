@@ -1,0 +1,355 @@
+<div class="hisui-layout" fit="true">
+	<div data-options="region:'center',border:false,collapsible:false" style="padding:10px;">
+		<div class="hisui-panel" fit="true" data-options="title:'患者查询',headerCls:'panel-header-gray',iconCls:'icon-apply-check'" style="border:1px solid #ccc;border-radius:0 0 4px 4px;">
+		 	<div class="hisui-layout" fit="true">
+		 		<div data-options="region:'north',border:false,collapsible:false" style="height:131px;border-bottom:1px solid #ccc;">
+		 			<table class="search-table">
+		 				<tr>
+							<td class="r-label">
+								<label for="CardTypeNew">卡类型</label>
+							</td>
+							<td>
+								<input class="textbox" disabled id="CardTypeNew" style="width:130px;"/>
+							</td>
+							<td class="r-label">
+								<label for="CardNo">卡号</label>
+							</td>
+							<td>
+								<input class="textbox" id="CardNo" style=""/>
+							</td>
+							<td class="r-label">
+								<a href="#" id="BFind" class="hisui-linkbutton" data-options="iconCls:'icon-w-find'">查询(F8)</a>
+								<!--<a href="#" id="BReadCard" class="hisui-linkbutton" data-options="iconCls:'icon-w-card'">读卡(F4)</a>-->
+							</td>
+						</tr>
+						<tr>
+							<td class="r-label">
+								<label for="SPAPERName">姓名</label>
+							</td>
+							<td>
+								<input class="textbox" id="SPAPERName" style="width:130px;"/>
+							</td>
+							<td class="r-label">
+								<label for="SPAPERID">证件号码</label>
+							</td>
+							<td>
+								<input class="textbox" id="SPAPERID" style=""/>
+							</td>
+							<td class="r-label">
+								<a href="#" id="Clear" class="hisui-linkbutton" data-options="iconCls:'icon-w-clean'">清屏(F2)</a>
+							</td>
+						</tr>
+						<tr>
+							<td class="r-label">
+								<label for="SPAPERNo">登记号</label>
+							</td>
+							<td>
+								<input class="textbox" id="SPAPERNo" style="width:130px;"/>
+							</td>
+							
+							<td class="r-label">
+								<label for="IPMRN">病案号</label>
+							</td>
+							<td>
+								<input class="textbox" id="IPMRN" style=""/>
+							</td>
+							<td class="r-label">
+								<a href="#" id="ReadInsuCard" class="hisui-linkbutton" data-options="iconCls:'icon-w-card'">读医保卡</a>
+							</td>
+							
+							<td class="r-label">
+								<a href="#" id="ReadJYTCard" class="hisui-linkbutton" data-options="iconCls:'icon-w-card'">读京医通卡</a>
+							</td>
+						</tr>
+		 			</table>
+		 		</div>
+		 		<div data-options="region:'center',border:false">
+		 			<table id="PatListTab"></table>
+		 		</div>
+			</div>							
+		</div>
+	</div>
+	<div data-options="region:'east',border:false" style="width:770px;padding:10px 10px 10px 0;border:0;">
+		<div class="hisui-panel" fit="true" data-options="title:'患者基本信息修改',headerCls:'panel-header-gray',iconCls:'icon-write-order'" style="height:100%;border:1px solid #ccc;border-radius:0 0 4px 4px;">
+			<table class="search-table">
+				<tr>
+					<td class="r-label">
+						<label for="Name">姓名</label>
+					</td>
+					<td>
+						<input class="textbox" disabled id="Name"/>
+					</td>
+					<td class="r-label">
+						<label for="Sex">性别</label>
+					</td>
+					<td>
+						<input valgetf='comb' disabled id="Sex"/>
+					</td>
+					<td class="r-label">
+						<label for="Age">年龄</label>
+					</td>
+					<td>
+						<input class="textbox" disabled id="Age"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="r-label">
+						<label for="Birth">出生日期</label>
+					</td>
+					<td>
+						<input class="textbox" disabled id="Birth"/>
+					</td>
+					<td class="r-label">
+						<label for="BirthTime">出生时间</label>
+					</td>
+					<td>
+						<input class="hisui-timespinner textbox" disabled id="BirthTime" data-options="showSeconds:'true'"/>
+					</td>
+					<td class="r-label">
+						<label for="NationDescLookUpRowID">民族</label>
+					</td>
+					<td>
+						<input valgetf='comb' disabled id="NationDescLookUpRowID"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="r-label">
+						<label for="PatType">患者类型</label>
+					</td>
+					<td>
+						<input  valgetf='comb' disabled id="PatType"/>
+					</td>
+					<td class="r-label">
+						<label for="PatYBCode">医保卡号</label>
+					</td>
+					<td>
+						<input class="textbox" disabled id="PatYBCode"/>
+					</td>
+					<td class="r-label">
+						<label for="TelHome">联系电话</label>
+					</td>
+					<td>
+						<input class="textbox" disabled id="TelHome"/>
+					</td>
+					
+				</tr>
+				<tr>
+					<td class="r-label">
+						<label for="PAPERMarital">婚姻</label>
+					</td>
+					<td>
+						<input valgetf='comb' disabled id="PAPERMarital"/>
+					</td>
+					<td class="r-label">
+						<label for="Address">地址(现住)</label>
+					</td>
+					<td colspan="3">
+						<input class="textbox" disabled id="Address" style="width:100%;height:30px;box-sizing:border-box;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;"/>
+					</td>
+				</tr>
+				<tr>
+					
+					<td class="r-label">
+						<label for="CredType">证件类型</label>
+					</td>
+					<td>
+						<input valgetf='comb' disabled id="CredType"/>
+					</td>
+					<td class="r-label">
+						<label for="CredNo">证件号码</label>
+					</td>
+					<td>
+						<input class="textbox" disabled id="CredNo"/>
+					</td>
+					<td class="r-label" colspan="2" style="text-align:left;">
+						<a href="#" id="BOtherCredType" class="hisui-linkbutton" data-options="iconCls:'icon-w-epr'">其他证件</a>
+					</td>
+					
+				</tr>
+				<tr>
+					<td class="r-label">
+						<label for="EastOPMedicareNo">门诊病历号</label>
+					</td>
+					<td>
+						<input class="textbox" disabled id="EastOPMedicareNo"/>
+					</td>
+					<td class="r-label">
+						<label for="EmgMedicare">急诊病历号</label>
+					</td>
+					<td>
+						<input class="textbox" disabled id="EmgMedicare"/>
+					</td>
+					<td class="r-label">
+						<label for="EastIPMedicareNo">住院病历号</label>
+					</td>
+					<td>
+						<input class="textbox" disabled id="EastIPMedicareNo"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="r-label">
+						<label for="ForeignName">联系人</label>
+					</td>
+					<td>
+						<input class="textbox" disabled id="ForeignName"/>
+					</td>
+					<td class="r-label">
+						<label for="CTRelationDR">关系</label>
+					</td>
+					<td>
+						<input valgetf='comb' disabled id="CTRelationDR"/>
+					</td>
+					<td class="r-label">
+						<label for="ForeignPhone">联系人电话</label>
+					</td>
+					<td>
+						<input class="textbox" disabled id="ForeignPhone"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="r-label">
+						<label for="EmployeeNo">工号</label>
+					</td>
+					<td>
+						<input class="textbox" disabled id="EmployeeNo"/>
+					</td>
+					<td class="r-label">
+						<label for="HCPDR">公费单位</label>
+					</td>
+					<td>
+						<input valgetf='comb' disabled id="HCPDR"/>
+					</td>
+					<td class="r-label">
+						<label for="Vocation">职业</label>
+					</td>
+					<td>
+						<input valgetf='comb' disabled id="Vocation"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="r-label">
+						<label for="CountryDescLookUpRowID">国籍/地区</label>
+					</td>
+					<td>
+						<input class="hisui-combobox textbox" disabled id="CountryDescLookUpRowID"/>
+					</td>
+					<td class="r-label">
+						<label for="ProvinceInfoLookUpRowID">省份</label>
+					</td>
+					<td>
+						<input class="hisui-combobox textbox" disabled id="ProvinceInfoLookUpRowID"/>
+					</td>
+					<td class="r-label">
+						<label for="CityDescLookUpRowID">所在城市</label>
+					</td>
+					<td>
+						<input class="hisui-combobox textbox" disabled id="CityDescLookUpRowID"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="r-label">
+						<label for="ZipLookUpRowID">邮政编码</label>
+					</td>
+					<td>
+						<input class="hisui-combobox textbox" disabled id="ZipLookUpRowID"/>
+					</td>
+					<td class="r-label">
+						<label for="EMail">电子邮件</label>
+					</td>
+					<td>
+						<input class="textbox" disabled id="EMail"/>
+					</td>
+					<td class="r-label">
+						<label for="LocalFlag">本市/外埠</label>
+					</td>
+					<td>
+						<input class="hisui-combobox textbox" disabled id="LocalFlag"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="r-label">
+						<label for="PoliticalLevel">患者级别</label>
+					</td>
+					<td>
+						<input valgetf='comb' disabled id="PoliticalLevel"/>
+					</td>
+					<td class="r-label">
+						<label for="SecretLevel">患者密级</label>
+					</td>
+					<td>
+						<input valgetf='comb' disabled id="SecretLevel"/>
+					</td>
+					<td class="r-label">
+						<label for="Company">工作单位</label>
+					</td>
+					<td>
+						<input class="textbox" disabled id="Company"/>
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="r-label">
+						<label for="EmploymentStatus">在岗状态</label>
+					</td>
+					<td>
+						<input id="EmploymentStatus" disabled class="textbox">
+					</td>
+					<td class="r-label">
+						<label for="BioBankFlag">生物标本库</label>
+					</td>
+					<td>
+						<input class="textbox" id="BioBankFlag"/>
+					</td>
+					<td class="r-label">
+						
+					</td>
+    				<td>
+    					
+    				</td>
+
+				</tr>
+				
+				
+				<tr>
+					<td class="r-label">
+						<label for="PAPERUpdateDate">最后更新时间</label>
+					</td>
+					<td>
+						<input class="textbox" disabled id="PAPERUpdateDate"/>
+					</td>
+					<td class="r-label">
+						<label for="Allergy">过敏史</label>
+					</td>
+					<td>
+						<input class="textbox" disabled id="Allergy"/>
+					</td>
+					<td class="r-label">
+						<label for="IEType">信息类型</label>
+					</td>
+    				<td>
+    					<input id="IEType" disabled class="hisui-combobox textbox">
+    				</td>
+
+				</tr>
+				<tr>
+					<td colspan="3" style="text-align:center;">
+						<a href="#" id="ReadRegInfo" class="hisui-linkbutton" data-options="iconCls:'icon-w-card'">读取信息</a>
+					</td>
+					<td colspan="6" style="text-align:center;">
+						<a href="#" id="BUpdate" class="hisui-linkbutton" data-options="iconCls:'icon-w-save'">保存(F9)</a>
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="r-label" rowspan="3">
+		    			<img id="imgPic" src="../images/uiimages/patdefault.png" style="WIDTH: 109px; HEIGHT: 110px">
+		    		</td>
+		    		
+		    		<td><input id="PhotoInfo" type="hidden" name="PhotoInfo" style="width:100px"/></td>
+				
+				</tr>
+				
+			</table>
+		</div>
+	</div>
+</div>

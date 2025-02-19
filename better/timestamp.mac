@@ -1,0 +1,6 @@
+ROUTINE better.timestamp 
+bettertimestamp ;
+    ;unix timestamp
+    s time = $zdt($h,-2)
+    s now = $NOW()
+    s utc = $zts

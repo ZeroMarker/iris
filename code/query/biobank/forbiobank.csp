@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<!--doc.patlistqueryforBioBank.hui.csp HISUI患者查询生物样本库修改日志查询--> 
+<HTML lang="zh-CN">
+<HEAD>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<TITLE><EXTHEALTH:TRANSLATE id=title>##(%session.Get("TITLE"))##</EXTHEALTH:TRANSLATE></TITLE>
+<EXTHEALTH:HEAD></EXTHEALTH:HEAD>
+<HISUI></HISUI>
+<style>
+body{
+	background: #fff;
+}
+.search-table{
+	border-collapse:separate;
+	border-spacing:0 10px;
+	/*padding: 0 10px;*/
+}
+.r-label{
+	padding-left: 10px;
+}
+.panel-header{
+	border-bottom: 0;
+}
+label[for='cOutStatus'],label[for='cInStatus'],label[for='cDisInStatus']{
+	line-height: 30px;
+}
+iframe{
+	vertical-align:top;
+	display:block;
+}
+</style>
+<Server>
+s NowDate=##class(websys.Conversions).DateLogicalToHtml(+$h) 
+d ##Class(web.DHCBillPrint).InvBillPrintCLSID()
+w "<input id='InvPrintEncrypt' name='InvPrintEncrypt' type='hidden' value='"_##Class(%CSP.Page).Encrypt($lb("web.DHCXMLIO.ReadXML"))_"'>",$C(13,10)
+w "<input id='ReadAccExpEncrypt' name='InsuPatTypeCheck' type='hidden' value='"_##Class(%CSP.Page).Encrypt($lb("web.UDHCAccManageCLSIF.getaccinfofromcardno"))_"'>",$C(13,10)
+w "<input id='CardTypeRowID' name='CardTypeRowID' type='hidden' value=''>",$C(13,10)
+w "<input id='GetCardTypeEncrypt' name='GetCardTypeEncrypt' type='hidden' value='"_##Class(%CSP.Page).Encrypt($lb("DHCDoc.OPDoc.PatientList.GessCardType"))_"'>",$C(13,10)
+w "<input id='ReadCardTypeEncrypt' name='ReadCardTypeEncrypt' type='hidden' value='"_##Class(%CSP.Page).Encrypt($lb("web.UDHCOPOtherLB.ReadCardTypeDefineListBroker"))_"'>",$C(13,10)
+w "<input id='PatientID' name='PatientID' type='hidden' value=''>",$C(13,10)
+d ##class(web.UDHCCardCommLinkRegister).GetCardHardJSFunction()
+s HospName=""
+s hospid=%session.Get("LOGON.HOSPID") i hospid'="" s HospName=$p($g(^CT("HOSP",hospid)),"^",2)
+s sysDateFormat=##class(websys.Conversions).DateFormat()
+s GroupID=%session.Get("LOGON.GROUPID")
+s GroupDateControl=##class(DHCDoc.DHCDocConfig.LocalConfig).GetLocalConfigValue("Reg","GroupDateControl")
+if GroupDateControl[GroupID{
+	s FromDateHtml=##class(websys.Conversions).DateLogicalToHtml(+$h-7) 
+}else{
+    s FromDateHtml=##class(websys.Conversions).DateLogicalToHtml(+$h-60) 
+}
+
+;按照安全组确认是否可以修改日期
+s groupDr=%session.Get("LOGON.GROUPID")
+s CanChange=""
+if groupDr'=""{
+ s rtn=##class(web.DHCDocCTCommon).GetSet("CANCHANGEDISCHARGEDATE",groupDr,"",2)
+
+ s:rtn'="" CanChange="Y"
+}
+
+</Server>
+</head>
+<body>
+	<csp:Include Page="doc.patlistqueryForBioBank.show.hui.csp">
+	<SCRIPT language = 'javascript' >
+		//全局请求后台服务对象
+		var ServerObj={
+			NowDate:"#(NowDate)#",
+			HospName:"#(HospName)#",
+			sysDateFormat:"#(sysDateFormat)#",
+			FromDateHtml:"#(FromDateHtml)#",
+			CanChange:"#(CanChange)#"
+		};
+		
+	</SCRIPT>
+	<script type="text/javascript" src="../scripts/dhcdoc/tools/tools.hui.js"></script>
+	<script type="text/javascript" src="../scripts/DHCWeb.OPCommonManageCard.js"></script>
+	<script type="text/javascript" src="../scripts/DHCPrtComm.js"></script>
+	<!--script type="text/javascript" src="../scripts/websys.jquery.js"></script-->
+	<script type="text/javascript" src="../scripts/Doc.PatListQueryForBioBank.hui.js"></script>
+</body>
+</HTML>

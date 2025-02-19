@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<!--doc.patlistquerybiobank.hui.csp HISUI患者基本信息生物标本库修改--> 
+<HTML lang="zh-CN">
+<HEAD>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<TITLE><EXTHEALTH:TRANSLATE id=title>##(%session.Get("TITLE"))##</EXTHEALTH:TRANSLATE></TITLE>
+<EXTHEALTH:HEAD></EXTHEALTH:HEAD>
+<HISUI></HISUI>
+<style>
+.search-table{
+	border-collapse:separate;
+	border-spacing:0 10px;
+}
+.r-label{
+	padding-left: 10px;
+}
+.panel-header{
+	border-bottom: 0;
+}
+.textbox{
+	width:140px;
+}
+.newclsInvalid{
+	border-color: red;
+	color: red;
+}
+iframe{
+	vertical-align:top;
+	display:block;
+}
+</style>
+<Server>
+w "<input id='OtherCardInfo' name='OtherCardInfo' type='hidden' value=''>",$C(13,10)
+w "<input id='WestOPMedicareNo' name='WestOPMedicareNo' type='hidden' value=''>",$C(13,10)
+w "<input id='WestIPMedicareNo' name='WestIPMedicareNo' type='hidden' value=''>",$C(13,10)
+d ##class(web.UDHCCardCommLinkRegister).GetCardHardJSFunction()
+w "<input id='GetCardTypeEncrypt' name='GetCardTypeEncrypt' type='hidden' value='"_##Class(%CSP.Page).Encrypt($lb("DHCDoc.OPDoc.PatientList.GessCardType"))_"'>",$C(13,10)
+w "<input id='ReadAccExpEncrypt' name='InsuPatTypeCheck' type='hidden' value='"_##Class(%CSP.Page).Encrypt($lb("web.UDHCAccManageCLSIF.getaccinfofromcardno"))_"'>",$C(13,10)
+w "<input id='ReadCardTypeEncrypt' name='ReadCardTypeEncrypt' type='hidden' value='"_##Class(%CSP.Page).Encrypt($lb("web.UDHCOPOtherLB.ReadCardTypeDefineListBroker"))_"'>",$C(13,10)
+s HospitalCode=##class(web.DHCDocOrderCommon).GetCurrentHospitalCode()
+s sysDateFormat=##class(websys.Conversions).DateFormat()
+
+s ForeignInfoByAge=$g(^DHCDocCardConfig("ForeignInfoByAge"))
+
+//前台基础数据加载时候一次获取
+d ##class(web.DHCDocLocalZLYY).doWriteUpdatePat()
+
+d ##class(web.UDHCCardCommLinkRegister).GetCardHardJSFunction()
+d ##Class(web.DHCBillPrint).InvBillPrintCLSID()
+d ##class(web.UDHCCardCommLinkRegister).GetPersonInfoJSFunction()
+d ##class(web.UDHCCardCommLinkRegister).GetPWDKeyPressHardJSFunction()
+
+s sysDateFormat=##class(websys.Conversions).DateFormat()
+if (sysDateFormat=4){
+	s dtformat="DMY"
+}
+if (sysDateFormat=3){
+	s dtformat="YMD"
+}
+
+</Server>
+</head>
+<body>
+	<csp:Include Page="doc.patlistquerybiobank.show.hui.csp">
+	<SCRIPT language = 'javascript' >
+		//全局请求后台服务对象
+		var ServerObj={
+			dtformat:"#(dtformat)#",
+			HospitalCode:"#(HospitalCode)#",
+			sysDateFormat:"#(sysDateFormat)#",
+			ForeignInfoByAge:"#(ForeignInfoByAge)#",
+		};
+		
+	</SCRIPT>
+	<script type="text/javascript" src="../scripts/DHCWeb.OPCommon.js"></script>
+	<script type="text/javascript" src="../scripts/DHCWeb.OPCommonManageCard.JS"></script>
+	<script type="text/javascript" src="../scripts/DHCOPAdm.Common.js"></script>
+	<script type="text/javascript" src="../scripts/DHCCPM_DOMComm.JS"></script>
+	<script type="text/javascript" src="../scripts/dhcdoc/tools/tools.hui.js"></script>
+	<script type="text/javascript" src="../scripts/DHCWeb.COMMHardManager.JS"></script>
+	<script type="text/javascript" src="../scripts/Doc.PatListQueryBioBank.hui.js"></script>
+	
+	<!--读京医通卡-->
+	<script type="text/javascript" src="../scripts/DHCInsuPort.js"></script>
+	<script type="text/javascript" src="../scripts/dhcdoc/Insu/DHCDocInsuBJ.js"></script>
+	
+	<!--京医通-->
+	<script type="text/javascript" src="../scripts/DHCBillBankCardLogic.js"></script>
+	<script type="text/javascript" src="../scripts/DHCBillBankCardLogicExt.js"></script>
+	<script type="text/javascript" src="../scripts/dhcdoc.jytcardcommon.js"></script>
+</body>
+</HTML>

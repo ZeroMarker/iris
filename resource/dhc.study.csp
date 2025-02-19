@@ -1,0 +1,63 @@
+<csp:method name=OnPreHTTP arguments="" returntype=%Boolean>
+ If ##Class(websys.SessionEvents).SessionExpired() 
+ Quit 1 
+</csp:method>
+ 
+<HTML lang="en">
+<HEAD>
+ <meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> 
+ <HISUI/> 
+ <script type="text/javascript" src="../scripts/DHC_Student.js"></script> 
+</HEAD>
+<BODY> 
+    <div class="hisui-layout" data-options="fit:true" border="false"> 
+            <div data-options="region:'north' ,split:false,collapsible:false,headerCls:'panel-header-gray' " style="border-bottom:1px dashed #C0C0C0;" border="false">  
+                 <table style="padding-top:10px;padding-bottom:10px" >
+                    <tr>
+                           <td class="tdlabel">学号</td>
+                           <td><input id="TextCode" type="text" class="hisui-validatebox" style="width:150px"></td>
+                           <td class="tdlabel">姓名</td>
+                           <td><input id="TextDesc" type="text" class="hisui-validatebox" style="width:150px"></td>  
+                           <td class="tdlabel-b"><a href="#" class="hisui-linkbutton" iconCls="icon-w-find" id="btnSearch">查询</a></td>
+                           <td class="tdlabel-b"><a href="#" class="hisui-linkbutton" iconCls="icon-w-reset" id="btnRefresh">重置</a></td>
+                    </tr>     
+                 </table> 
+             </div>  
+            <div data-options="region:'center'" border="false"> 
+                <table data-options="fit:true" id="mygrid" border="false" toolbar="#mybar"></table> 
+            </div>  
+     </div> 
+      
+     <div id="myWin" style="height:atuo;width:auto;display:none;">   
+        <form id="form-save" method="post" data-options="fit:true,border:false,plain:true"> 
+            <table cellspacing=10> <!--表格单元格间距设置为 10 像素 -->
+                 <tr>
+                   <td class="tdlabel">学号</td>
+                   <td><input id="StCode" name="StCode" type="text" class="hisui-validatebox" style="width:250px" data-options="required:true"></td>
+                </tr>
+                <tr>
+                   <td class="tdlabel">姓名</td>
+                   <td><input id="StName" name="StName" type="text" class="hisui-validatebox" style="width:250px" data-options="required:true"></td>
+                 </tr> 
+                 
+                 <tr>
+                   <td class="tdlabel">性别</td>
+                   <td><input id="StSexDR" name="StSexDR" type="text" class="hisui-combobox" style="width:257px" ></td>
+                 </tr>  
+                 
+                 <tr>
+                   <td class="tdlabel">出生日期</td>
+                   <td><input id="StDob" name="StDob" type="text" class="hisui-datebox" style="width:250px"></td>
+                 </tr>          
+            </table>
+        </form>
+    </div>
+
+    <!--工具栏-->
+    <div id="mybar">
+        <a href="#" class="hisui-linkbutton" data-options="iconCls:'icon-add',plain:true,stopAllEventOnDisabled:true" id="btnAdd">新增</a> 
+        <a href="#" class="hisui-linkbutton" data-options="iconCls:'icon-write-order',plain:true,stopAllEventOnDisabled:true" id="btnUpdate">修改</a> 
+        <a href="#" class="hisui-linkbutton" data-options="iconCls:'icon-cancel',plain:true,stopAllEventOnDisabled:true" id="btnDel">删除</a>
+    </div>
+</BODY>
+</HTML>

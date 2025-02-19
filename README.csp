@@ -1,0 +1,143 @@
+<!--建卡-->
+<script type="text/javascript" src="scripts/Reg/CardReg.hui.js"></script>
+<script type="text/javascript" src="scripts/UDHCCardPatInfoRegExp.js"></script>
+<csp:Include Page="reg.cardreg.hui.csp">
+<server>
+    w ##class(web.DHCBL.CARDIF.ICardRefInfo).SavePCAInfoToServer()
+</server>
+
+<!--挂号-->
+<script type="text/javascript" src="scripts/OPAdm/Reg.hui.js"></script>
+<script type="text/javascript" src="scripts/DHCOPAdm.Reg.js"></script>
+<csp:Include Page="opadm.reg.hui.csp">
+<server>
+    w ##class(web.DHCOPAdmReg).OPDocList()
+</server>
+
+<!--就诊-->
+<script type="text/javascript" src="scripts/dhcdoc/opdoc/patient.list.js"></script>
+<csp:Include Page="opdoc.rapidregist.hui.csp">
+<server>
+    d ##class(%ResultSet).RunQuery("web.DHCDocOutPatientList","FindLocDocCurrentAdm","49","21258","","","","","","","","")
+</server>
+
+<!--就诊登记-->
+<script type="text/javascript" src="scripts/OPDoc.RapidRegist.hui.js"></script>
+<csp:Include Page="opdoc.rapidregist.hui.csp">
+<server>
+    w ##class(web.DHCOPAdmReg).OPDocList()
+</server>
+
+<!--过敏记录-->
+<script type="text/javascript" src="scripts/dhcdoc/dhcapp/InfectDispanel.js"></script>
+
+<!--处方-->
+<script type="text/javascript" src="scripts/"></script>
+<csp:Include Page="">
+<server>
+    w ##class(web.DHCDocPrescript).OPDocList()
+</server>
+
+<!--诊断-->
+<script type="text/javascript" src="scripts/dhcdoc/DHCDocDiagnoEntry.V8.js"></script>
+<csp:Include Page="opadm.reg.hui.csp">
+<server>
+    w ##class(web.DHCOPAdmReg).OPDocList()
+</server>
+
+<!--呼叫-->
+<script type="text/javascript" src="scripts/dhcdoc/DHCDocDiagnoEntry.V8.js"></script>
+<csp:Include Page="opadm.reg.hui.csp">
+<server>
+    w ##class(web.DHCVISQueueManage).OPDocList()
+</server>
+
+<!--分诊-->
+<script type="text/javascript" src="scripts/dhcdoc/DHCDocDiagnoEntry.V8.js"></script>
+<csp:Include Page="alloc.nursetriage.hui.csp">
+<server>
+    w ##class(web.DHCOPAdmReg).OPDocList()
+</server>
+
+<!--住院证-->
+<script type="text/javascript" src="scripts/Doc.IPBookCreate.hui.js"></script>
+<csp:Include Page="doc.ipbookcreate.hui.csp">
+<csp:Include Page="doc.ipbookquery.hui.csp">
+<server>
+    w ##class(web.DHCOPAdmReg).OPDocList()
+</server>
+
+<!--治疗记录-->
+<script type="text/javascript" src="scripts/dhcdoc/dhcdoccure_hui/app.emr.cureapplist.js"></script>
+<!--doccure.recordtemp.hui.csp 治疗记录模板展示-->
+<!--doccure.cureapplist.show.hui.csp 治疗记录查询界面 -->
+<!--scripts/dhcdoc/dhcdoccure_hui/app.cureapplist.all.js-->
+<server>
+    w ##class(DHCDoc.DHCDocCure.Record).OPDocList()
+    w ##class(User.DHCDocCureRecode).OPDocList()
+</server>
+
+<!--检查-->
+<script type="text/javascript" src="scripts/dhcdoc/DHCDocDiagnoEntry.V8.js"></script>
+<csp:Include Page="oeorder.oplistcustom.new.csp">
+<server>
+    w ##class(web.DHCAPPSeePatPacs).GetLisInspectOrdNew()
+</server>、
+
+<!--医嘱-->
+<script type="text/javascript" src="scripts/dhcdoc/UDHCOEOrder.List.Custom.New.js"></script>
+<script type="text/javascript" src="scripts/dhcdoc/oeorder.oplistcustom.show.js"></script>
+<csp:Include Page="oeorder.oplistcustom.new.request.csp">
+<csp:Include Page="oeorder.oplistcustom.new.csp">
+<server>
+    w ##class(web.DHCOEOrdItemView).OPDocList()
+    w ##class(web.DHCOEOrdItem).OPDocList()
+    w ##class(web.DHCDocOrderEntry).OPDocList()
+</server>
+
+<!--抗生素-->
+<script type="text/javascript" src="scripts/dhcdoc/UDHCOEOrder.List.Custom.New.js"></script>
+<script type="text/javascript" src="scripts/dhcdoc/oeorder.oplistcustom.show.js"></script>
+<csp:Include Page="oeorder.oplistcustom.new.request.csp">
+<csp:Include Page="oeorder.oplistcustom.new.csp">
+<server>
+    w ##class(web.DHCOEOrdItemView).OPDocList()
+    w ##class(web.DHCOEOrdItem).OPDocList()
+    w ##class(web.DHCDocOrderEntry).OPDocList()
+</server>
+
+<!--工具类-->
+<script type="text/javascript" src="scripts/dhcdoc/UDHCOEOrder.List.Custom.New.js"></script>
+<script type="text/javascript" src="scripts/dhcdoc/oeorder.oplistcustom.show.js"></script>
+<csp:Include Page="oeorder.oplistcustom.new.request.csp">
+<csp:Include Page="oeorder.oplistcustom.new.csp">
+<server>
+    w ##class(DHCDoc.Util.Array).GetPrescPrintData()
+    w ##class(DHCDoc.Util.Date).GetPrescPrintData()
+    ;w ##class(DHCDoc.GetInfo).GetPrescPrintData()
+    ;w ##class(DHCDoc.GetInfoBase).GetPrescPrintData()
+    ;w ##class(DHCDoc.GetData).GetPrescPrintData()
+</server>
+
+<!--转诊-->
+<script type="text/javascript" src="scripts/dhcdoc/UDHCOEOrder.List.Custom.New.js"></script>
+<script type="text/javascript" src="scripts/dhcdoc/oeorder.oplistcustom.show.js"></script>
+<csp:Include Page="oeorder.oplistcustom.new.request.csp">
+<csp:Include Page="opdoc.transfer.hui.csp">
+<server>
+</server>
+
+<!--总览打印-->
+<script type="text/javascript" src="scripts/dhcdoc/UDHCOEOrder.List.Custom.New.js"></script>
+<csp:Include Page="opdoc.treatprint.csp">
+<script type="text/javascript" src="scripts/dhcdoc/oeorder.oplistcustom.show.js"></script>
+<!--opdoc.complete.adm.csp 完成就诊 --> 
+<csp:Include Page="oeorder.oplistcustom.new.request.csp">
+<csp:Include Page="opdoc.transfer.hui.csp">
+<server>
+    w ##class(DHCDoc.OPDoc.TreatPrint).GetPrescPrintData()
+</server>
+
+
+
+
