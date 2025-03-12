@@ -1,5 +1,9 @@
 # The note
 
+## 排班授权
+
+操作员诊区对照
+
 ## 挂号科室搜索前缀匹配排序
 
 web.DHCOPAdmReg.cls
