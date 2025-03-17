@@ -49,6 +49,7 @@
 <script type="text/javascript" src="scripts/dhcdoc/DHCDocDiagnoEntry.V8.js"></script>
 <csp:Include Page="opadm.reg.hui.csp">
 <server>
+    ;亚华
     w ##class(web.DHCVISQueueManage).OPDocList()
 </server>
 
