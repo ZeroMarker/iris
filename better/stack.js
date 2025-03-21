@@ -9,3 +9,4 @@ var stackTrace = err.stack;
 const regex = /scripts\/.*\.js/g;
 stackTrace = stackTrace.match(regex);
 stackTrace = stackTrace.join(',');
+
