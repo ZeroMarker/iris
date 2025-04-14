@@ -14,4 +14,13 @@ bootstrap.yml
                       refresh: true
                     - data-id: config-common-applications.yml
                       refresh: true
+
+mediway:
+    application:
+        mrm: mrm-mediway-server
+        deploy-mode: "single"
+        phkm: phkm-mediway-server
+        mrfs: mrfs-mediway-server
+        peis: peis-mediway-server
+
 ```

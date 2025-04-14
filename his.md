@@ -1080,6 +1080,8 @@ web.UDHCJFPRICE.GetOrderPrice()
 ## 获取年龄
 
 w ##class(web.UDHCJFCOMMON).DispPatAge
+s HospId = ##class(DHCDoc.Common.Hospital).GetAdmHospitalId(EpisodeID)
+s age = ##class(web.DHCBillInterface).GetPapmiAge(id,"",HospId)
 
 ## 总览打印
 
