@@ -1523,3 +1523,11 @@ if (data[j]["PrintFlag"]) {
  //_$ck[j].disabled=true;
 }
 ```
+
+## 未作治疗
+
+/// CreateDate:   2022.09.23
+/// Description:  是否未做治疗
+/// Input:        
+/// Return:       1：未做；0：已做
+/// Other:        w ##class(Nur.HISUI.NeedCareOrder).ifUnTreatOrder("423113||85")

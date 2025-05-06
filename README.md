@@ -1,6 +1,6 @@
 # iris
 
-grep -ri "LayOutConfig" /dthealth/app/dthis/web
+grep -ri "web.DHCST.RestrictDoc" /dthealth/app/dthis/web
 
 [CSP Error Code](https://docs.intersystems.com/iris20242/csp/docbook/Doc.View.cls?KEY=GCSP_errorcodes)
 

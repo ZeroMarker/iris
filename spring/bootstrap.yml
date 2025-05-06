@@ -1,0 +1,100 @@
+server:
+    port: 8081
+    tomcat:
+        threads:
+            min-spare: 20
+
+sys:
+    backendPath: ""
+    restfulPath: "/openapi"
+
+### 开启打印方法耗时
+auth:
+    stopWatch: true
+
+spring:
+    application:
+        name: his-mediway-server
+    main:
+        allow-circular-references: true
+        allow-bean-definition-overriding: true
+    profiles:
+        # 开发环境值为空或者dev  测试环境为test   生test产环境为prod
+        env: test
+    cloud:
+        nacos:
+            # 87
+            server-addr: 81.70.230.87:8848
+            # 常德现场新开发环境
+            # server-addr: 172.17.1.149:8848
+            config:
+                enabled: true
+                group: DEFAULT_GROUP
+                namespace: ${spring.profiles.env:dev}
+                refresh-enabled: true
+                file-extension: yml
+                shared-configs:
+                    - data-id: config-his-database.yml
+                      refresh: true
+                    - data-id: config-common-cache.yml
+                      refresh: true
+                    - data-id: config-common-base.yml
+                      refresh: true
+                    - data-id: config-common-hosframe.yml
+                      refresh: true
+                    - data-id: config-common-serveraddress.yml
+                      refresh: true
+                    - data-id: config-hos-security.yml
+                      refresh: true
+                    - data-id: config-hos-message.yml
+                      refresh: true
+                    - data-id: config-hos-i18n.yml
+                      refresh: true
+                    - data-id: config-mrm-common.yml
+                      refresh: true
+                    - data-id: config-common-serveraddress-local.yml
+                      refresh: true
+                    - data-id: config-common-applications.yml
+                      refresh: true
+                    - data-id: config-his-notice.yml
+                      refresh: true
+                    - data-id: config-his-graylog.yml
+                      refresh: true
+            discovery:
+                enabled: true
+                namespace: ${spring.profiles.env:dev}
+
+seata:
+    enabled: false
+
+logging:
+    level:
+        com.mediway.hos: debug
+        com.mediway.his: debug
+        springfox.documentation.schema.property: error
+        com.mediway.his.hisbsp.message.sse.BspMsgSseEmitterServer: error
+
+# 护理病历保存目录
+conf:
+    file:
+        save-folder: ${user.home}/mediway-server
+# 护理病历上传目录
+file:
+    upload-dir:
+        windows: D:/code/his/hisfront/static/mrnr/nuremr/
+        linux: /home/his/front/static/mrnr/nuremr/
+
+###  swagger开关   （true:开启，false:关闭。不配置默认为true，可根据开发或生产环境配置不同的值）
+swagger:
+    show: false
+
+mediway:
+    application:
+        mrm: mrm-mediway-server
+        deploy-mode: "single"
+        phkm: phkm-mediway-server
+        mrfs: mrfs-mediway-server
+        peis: peis-mediway-server
+
+his:
+    pamAppCode: "his"

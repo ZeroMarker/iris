@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .container {
+            max-width: 300px;
+            margin: 20px;
+        }
+
+        #listContainer {
+            border: 1px solid #ccc;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 10px;
+        }
+
+        .option {
+            padding: 8px;
+            cursor: pointer;
+        }
+
+        .selected {
+            background-color: #2196F3;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <input type="file" id="fileInput" accept=".txt">
+    <div class="container">
+        <div id="listContainer"></div>
+    </div>
+
+    <script>
+        let currentSelection = -1;
+        let options = [];
+
+        // 读取文件
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                const content = e.target.result;
+                options = content.split('\n').filter(line => line.trim() !== '');
+                renderOptions();
+            };
+            
+            reader.readAsText(file);
+        });
+
+        // 渲染选项
+        function renderOptions() {
+            const container = document.getElementById('listContainer');
+            container.innerHTML = '';
+            
+            options.forEach((text, index) => {
+                const div = document.createElement('div');
+                div.className = 'option' + (index === currentSelection ? ' selected' : '');
+                div.textContent = text;
+                container.appendChild(div);
+            });
+
+            // 自动聚焦容器以便接收键盘事件
+            container.focus();
+        }
+
+        // 键盘控制
+        document.getElementById('listContainer').addEventListener('keydown', function(e) {
+            switch(e.key) {
+                case 'ArrowUp':
+                    e.preventDefault();
+                    currentSelection = Math.max(0, currentSelection - 1);
+                    renderOptions();
+                    scrollToSelection();
+                    break;
+                case 'ArrowDown':
+                    e.preventDefault();
+                    currentSelection = Math.min(options.length - 1, currentSelection + 1);
+                    renderOptions();
+                    scrollToSelection();
+                    break;
+                case 'Enter':
+                    if (currentSelection >= 0) {
+                        alert('已选择: ' + options[currentSelection]);
+                    }
+                    break;
+            }
+        });
+
+        // 滚动到选中项
+        function scrollToSelection() {
+            const container = document.getElementById('listContainer');
+            const selected = container.children[currentSelection];
+            if (selected) {
+                selected.scrollIntoView({
+                    block: 'nearest'
+                });
+            }
+        }
+
+        // 初始化容器可聚焦
+        document.getElementById('listContainer').tabIndex = 0;
+    </script>
+</body>
+</html>
