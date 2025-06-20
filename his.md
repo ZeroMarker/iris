@@ -11,7 +11,7 @@ web.DHCOPAdmReg.cls
 
 ## 医技执行同步护士
 
-w ##class(appcom.OEOrdExec).DelaWithExecAll("531546||1",590) 
+w ##class(appcom.OEOrdExec).DelaWithExecAll("531546||1",590)
 CheckUpdateStatus()
 
 ## 病历浏览没有治疗记录
@@ -1528,6 +1528,11 @@ if (data[j]["PrintFlag"]) {
 
 /// CreateDate:   2022.09.23
 /// Description:  是否未做治疗
-/// Input:        
+/// Input:
 /// Return:       1：未做；0：已做
 /// Other:        w ##class(Nur.HISUI.NeedCareOrder).ifUnTreatOrder("423113||85")
+
+## 费别 初始化
+
+s EpisPatInfo=##Class(web.DHCDocViewDataInit).InitPatOrderViewGlobal(%request.Get("EpisodeID"),%request.Get("BillTypeID"),EmConsultItm)
+;得到处方类型,门诊显示存在对应关系的所有处方类型,住院仅显示默认处方类型
