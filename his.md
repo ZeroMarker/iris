@@ -673,6 +673,8 @@ opdoc.treatprintorder.csp
 
 ## 医生页面设置
 
+头菜单颜色
+epr.frames.csp
 epr.frame.js
 showConfig
 dhcdoc.opdoc.mainframework.js

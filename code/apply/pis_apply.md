@@ -1,5 +1,7 @@
-## 病理申请单Not Found
+# 病理申请单Not Found
+
 dhcapp.docpopwin.csp
+
 ```objectscript
 i mListDataDoc'="" D
 .D ##Class(web.DHCAPPPisInterface).GetExaItemListDoc(mListDataDoc, .itemTmpArr)
@@ -25,3 +27,4 @@ FROM DHC_AppCatLinkArcItm
 
 检查分类维护
 
+检查树维护
